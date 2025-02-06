@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-bodyColor text-headingColor font-jakarta;
+  }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer components {
+  .social li a svg path {
+    @apply duration-200 ease-in-out;
+  }
+  .social li a:hover svg path {
+    fill: #081409;
+  }
+  .footer-menu a {
+    @apply duration-200 ease-in-out hover:opacity-70;
+  }
+  [data-aos="fade-up"] {
+    transform: translate3d(0, 20px, 0);
+  }
+  [data-aos="zoom-in"] {
+    transform: scale(0.9);
+  }
+  .auth-header {
+    @apply text-[24px] lg:text-[48px] font-semibold lg:leading-[64px] mb-8 text-headingColor text-center;
+  }
+  .auth-box {
+    @apply lg:w-[536px];
+  }
+  .auth-input{
+    @apply py-3 px-6 rounded-[8px] bg-authInput border text-sm md:text-[18px] font-medium text-headingColor w-full placeholder:text-headingColor focus:outline-none
+  }
+  .custom-radio[type="radio"]:checked,
+  .custom-radio[type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+  }
+  .custom-radio[type="radio"]:checked + label,
+  .custom-radio[type="radio"]:not(:checked) + label {
+    position: relative;
+    cursor: pointer;
+    line-height: 20px;
+    display: block;
+  }
+  .custom-radio[type="radio"]:checked + label:before,
+  .custom-radio[type="radio"]:not(:checked) + label:before {
+    content: "";
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 1px solid #0a3201;
+    border-radius: 100%;
+    background: #fff;
+  }
+  .custom-radio[type="radio"]:checked + label:after,
+  .custom-radio[type="radio"]:not(:checked) + label:after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: #0a3201;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) !important;
+    left: 27px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+  }
+  .custom-radio[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  .custom-radio[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  .donation-box-wrap {
+    @apply w-full lg:w-[33.33%] lg:flex-[1_0_33.33%] px-3;
+  }
+  .sub-heading {
+    @apply text-[24px] font-bold text-headingColor;
+  }
+  .input-control {
+    @apply py-3 px-5 md:p-4 md:px-5 rounded-[8px] text-base text-headingColor border bg-[#F0F0F0] w-full focus:outline-none;
+  }
+  .input-label {
+    @apply inline-block text-base font-semibold text-[#414651] mb-3 text-sm md:text-base;
+  }
+  .common-select {
+    @apply !bg-[#F0F0F0] !h-14 !px-5;
+  }
+  .primary-button {
+    @apply !text-sm md:!text-[18px];
+  }
+  
+}
+
+/* Add this to your global CSS file */
+.scrollbar-hide {
+  /* For Firefox */
+  scrollbar-width: none;
+
+  /* For Chrome, Safari, and Edge */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
