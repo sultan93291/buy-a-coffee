@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AuthLeft from "../components/auth/AuthLeft";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,8 @@ import Logo from "../assets/images/logo.svg";
 import { useRegisterUserIntentMutation } from "@/redux/features/api/apiSlice";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
+
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -21,7 +23,15 @@ function SignUpPage() {
     formState: { errors },
   } = useForm();
 
+
+
   const userName = useSelector(state => state.userDocReducer.userName);
+
+  useEffect(() => {
+    if (!userName) {
+      navigate("/createaccount");
+    }
+  }, [userName]);
 
   const onSubmit = async data => {
     console.log(data);
@@ -33,31 +43,36 @@ function SignUpPage() {
     };
 
     try {
-      const result = await registerUser(SubmittedData);a
-      console.log(result.data);
+      const response = await registerUser(SubmittedData).unwrap();
+      console.log(response);
 
-      if (result?.data?.code === 200) {
-        toast.success(result?.data?.message);
+      if (response?.code === 200) {
+        toast.success(response?.message);
         navigate("/signupsteps");
-        localStorage.setItem("token", result?.data?.data?.token);
+        localStorage.setItem("Refreshtoken", response?.data?.token);
       }
     } catch (err) {
       console.error("❌ Error checking username:", err);
 
+      // Log the full error object for debugging
+      console.log("Full error object:", err?.data?.message);
+
       let errorMessage = "Something went wrong!";
 
-      // Check if it's an Axios error with response data
-      if (err?.response?.data?.message) {
-        errorMessage = err.response.data.message; // Extract the error message
+      // Check if the error has a response and message
+      if (err?.data?.message) {
+        errorMessage = err?.data?.message; // Extract the error message
       }
       // If error has a general message property (non-Axios errors)
       else if (err?.message) {
         errorMessage = err.message;
       }
       // Fallback to the full error message if none of the above conditions work
-      else if (err?.data?.message) {
-        errorMessage = err.data.message;
+      else {
+        errorMessage = "An unexpected error occurred.";
       }
+
+      console.log("Error message:", errorMessage); // Log the final error message
 
       // Show the error message to the user in a toast
       toast.error(`Error: ${errorMessage}`);
@@ -79,7 +94,9 @@ function SignUpPage() {
             <div className="flex items-center justify-between lg:justify-end">
               <img className="lg:hidden" src={Logo} alt="" />
               <p className="text-base lg:text-[18px]">
-                <span className="hidden lg:inline">Don't have an account?</span>
+                <span className="hidden lg:inline">
+                  Already have account ?{" "}
+                </span>
                 <Link
                   to={"/login"}
                   className="duration-200 ease-in-out hover:text-primaryColor underline lg:no-underline"
@@ -90,7 +107,7 @@ function SignUpPage() {
             </div>
           </div>
           <div className="auth-box mt-14 relative">
-            <h1 className="auth-header">Welcome {username || "Guest"}</h1>
+            <h1 className="auth-header">Welcome {userName || "Guest"}</h1>
 
             <form
               className="mt-10 lg:mt-[56px]"
@@ -161,8 +178,26 @@ function SignUpPage() {
                 </p>
               )}
               {/* submit btn  */}
-              <button type="submit" className="text-center w-full mt-8">
-                <ButtonPrimary text="Sign up" />
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="text-center w-full mt-8"
+              >
+                <ButtonPrimary
+                  text={
+                    isLoading ? (
+                      <>
+                        <BeatLoader
+                          size={10}
+                          color={"#000"}
+                          speedMultiplier={0.5}
+                        />
+                      </>
+                    ) : (
+                      "Sign up"
+                    )
+                  }
+                />
               </button>
             </form>
           </div>

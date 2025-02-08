@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UsernameContext } from "../context";
@@ -7,10 +7,14 @@ import ButtonPrimary from "../components/buttons/ButtonPrimary";
 import Logo from "../assets/images/logo.svg";
 import AuthLeft from "../components/auth/AuthLeft";
 import { Link } from "react-router-dom";
+import { setUserName } from "@/redux/features/userDocSlice";
+import toast from "react-hot-toast";
+import { useCheckUserNameAvialabilitiesIntentMutation } from "@/redux/features/api/apiSlice";
+import { BeatLoader } from "react-spinners";
 
 function CreateAccount() {
-  const { setUsername } = useContext(UsernameContext);
   const navigate = useNavigate();
+  const { setUsername } = useContext(UsernameContext);
   const {
     register,
     handleSubmit,
@@ -22,25 +26,51 @@ function CreateAccount() {
   const userNameFromStore = useSelector(state => state.userDocReducer.userName);
 
   // Local state to manage input value
-  const [userName, setUserName] = useState(userNameFromStore || "");
+  const [userName, setUserNameState] = useState(userNameFromStore || "");
+
+  const dispatch = useDispatch();
+
+  const [checkUserName, { data, isLoading, error }] =
+    useCheckUserNameAvialabilitiesIntentMutation();
 
   // Update local state if the Redux state changes
   useEffect(() => {
-    setUserName(userNameFromStore);
+    setUserNameState(userNameFromStore);
   }, [userNameFromStore]);
-
-  const onSubmit = data => {
-    console.log(data);
-    reset();
-    setUsername(data.username);
-    setTimeout(() => {
-      navigate("/signup");
-    }, 500);
-  };
 
   // Handle user input change
   const handleInputChange = e => {
-    setUserName(e.target.value);
+    setUserNameState(e.target.value); // Update local state on user input
+  };
+
+  const handleUserNameSubmit = async e => {
+    e.preventDefault();
+    if (userNameFromStore) {
+      setTimeout(() => {
+        navigate("/signup");
+      }, 500);
+    } else {
+      if (userName !== "") {
+        try {
+          const result = await checkUserName({ userName: userName }).unwrap(); // ✅ Unwrap full response
+          if (result?.success) {
+            dispatch(setUserName(userName));
+            setUserName(userName);
+            toast.success(result?.message);
+            navigate("/signup");
+          } else {
+            toast.error("Username is already taken! , choose another");
+          }
+        } catch (err) {
+          console.error("❌ Error checking username:", err);
+          // Extract error message if available
+          const errorMessage = err?.data?.message || "Something went wrong!";
+          toast.error(`Error: ${errorMessage}`);
+        }
+      } else {
+        toast.error("User name is required");
+      }
+    }
   };
 
   return (
@@ -54,21 +84,18 @@ function CreateAccount() {
             <div className="flex items-center justify-between lg:justify-end">
               <img className="lg:hidden" src={Logo} alt="Logo" />
               <p className="text-base lg:text-[18px]">
-                <span className="hidden lg:inline">Don't have an account?</span>
+                <span className="hidden lg:inline">Already have a account ? </span>
                 <Link
-                  to={"/signup"}
+                  to={"/login"}
                   className="duration-200 ease-in-out hover:text-primaryColor underline lg:no-underline"
                 >
-                  Sign up
+                  Sign in
                 </Link>
               </p>
             </div>
           </div>
           <div className="auth-box">
-            <form
-              className="mt-[60px] md:mt-[150px]"
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form className="mt-[60px] md:mt-[150px]">
               <h1 className="auth-header text-left mb-0">
                 Create your account
               </h1>
@@ -77,15 +104,15 @@ function CreateAccount() {
               </p>
               <div className="mt-8 relative">
                 <input
-                  {...register("username", {
-                    required: "Username is required.",
-                  })}
+                  disabled={userNameFromStore ? true : false}
                   type="text"
                   name="username"
                   id="username"
                   placeholder="username"
                   value={userName} // Now it's controlled by state
-                  onChange={handleInputChange} // Update state on user input
+                  onChange={e => {
+                    handleInputChange(e);
+                  }} // Update state on user input
                   className={`py-3 px-6 pl-[160px] md:pl-[180px] rounded-[8px] bg-authInput border md:text-[18px] font-medium text-headingColor w-full placeholder:text-headingColor focus:outline-none ${
                     errors.username ? "border-red-300" : ""
                   }`}
@@ -100,8 +127,29 @@ function CreateAccount() {
                   {errors.username.message}
                 </p>
               )}
-              <button type="submit" className="text-center w-full mt-8">
-                <ButtonPrimary text="Next" />
+              <button
+                disabled={isLoading}
+                onClick={e => {
+                  handleUserNameSubmit(e);
+                }}
+                type="submit"
+                className="text-center w-full mt-8"
+              >
+                <ButtonPrimary
+                  text={
+                    isLoading ? (
+                      <>
+                        <BeatLoader
+                          size={10}
+                          color={"#000"}
+                          speedMultiplier={0.5}
+                        />
+                      </>
+                    ) : (
+                      "Next"
+                    )
+                  }
+                />
               </button>
             </form>
           </div>

@@ -24,12 +24,15 @@ import { MdOutlineContactSupport } from "react-icons/md";
 import { useLogOutProfileIntentMutation } from "@/redux/features/api/apiSlice";
 import toast from "react-hot-toast";
 import { AuthContext } from "@/provider/AuthContextProvider";
-
+import { useSelector } from "react-redux";
 
 function Top({ title }) {
   const [toggleMenu, setToggleMenu] = useState(false);
   const { role } = useContext(MainContext);
-   const { fetchData } = useContext(AuthContext);
+  const { fetchData } = useContext(AuthContext);
+  const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
+  console.log(loggedInUser, "User logged in");
+  const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
 
   const [logOut] = useLogOutProfileIntentMutation();
 
@@ -220,8 +223,8 @@ function Top({ title }) {
             <div className="w-10 h-10 rounded-full overflow-hidden ">
               <img
                 className="w-full h-full object-cover"
-                src="https://i.ibb.co.com/sq2jwtC/ae4134169130626f5a6ff03cd06719fb.png"
-                alt=""
+                src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+                alt="not found"
               />
             </div>
             <svg

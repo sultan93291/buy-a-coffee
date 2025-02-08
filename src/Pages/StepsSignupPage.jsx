@@ -1,17 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StepFormContext } from "../context";
 import { useForm } from "react-hook-form";
 import AuthLeft from "../components/auth/AuthLeft";
 import AuthWarning from "../components/auth/AuthWarning";
 import ButtonPrimary from "../components/buttons/ButtonPrimary";
 import DefaultAvatar from "../assets/images/camera.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useCompleteProfileIntentMutation } from "@/redux/features/api/apiSlice";
+import { AuthContext } from "@/provider/AuthContextProvider";
+import { useDispatch, useSelector } from "react-redux";
 
 function StepsSignupPage() {
   const { step, nextStep, prevStep, updateFormData, formData } =
     useContext(StepFormContext);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { fetchData } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
@@ -21,8 +30,6 @@ function StepsSignupPage() {
   } = useForm();
 
   const [useCompleteProfileIntent] = useCompleteProfileIntentMutation();
-
-  const navigate = useNavigate();
 
   const [avatar, setavatar] = useState();
 
@@ -61,17 +68,21 @@ function StepsSignupPage() {
       console.log(key, value);
     }
 
-    try {
-      const result = await useCompleteProfileIntent(formData).unwrap();
-      console.log("Success:", result);
-      toast.success(
-        "Signup completed successfully. Your profile has been updated."
-      );
+    const token = localStorage.getItem("Refreshtoken");
+    localStorage.setItem("token", token);
 
-      setTimeout(() => {
-        navigate("/dashboard/home");
-      }, 2000);
+    try {
+      const response = await useCompleteProfileIntent(formData).unwrap();
+      console.log("Success:", response);
+      if (response) {
+        localStorage.removeItem("Refreshtoken");
+        toast.success(
+          "Signup completed successfully. Your profile has been updated."
+        );
+        fetchData();
+      }
     } catch (error) {
+      localStorage.removeItem("token");
       console.error("Error:", error);
       toast.error(error?.data?.message || "Something went wrong");
     }

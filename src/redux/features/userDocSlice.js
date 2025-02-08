@@ -23,7 +23,8 @@ const userSlice = createSlice({
 });
 
 // Export actions
-export const { setUserName, setLoggedInUserData } = userSlice.actions;
+export const { setUserName, setLoggedInUserData } =
+  userSlice.actions;
 
 // Export reducer to be added to the store
 export default userSlice.reducer;

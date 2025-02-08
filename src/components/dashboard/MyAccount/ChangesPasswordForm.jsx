@@ -1,17 +1,40 @@
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
+import { useUpdatePasswordIntentMutation } from "@/redux/features/api/apiSlice";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
 function ChangesPasswordForm() {
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const [updatePassword, { data, error, isLoading, isSuccess }] =
+    useUpdatePasswordIntentMutation();
+
   const newPassword = watch("newPassword");
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async data => {
+    const updatedPasswordData = {
+      previous_password: data.prevPass,
+      password: data.newPassword,
+      password_confirmation: data.confirmPassword,
+    };
+
+    try {
+      const response = await updatePassword(updatedPasswordData).unwrap();
+
+      if (response?.code === 200) {
+        toast.success(response?.message || "Password updated successfully!");
+        console.log("Password updated successfully:", response);
+      }
+    } catch (error) {
+      console.error("Password update failed:", error);
+      toast.error(error?.data?.message || "Failed to update password");
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -76,7 +99,7 @@ function ChangesPasswordForm() {
           name="confirmPassword"
           {...register("confirmPassword", {
             required: "Please confirm your password",
-            validate: (value) =>
+            validate: value =>
               value === newPassword || "Passwords do not match",
           })}
         />
@@ -87,8 +110,19 @@ function ChangesPasswordForm() {
         )}
       </div>
       <div className="text-right mt-[30px]">
-        <button type="submit">
-          <ButtonPrimary text="Save Changes" type="small" />
+        <button button={isLoading} type="submit">
+          <ButtonPrimary
+            text={
+              isLoading ? (
+                <>
+                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
+                </>
+              ) : (
+                "Save Changes"
+              )
+            }
+            type="small"
+          />
         </button>
       </div>
     </form>

@@ -50,6 +50,32 @@ export const apiSlice = createApi({
         includeToken: true,
       }),
     }),
+
+    updateProfileIntent: builder.mutation({
+      query: ({ id, updatedData }) => ({
+        url: `/update-my-account/${id}`,
+        method: "POST",
+        data: updatedData,
+        includeToken: true,
+      }),
+    }),
+
+    updatePasswordIntent: builder.mutation({
+      query: updatedPassword => ({
+        url: `/change-password`,
+        method: "POST",
+        data: updatedPassword,
+        includeToken: true,
+      }),
+    }),
+
+    deleteUserAccount: builder.mutation({
+      query: () => ({
+        url: `/user-delete`,
+        method: "DELETE",
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -59,7 +85,9 @@ export const {
   useLoginUserIntentMutation,
   useCheckUserNameAvialabilitiesIntentMutation,
   useCompleteProfileIntentMutation,
-  useLogOutProfileIntentMutation
+  useLogOutProfileIntentMutation,
+  useUpdateProfileIntentMutation,
+  useUpdatePasswordIntentMutation,
 } = apiSlice;
 
 // all okay ready to go again...

@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Logo from "../assets/images/logo.svg";
 import { useLoginUserIntentMutation } from "@/redux/features/api/apiSlice";
 import { AuthContext } from "@/provider/AuthContextProvider";
+import { BeatLoader } from "react-spinners";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -21,7 +22,8 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const [useLoginUserIntent] = useLoginUserIntentMutation();
+  const [useLoginUserIntent, { data, isLoading, error }] =
+    useLoginUserIntentMutation();
   const { fetchData } = useContext(AuthContext);
 
   const onSubmit = async data => {
@@ -57,7 +59,7 @@ function LoginPage() {
             <div className="flex items-center justify-between lg:justify-end">
               <img className="lg:hidden" src={Logo} alt="" />
               <p className="text-base lg:text-[18px]">
-                <span className="hidden lg:inline">Don't have an account?</span>
+                <span className="hidden lg:inline">Don't have an account ? </span>
                 <Link
                   to={"/signup"}
                   className="duration-200 ease-in-out hover:text-primaryColor underline lg:no-underline"
@@ -116,8 +118,26 @@ function LoginPage() {
                 )}
               </div>
               {/* submit btn  */}
-              <button type="submit" className="text-center w-full mt-8">
-                <ButtonPrimary text="Continue with email" />
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="text-center w-full mt-8"
+              >
+                <ButtonPrimary
+                  text={
+                    isLoading ? (
+                      <>
+                        <BeatLoader
+                          size={10}
+                          color={"#000"}
+                          speedMultiplier={0.5}
+                        />
+                      </>
+                    ) : (
+                      "Log in"
+                    )
+                  }
+                />
               </button>
             </form>
           </div>

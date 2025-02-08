@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Select,
@@ -8,25 +8,73 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
+import { useSelector } from "react-redux";
+import { useUpdateProfileIntentMutation } from "@/redux/features/api/apiSlice";
+import { AuthContext } from "@/provider/AuthContextProvider";
+import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
 function InforForm() {
+  const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
+  const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
+  const [updateProfile, { data, error, isLoading, isSuccess }] =
+    useUpdateProfileIntentMutation();
+  const { fetchData } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
     control,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      fname: "Saymon",
-      email: "example@gmail.com",
-      country: "US",
+      fname: loggedInUser?.name,
+      email: loggedInUser?.email,
+      pagelink: loggedInUser.page_link,
+      country: loggedInUser.country,
     },
   });
 
-  const onInfoSubmit = (data) => {
-    console.log(data);
+  useEffect(() => {
+    if (loggedInUser) {
+      reset({
+        fname: loggedInUser.name || "",
+        email: loggedInUser.email || "",
+        pagelink: loggedInUser.page_link || "",
+        country: loggedInUser.country || "",
+      });
+    }
+  }, [loggedInUser, reset]);
+
+  const onInfoSubmit = async data => {
+    const updateData = {
+      name: data.fname,
+      email: data.email,
+      page_link: data.pagelink,
+      country: data.country,
+    };
+
+    console.log("Updating Profile with Data:", updateData);
+
+    try {
+      const response = await updateProfile({
+        id: loggedInUser.id,
+        updatedData: updateData,
+      }).unwrap(); // Unwrap the response to directly access the result
+
+      if (response?.code === 200) {
+        fetchData();
+        toast.success(response?.message);
+        console.log("Profile updated successfully:", response);
+      }
+    } catch (error) {
+      console.error("Update failed:", error);
+      toast.error(error?.data?.message || "Failed to update profile");
+    }
   };
+
   return (
     <form onSubmit={handleSubmit(onInfoSubmit)}>
       {/* input group  */}
@@ -58,6 +106,7 @@ function InforForm() {
           type="text"
           id="pagelink"
           name="pagelink"
+          placeholder="Enter your page link"
           {...register("pagelink")}
         />
       </div>
@@ -101,8 +150,19 @@ function InforForm() {
         </div>
       </div>
       <div className="text-right mt-[30px]">
-        <button type="submit">
-          <ButtonPrimary text="Save Changes" type="small" />
+        <button disabled={isLoading} type="submit">
+          <ButtonPrimary
+            text={
+              isLoading ? (
+                <>
+                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
+                </>
+              ) : (
+                "Save Changes"
+              )
+            }
+            type="small"
+          />
         </button>
       </div>
     </form>

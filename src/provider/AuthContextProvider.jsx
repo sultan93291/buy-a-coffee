@@ -9,7 +9,6 @@ const SiteURl = import.meta.env.VITE_SERVER_BASE_URL;
 const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
 
-
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token")
   );
@@ -49,6 +48,17 @@ const AuthProvider = ({ children }) => {
     dispatch(setLoggedInUserData(null));
     window.location.href = "/";
   };
+
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    const token = localStorage.getItem("Refreshtoken"); // Always get the latest token
+
+    if (!token && currentPath === "/signupsteps") {
+      window.location.href = "/";
+    } else if (token && currentPath !== "/signupsteps") {
+      window.location.href = "/signupsteps";
+    }
+  }, []); // No dependencies (runs only once)
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, handleLogout, fetchData }}>

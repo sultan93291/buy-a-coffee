@@ -10,18 +10,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { MdOutlineCloudDownload } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 function CreatePost() {
+  const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
+  const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   return (
     <div className=" rounded-xl flex-col flex gap-4 space-y-3 h-full">
       <div className="bg-white lg:p-6 p-4 rounded-xl border space-y-3 h-full">
         <Title title={"Post an update:"}></Title>
         <div className="flex items-center gap-4 border-b pb-4">
-          <div className="w-10 h-10 rounded-full overflow-hidden">
+          <div className="w-[60px] h-[54.7px]  relative rounded-full overflow-hidden">
             <img
               className="w-full h-full object-cover"
-              src="https://i.postimg.cc/rsGC84nx/Img.png"
-              alt=""
+              src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+              alt="not found"
             />
           </div>
           <Dialog className="rounded-lg">
@@ -46,13 +49,12 @@ function CreatePost() {
                     <div className="flex gap-4 items-center">
                       <div className="w-10 h-10 rounded-full overflow-hidden">
                         <img
-                          className="w-full h-full rounded-full object-cover"
-                          src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                          alt=""
+                          src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+                          alt="not found"
                         />
                       </div>
                       <h3 className="text-sm font-medium text-textColor">
-                        Mahmud Kawser
+                        {loggedInUser.name}
                       </h3>
                     </div>
                     <div className="pt-4">
