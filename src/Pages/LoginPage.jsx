@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import AuthLeft from "../components/auth/AuthLeft";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import GoogleIcon from "../assets/images/google-ssl.svg";
 import toast, { Toaster } from "react-hot-toast";
 import Logo from "../assets/images/logo.svg";
 import { useLoginUserIntentMutation } from "@/redux/features/api/apiSlice";
+import { AuthContext } from "@/provider/AuthContextProvider";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function LoginPage() {
   } = useForm();
 
   const [useLoginUserIntent] = useLoginUserIntentMutation();
+  const { fetchData } = useContext(AuthContext);
 
   const onSubmit = async data => {
     console.log(data.email, data.password);
@@ -34,7 +36,7 @@ function LoginPage() {
       if (response?.code === 200) {
         toast.success(response?.message);
         localStorage.setItem("token", response?.data?.token);
-        navigate("/dashboard/home");
+        fetchData();
       }
     } catch (error) {
       toast.error(error?.data?.message);

@@ -42,6 +42,14 @@ export const apiSlice = createApi({
         includeToken: true,
       }),
     }),
+
+    logOutProfileIntent: builder.mutation({
+      query: () => ({
+        url: `/logout`,
+        method: "POST",
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -51,6 +59,7 @@ export const {
   useLoginUserIntentMutation,
   useCheckUserNameAvialabilitiesIntentMutation,
   useCompleteProfileIntentMutation,
+  useLogOutProfileIntentMutation
 } = apiSlice;
 
 // all okay ready to go again...

@@ -7,6 +7,7 @@ import { useCheckUserNameAvialabilitiesIntentMutation } from "@/redux/features/a
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setUserName } from "@/redux/features/userDocSlice";
+import { BeatLoader } from "react-spinners";
 
 const SiteURl = import.meta.env.VITE_SERVER_BASE_URL;
 function Searchbar({ width, btnText, webUrl }) {
@@ -64,10 +65,22 @@ function Searchbar({ width, btnText, webUrl }) {
           />
         </div>
         <button
+          disabled={isLoading}
           type="submit"
           className="text-base w-full md:w-auto md:absolute md:right-2 top-1/2 md:translate-y-[-50%] mt-3 md:mt-0"
         >
-          <ButtonPrimary text={btnText} fontSize="18px" />
+          <ButtonPrimary
+            text={
+              isLoading ? (
+                <>
+                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
+                </>
+              ) : (
+                btnText
+              )
+            }
+            fontSize="18px"
+          />
         </button>
       </div>
     </form>
