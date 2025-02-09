@@ -25,7 +25,7 @@ function MyAccount() {
             <div>
               <img
                 className="w-[120px] h-[120px] rounded-full object-cover mx-auto"
-                src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+                src={`${imgBaseUrl}/${loggedInUser?.avatar}`}
                 alt="not found"
               />
             </div>

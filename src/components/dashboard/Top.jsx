@@ -87,8 +87,8 @@ function Top({ title }) {
         <div className="w-10 h-10 rounded-full overflow-hidden ">
           <img
             className="w-full h-full object-cover"
-            src="https://i.ibb.co.com/sq2jwtC/ae4134169130626f5a6ff03cd06719fb.png"
-            alt=""
+            src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+            alt="not found"
           />
         </div>
         <svg

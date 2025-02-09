@@ -88,6 +88,7 @@ export const {
   useLogOutProfileIntentMutation,
   useUpdateProfileIntentMutation,
   useUpdatePasswordIntentMutation,
+  useDeleteUserAccountMutation
 } = apiSlice;
 
 // all okay ready to go again...
