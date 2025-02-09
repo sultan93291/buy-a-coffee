@@ -82,9 +82,20 @@ function CreateAccount() {
         <div className="auth-right lg:w-[60%] min-h-screen max-h-screen pt-5 lg:pt-[60px] pr-5 lg:pr-[32px] pl-5 lg:pl-[136px] pb-[100px] overflow-y-auto">
           <div className="text-right">
             <div className="flex items-center justify-between lg:justify-end">
-              <img className="lg:hidden" src={Logo} alt="Logo" />
+              <img
+                onClick={e => {
+                  e.preventDefault();
+                  dispatch(setUserName(""));
+                  navigate("/");
+                }}
+                className="lg:hidden"
+                src={Logo}
+                alt=""
+              />
               <p className="text-base lg:text-[18px]">
-                <span className="hidden lg:inline">Already have a account ? </span>
+                <span className="hidden lg:inline">
+                  Already have a account ?{" "}
+                </span>
                 <Link
                   to={"/login"}
                   className="duration-200 ease-in-out hover:text-primaryColor underline lg:no-underline"
