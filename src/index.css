@@ -8,6 +8,11 @@
   body {
     @apply bg-bodyColor text-headingColor font-jakarta;
   }
+  html,
+  body {
+    touch-action: pan-x pan-y;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -85,8 +90,8 @@
   .auth-box {
     @apply lg:w-[536px];
   }
-  .auth-input{
-    @apply py-3 px-6 rounded-[8px] bg-authInput border text-sm md:text-[18px] font-medium text-headingColor w-full placeholder:text-headingColor focus:outline-none
+  .auth-input {
+    @apply py-3 px-6 rounded-[8px] bg-authInput border text-sm md:text-[18px] font-medium text-headingColor w-full placeholder:text-headingColor focus:outline-none;
   }
   .custom-radio[type="radio"]:checked,
   .custom-radio[type="radio"]:not(:checked) {
@@ -155,7 +160,6 @@
   .primary-button {
     @apply !text-sm md:!text-[18px];
   }
-  
 }
 
 /* Add this to your global CSS file */
