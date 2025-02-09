@@ -51,7 +51,7 @@ function Searchbar({ width, btnText, webUrl }) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>
-        <p className="text-sm relative inline-block top-9 ml-[-100px] md:ml-0 md:text-[20px] text-headingColor font-bold md:absolute md:top-1/2 md:translate-y-[-50%] md:left-8">
+        <p className="text-sm relative inline-block top-9 ml-[-110px] md:ml-0 md:text-[20px] text-headingColor font-bold md:absolute md:top-1/2 md:translate-y-[-50%] md:left-8">
           {webUrl}
         </p>
         <div>

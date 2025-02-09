@@ -20,8 +20,8 @@ function HeroSection() {
               className="text-[32px] leading-[132%] tracking-[-0.5%] lg:text-[50px] font-bold lg:leading-[95px]  text-headingColor"
               data-aos="fade-up"
             >
-              A supporter is worth a{" "}
-              <span className="text-headingColor2">thousand followers</span>
+              Make money doing{" "}
+              <span className="text-headingColor2">what you love</span>
             </h1>
           </div>
           <p
@@ -34,7 +34,7 @@ function HeroSection() {
             and followers.
           </p>
           <div
-            className="lg:w-[687px] mx-auto mt-1 md:mt-12"
+            className=" w-[250px] lg:w-[687px] mx-auto mt-1 md:mt-12"
             data-aos="fade-up"
             data-aos-delay="200"
           >

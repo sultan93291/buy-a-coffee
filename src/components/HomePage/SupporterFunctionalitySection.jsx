@@ -33,7 +33,7 @@ function SupporterFunctionalitySection() {
   ];
   return (
     <section className="pt-[60px] lg:pt-[120px] pb-[67px]">
-      <div className="conainer">
+      <div className="conainer px-2 lg:px-0">
         <div>
           <h3
             className="text-[24px] tracking-[-0.36%] leading-[132%] lg:text-[36px] mb-14 font-semibold lg:leading-[64px] lg:w-[1094px] mx-auto text-headingColor text-center"
