@@ -81,8 +81,17 @@ export const apiSlice = createApi({
       query: ({ email }) => ({
         url: `/stripe/create-account`,
         method: "POST",
-        data: email,
+        data: { email: email },
         includeToken: true,
+      }),
+    }),
+
+    editUserProfileInfo: builder.mutation({
+      query: data => ({
+        url: `/edit-profile`,
+        method: "POST",
+        data: data,
+        includeToken:true
       }),
     }),
   }),
@@ -99,6 +108,7 @@ export const {
   useUpdatePasswordIntentMutation,
   useDeleteUserAccountMutation,
   useConnectStripeAccountMutation,
+  useEditUserProfileInfoMutation
 } = apiSlice;
 
 // all okay ready to go again...

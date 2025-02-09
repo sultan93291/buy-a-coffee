@@ -31,7 +31,6 @@ function Top({ title }) {
   const { role } = useContext(MainContext);
   const { fetchData } = useContext(AuthContext);
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
-  console.log(loggedInUser, "User logged in");
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const navigate = useNavigate();
   const [logOut] = useLogOutProfileIntentMutation();

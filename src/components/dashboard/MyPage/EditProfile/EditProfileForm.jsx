@@ -19,10 +19,15 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useSelector } from "react-redux";
+import { useEditUserProfileInfoMutation } from "@/redux/features/api/apiSlice";
+import toast from "react-hot-toast";
+
 
 function EditProfileForm() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
+  const [editProfileInfo, { data, isLoading, error }] =
+    useEditUserProfileInfoMutation();
 
   const {
     register,
@@ -36,7 +41,7 @@ function EditProfileForm() {
   });
 
   const [profileUrl, setProfileUrl] = useState(
-    "https://images.unsplash.com/photo-1721332149274-586f2604884d?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    `${imgBaseUrl}/${loggedInUser?.avatar}`
   );
   const [coverUrl, setCoverUrl] = useState(
     "https://images.unsplash.com/photo-1729432536160-d4ba057b61d9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -44,16 +49,47 @@ function EditProfileForm() {
   const [permission, setPermission] = useState(false);
   const [category, setCategory] = useState("");
   const [currency, setCurrency] = useState("");
+  const [profileFile, setprofileFile] = useState();
+  const [CoverFile, setCoverFile] = useState();
 
-  const onSubmit = data => {
-    console.log({
+  const onSubmit = async data => {
+    const allRequiredData = {
       ...data,
-      profileUrl,
+      profileFile,
+      CoverFile,
       permission,
       category,
       currency,
-      coverUrl,
-    });
+    };
+
+    console.log("Form Data Before Submission:", allRequiredData);
+
+    const formData = new FormData();
+    formData.append("name", allRequiredData?.fullName);
+    formData.append("category", allRequiredData?.category);
+    formData.append("what_are_you_creating", allRequiredData?.creating);
+    formData.append("currency", allRequiredData?.currency);
+    formData.append("supporter_visibility", allRequiredData.permission ? 1 : 0);
+
+    if (profileFile) formData.append("avatar", profileFile);
+    if (CoverFile) formData.append("cover_photo", CoverFile);
+
+    try {
+      const response = await editProfileInfo(formData).unwrap(); // ✅ Call the mutation properly
+
+      console.log("Profile Updated Successfully:", response);
+
+      if (response?.code === 200) {
+        toast.success(response?.message || "Profile updated successfully!");
+      } else {
+        toast.error(response?.message || "Something went wrong!");
+      }
+    } catch (error) {
+      console.error("Profile Update Error:", error);
+      toast.error(
+        error?.data?.message || "Failed to update profile. Please try again."
+      );
+    }
   };
 
   //currency
@@ -72,6 +108,7 @@ function EditProfileForm() {
     if (selectedFile) {
       const url = URL.createObjectURL(selectedFile);
       setCoverUrl(url);
+      setCoverFile(selectedFile);
     }
   };
 
@@ -81,6 +118,7 @@ function EditProfileForm() {
     if (selectedFile) {
       const url = URL.createObjectURL(selectedFile);
       setProfileUrl(url);
+      setprofileFile(selectedFile);
     }
   };
 
@@ -94,6 +132,7 @@ function EditProfileForm() {
       reset({
         fullName: loggedInUser.name || "",
       });
+      setProfileUrl(`${imgBaseUrl}/${loggedInUser?.avatar}`);
     }
   }, [loggedInUser, reset]);
 
@@ -186,7 +225,7 @@ function EditProfileForm() {
                   <div className=" rounded-full cursor-pointer group relative overflow-hidden size-20 lg:size-28">
                     <img
                       className="w-full h-full object-cover rounded-full"
-                      src={`${imgBaseUrl}/${loggedInUser?.avatar}`}
+                      src={profileUrl}
                       alt="not found"
                     />
                     <div className="absolute hidden group-hover:block top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -297,8 +336,9 @@ function EditProfileForm() {
                   </SelectContent>
                 </Select>
               </div>
+
               {/* choose theme */}
-              <div className="flex flex-col gap-2.5">
+              {/* <div className="flex flex-col gap-2.5">
                 <label
                   className="text-textColor font-semibold "
                   htmlFor="themeColor"
@@ -355,7 +395,7 @@ function EditProfileForm() {
                     {...register("themeColor", { required: true })}
                   />
                 </div>
-              </div>
+              </div> */}
               {/* toggle */}
               <div className="flex items-center pt-2 gap-3">
                 <Switch onCheckedChange={handleCheckedChange} />
@@ -370,7 +410,7 @@ function EditProfileForm() {
                 </label>
               </div>
               {/* social links */}
-              <div className="pt-4 flex flex-col gap-4">
+              {/* <div className="pt-4 flex flex-col gap-4">
                 <div className="flex px-4 py-3 rounded-lg bg-gray-50 divide-x gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -439,8 +479,9 @@ function EditProfileForm() {
                     {...register("link2", { required: true })}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
+
             <div className="flex justify-end pt-4 px-8">
               <button
                 type="submit"

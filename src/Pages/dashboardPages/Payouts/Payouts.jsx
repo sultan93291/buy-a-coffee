@@ -1,15 +1,54 @@
-import CommonBoxhShape from "@/components/dashboard/CommonComponents/CommonBoxhShape"
-import Top from "@/components/dashboard/Top"
-import thunderImg from '../../../assets/images/thunder.svg'
-import cardIcon from '../../../assets/images/card.svg'
-import { Link } from "react-router-dom"
-
+import CommonBoxhShape from "@/components/dashboard/CommonComponents/CommonBoxhShape";
+import Top from "@/components/dashboard/Top";
+import thunderImg from "../../../assets/images/thunder.svg";
+import cardIcon from "../../../assets/images/card.svg";
+import { Link } from "react-router-dom";
+import { useConnectStripeAccountMutation } from "@/redux/features/api/apiSlice";
+import { useContext } from "react";
+import { AuthContext } from "@/provider/AuthContextProvider";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 function Payouts() {
+  const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
 
-  const handleStripeConnect = () => {
-    alert("Stripe connected")
-  }
+  const [connectStripe, { data, isLoading, error }] =
+    useConnectStripeAccountMutation();
+  const { fetchData } = useContext(AuthContext);
+
+  const handleStripeConnect = async () => {
+    console.log(loggedInUser?.email);
+
+    if (!loggedInUser?.email) {
+      toast.error("User email is missing!");
+      return;
+    }
+
+    try {
+      const response = await connectStripe({
+        email: loggedInUser.email,
+      }).unwrap();
+
+      console.log(response);
+
+      if (response?.status === "success") {
+        console.log("Stripe Connection Response:", response);
+        toast.success(
+          response?.message || "Stripe account connected successfully!",
+          "please checkout the page and fill up all information"
+        );
+        if (response?.connected_account_url) {
+          window.open(response.connected_account_url);
+        }
+        fetchData();
+      }
+    } catch (error) {
+      console.error("Stripe Connection Error:", error);
+      toast.error(
+        error?.data?.message || "Failed to connect to Stripe. Please try again."
+      );
+    }
+  };
 
   return (
     <div>
@@ -28,13 +67,20 @@ function Payouts() {
             <img src={thunderImg} alt="thunderImg" />
           </p>
           <div className="text-center">
-            <p className="text-[20px] font-semibold text-headingColor mb-2">Get Paid with Stripe</p>
+            <p className="text-[20px] font-semibold text-headingColor mb-2">
+              Get Paid with Stripe
+            </p>
             <p className="text-base text-paraDark">Instant payout via stripe</p>
           </div>
-          <div onClick={() => {
-            handleStripeConnect()
-          }} >
-            <Link to={''} className="flex items-center gap-[10px] py-4 px-8 rounded-[60px] bg-primaryColor text-headingColor w-fit mx-auto font-bold mt-9">
+          <div
+            onClick={() => {
+              handleStripeConnect();
+            }}
+          >
+            <Link
+              to={""}
+              className="flex items-center gap-[10px] py-4 px-8 rounded-[60px] bg-primaryColor text-headingColor w-fit mx-auto font-bold mt-9"
+            >
               <img src={cardIcon} alt="cardIcon" />
               <p>Connect Stripe</p>
             </Link>
@@ -42,7 +88,7 @@ function Payouts() {
         </CommonBoxhShape>
       </div>
     </div>
-  )
+  );
 }
 
-export default Payouts
+export default Payouts;
