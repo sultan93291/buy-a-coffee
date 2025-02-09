@@ -8,7 +8,7 @@ import {
 import Logo from "../../assets/images/logo.svg";
 import { useContext, useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CommonLink from "./CommonLink";
 import { MainContext } from "@/context";
 import { RiHome4Line } from "react-icons/ri";
@@ -33,7 +33,7 @@ function Top({ title }) {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   console.log(loggedInUser, "User logged in");
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
-
+  const navigate = useNavigate();
   const [logOut] = useLogOutProfileIntentMutation();
 
   const handleLogout = async () => {
@@ -256,16 +256,31 @@ function Top({ title }) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="px-4 py-4 mr-6 lg:mr-10">
-          <DropdownMenuItem className="px-4 py-2 font-medium text-textDark text-base">
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/dashboard/my-page");
+            }}
+            className="px-4 py-2 font-medium text-textDark text-base"
+          >
             View my page
           </DropdownMenuItem>
-          <DropdownMenuItem className="px-4 py-2 font-medium text-textDark text-base">
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/dashboard/home");
+            }}
+            className="px-4 py-2 font-medium text-textDark text-base"
+          >
             Dashboard
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2 font-medium text-textDark text-base">
             Creators I follow
           </DropdownMenuItem>
-          <DropdownMenuItem className="px-4 py-2 font-medium text-textDark text-base">
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/dashboard/my-account");
+            }}
+            className="px-4 py-2 font-medium text-textDark text-base"
+          >
             My account
           </DropdownMenuItem>
           <DropdownMenuSeparator />

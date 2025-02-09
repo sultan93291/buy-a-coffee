@@ -16,62 +16,86 @@ import {
 
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useSelector } from "react-redux";
 
 function EditProfileForm() {
+  const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
+  const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      fullName: loggedInUser?.name,
+    },
+  });
 
-  const [profileUrl, setProfileUrl] = useState('https://images.unsplash.com/photo-1721332149274-586f2604884d?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
-  const [coverUrl, setCoverUrl] = useState('https://images.unsplash.com/photo-1729432536160-d4ba057b61d9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
-  const [permission, setPermission] = useState(false)
-  const [category, setCategory] = useState('')
-  const [currency, setCurrency] = useState('')
+  const [profileUrl, setProfileUrl] = useState(
+    "https://images.unsplash.com/photo-1721332149274-586f2604884d?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [coverUrl, setCoverUrl] = useState(
+    "https://images.unsplash.com/photo-1729432536160-d4ba057b61d9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [permission, setPermission] = useState(false);
+  const [category, setCategory] = useState("");
+  const [currency, setCurrency] = useState("");
 
-  const onSubmit = (data) => {
-    console.log({...data, profileUrl, permission, category, currency, coverUrl});
+  const onSubmit = data => {
+    console.log({
+      ...data,
+      profileUrl,
+      permission,
+      category,
+      currency,
+      coverUrl,
+    });
   };
 
   //currency
-  const handleCurrencyValue = (value) => {
-    setCurrency(value)
-  }
+  const handleCurrencyValue = value => {
+    setCurrency(value);
+  };
 
- //category
-  const handleCategoryValue = (value) => {
-    setCategory(value)
-  }
+  //category
+  const handleCategoryValue = value => {
+    setCategory(value);
+  };
 
   //cover
-  const handleCover = (e) => {
-    const selectedFile = e.target.files[0]
-    if(selectedFile) {
-        const url = URL.createObjectURL(selectedFile)
-        setCoverUrl(url)
+  const handleCover = e => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile);
+      setCoverUrl(url);
     }
-  }
+  };
 
   //profile
-  const handleProfile = (e) => {
-    const selectedFile = e.target.files[0]
-    if(selectedFile) {
-        const url = URL.createObjectURL(selectedFile)
-        setProfileUrl(url)
+  const handleProfile = e => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile);
+      setProfileUrl(url);
     }
-  }
+  };
 
   //permission
-  const handleCheckedChange = (checked) => {
-    setPermission(checked)
-  }
-  
-  // error
-  console.log(errors);
+  const handleCheckedChange = checked => {
+    setPermission(checked);
+  };
 
+  useEffect(() => {
+    if (loggedInUser) {
+      reset({
+        fullName: loggedInUser.name || "",
+      });
+    }
+  }, [loggedInUser, reset]);
 
   return (
     <Dialog className="">
@@ -142,7 +166,9 @@ function EditProfileForm() {
                           fill="white"
                         />
                       </svg>
-                      <h4 className="lg:text-sm text-xs font-medium ">Edit Cover Photo</h4>
+                      <h4 className="lg:text-sm text-xs font-medium ">
+                        Edit Cover Photo
+                      </h4>
                     </div>
                   </div>
                 </label>
@@ -160,8 +186,8 @@ function EditProfileForm() {
                   <div className=" rounded-full cursor-pointer group relative overflow-hidden size-20 lg:size-28">
                     <img
                       className="w-full h-full object-cover rounded-full"
-                      src={profileUrl}
-                      alt=""
+                      src={`${imgBaseUrl}/${loggedInUser?.avatar}`}
+                      alt="not found"
                     />
                     <div className="absolute hidden group-hover:block top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                       <svg
@@ -284,7 +310,7 @@ function EditProfileForm() {
                     className="appearance-none size-8 cursor-pointer bg-teal-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
                     type="radio"
                     name="themeColor"
-                    value={'teal'}
+                    value={"teal"}
                     id=""
                     {...register("themeColor", { required: true })}
                   />
@@ -292,7 +318,7 @@ function EditProfileForm() {
                     className="appearance-none size-8 cursor-pointer bg-green-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
                     type="radio"
                     name="themeColor"
-                    value={'green'}
+                    value={"green"}
                     id=""
                     {...register("themeColor", { required: true })}
                   />
@@ -300,7 +326,7 @@ function EditProfileForm() {
                     className="appearance-none size-8 cursor-pointer bg-pink-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
                     type="radio"
                     name="themeColor"
-                    value={'pink'}
+                    value={"pink"}
                     id=""
                     {...register("themeColor", { required: true })}
                   />
@@ -308,14 +334,14 @@ function EditProfileForm() {
                     className="appearance-none size-8 cursor-pointer bg-orange-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
                     type="radio"
                     name="themeColor"
-                    value={'orange'}
+                    value={"orange"}
                     id=""
                     {...register("themeColor", { required: true })}
                   />
                   <input
                     className="appearance-none size-8 cursor-pointer bg-yellow-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
                     type="radio"
-                    value={'yellow'}
+                    value={"yellow"}
                     name="themeColor"
                     id=""
                     {...register("themeColor", { required: true })}
@@ -323,7 +349,7 @@ function EditProfileForm() {
                   <input
                     className="appearance-none size-8 cursor-pointer bg-blue-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
                     type="radio"
-                    value={'blue'}
+                    value={"blue"}
                     name="themeColor"
                     id=""
                     {...register("themeColor", { required: true })}
@@ -393,7 +419,7 @@ function EditProfileForm() {
                 </div>
                 <div className="flex px-4 py-3 rounded-lg bg-gray-50 divide-x gap-2">
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"          
+                    xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
                     viewBox="0 0 20 20"

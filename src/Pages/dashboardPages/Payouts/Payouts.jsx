@@ -6,6 +6,11 @@ import { Link } from "react-router-dom"
 
 
 function Payouts() {
+
+  const handleStripeConnect = () => {
+    alert("Stripe connected")
+  }
+
   return (
     <div>
       <div>
@@ -26,7 +31,9 @@ function Payouts() {
             <p className="text-[20px] font-semibold text-headingColor mb-2">Get Paid with Stripe</p>
             <p className="text-base text-paraDark">Instant payout via stripe</p>
           </div>
-          <div>
+          <div onClick={() => {
+            handleStripeConnect()
+          }} >
             <Link to={''} className="flex items-center gap-[10px] py-4 px-8 rounded-[60px] bg-primaryColor text-headingColor w-fit mx-auto font-bold mt-9">
               <img src={cardIcon} alt="cardIcon" />
               <p>Connect Stripe</p>
