@@ -34,6 +34,8 @@ function ChangesPasswordForm() {
     } catch (error) {
       console.error("Password update failed:", error);
       toast.error(error?.data?.message || "Failed to update password");
+    } finally {
+      reset();
     }
   };
   return (
