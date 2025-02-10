@@ -16,18 +16,22 @@ import {
 
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useSelector } from "react-redux";
 import { useEditUserProfileInfoMutation } from "@/redux/features/api/apiSlice";
 import toast from "react-hot-toast";
-
+import { AuthContext } from "@/provider/AuthContextProvider";
+import { BeatLoader } from "react-spinners";
 
 function EditProfileForm() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
+
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const [editProfileInfo, { data, isLoading, error }] =
     useEditUserProfileInfoMutation();
+
+  const { fetchData } = useContext(AuthContext);
 
   const {
     register,
@@ -37,6 +41,7 @@ function EditProfileForm() {
   } = useForm({
     defaultValues: {
       fullName: loggedInUser?.name,
+      creating: loggedInUser?.edit_profile?.what_are_you_creating,
     },
   });
 
@@ -44,7 +49,7 @@ function EditProfileForm() {
     `${imgBaseUrl}/${loggedInUser?.avatar}`
   );
   const [coverUrl, setCoverUrl] = useState(
-    "https://images.unsplash.com/photo-1729432536160-d4ba057b61d9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    `${imgBaseUrl}/${loggedInUser?.edit_profile?.cover_photo}`
   );
   const [permission, setPermission] = useState(false);
   const [category, setCategory] = useState("");
@@ -81,6 +86,7 @@ function EditProfileForm() {
 
       if (response?.code === 200) {
         toast.success(response?.message || "Profile updated successfully!");
+        fetchData();
       } else {
         toast.error(response?.message || "Something went wrong!");
       }
@@ -124,17 +130,31 @@ function EditProfileForm() {
 
   //permission
   const handleCheckedChange = checked => {
+    console.log(checked);
+
     setPermission(checked);
   };
 
   useEffect(() => {
+    console.log("LoggedInUser updated:", loggedInUser);
+    console.log("Image Base URL:", imgBaseUrl);
+
     if (loggedInUser) {
       reset({
         fullName: loggedInUser.name || "",
+        creating: loggedInUser?.edit_profile?.what_are_you_creating,
       });
+
       setProfileUrl(`${imgBaseUrl}/${loggedInUser?.avatar}`);
+      setPermission(
+        loggedInUser.edit_profile.supporter_visibility == 1
+          ? handleCheckedChange(true)
+          : handleCheckedChange(false)
+      );
+      const newCoverFile = `${imgBaseUrl}/${loggedInUser.edit_profile.cover_photo}`;
+      setCoverUrl(newCoverFile);
     }
-  }, [loggedInUser, reset]);
+  }, [loggedInUser, reset, imgBaseUrl]);
 
   return (
     <Dialog className="">
@@ -171,7 +191,7 @@ function EditProfileForm() {
                     <img
                       className="w-full  h-full object-cover"
                       src={coverUrl}
-                      alt=""
+                      alt="not found"
                     />
                     <div className="absolute cursor-pointer px-3 py-1 rounded-full bg-white flex items-center gap-2 font-medium text-textDark bottom-5 right-5">
                       <svg
@@ -290,7 +310,10 @@ function EditProfileForm() {
                 >
                   Category
                 </label>
-                <Select onValueChange={handleCategoryValue}>
+                <Select
+                  defaultValue={loggedInUser?.edit_profile?.category}
+                  onValueChange={handleCategoryValue}
+                >
                   <SelectTrigger className="w-full py-6 bg-gray-50 px-5">
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
@@ -325,7 +348,10 @@ function EditProfileForm() {
                 >
                   Currency
                 </label>
-                <Select onValueChange={handleCurrencyValue}>
+                <Select
+                  defaultValue={loggedInUser?.edit_profile?.currency}
+                  onValueChange={handleCurrencyValue}
+                >
                   <SelectTrigger className="w-full py-6 bg-gray-50 px-5">
                     <SelectValue placeholder="Select Currency" />
                   </SelectTrigger>
@@ -484,10 +510,15 @@ function EditProfileForm() {
 
             <div className="flex justify-end pt-4 px-8">
               <button
+                disabled={isLoading}
                 type="submit"
                 className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold "
               >
-                Save Changes
+                {isLoading ? (
+                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
+                ) : (
+                  "Save changes"
+                )}
               </button>
             </div>
           </form>

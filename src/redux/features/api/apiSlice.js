@@ -1,5 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "./axiosBaseQuery";
+import { data } from "autoprefixer";
 
 // Backend base URL from environment variables
 const SiteURl = import.meta.env.VITE_SERVER_BASE_URL;
@@ -53,7 +54,7 @@ export const apiSlice = createApi({
 
     updateProfileIntent: builder.mutation({
       query: ({ id, updatedData }) => ({
-        url: `/update-my-account/${id}`,
+        url: `/update-my-account`,
         method: "POST",
         data: updatedData,
         includeToken: true,
@@ -90,8 +91,19 @@ export const apiSlice = createApi({
       query: data => ({
         url: `/edit-profile`,
         method: "POST",
+        data: {
+          data,
+        },
+      }),
+    }),
+
+    editFeatureImgAndBio: builder.mutation({
+      query: ({ data }) => ({
+        url: `/feature-image`,
+        method: "POST",
         data: data,
-        includeToken:true
+        includeToken: true,
+        
       }),
     }),
   }),
@@ -108,7 +120,8 @@ export const {
   useUpdatePasswordIntentMutation,
   useDeleteUserAccountMutation,
   useConnectStripeAccountMutation,
-  useEditUserProfileInfoMutation
+  useEditUserProfileInfoMutation,
+  useEditFeatureImgAndBioMutation,
 } = apiSlice;
 
 // all okay ready to go again...
