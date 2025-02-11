@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useCompleteProfileIntentMutation } from "@/redux/features/api/apiSlice";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { useDispatch, useSelector } from "react-redux";
+import { BeatLoader } from "react-spinners";
 
 function StepsSignupPage() {
   const { step, nextStep, prevStep, updateFormData, formData } =
@@ -29,7 +30,8 @@ function StepsSignupPage() {
     formState: { errors },
   } = useForm();
 
-  const [useCompleteProfileIntent] = useCompleteProfileIntentMutation();
+  const [useCompleteProfileIntent, { isLoading, error, data }] =
+    useCompleteProfileIntentMutation();
 
   const [avatar, setavatar] = useState();
 
@@ -165,10 +167,15 @@ function StepsSignupPage() {
                 {errors.displayName && <span>This field is required</span>}
               </div>
               <button
+                disabled={isLoading}
                 type="submit"
                 className="w-full text-center mt-7 md:mt-10"
               >
-                <ButtonPrimary text="Submit" />
+                {isLoading ? (
+                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
+                ) : (
+                  <ButtonPrimary text="Submit" />
+                )}
               </button>
             </div>
           )}

@@ -71,9 +71,12 @@ export const apiSlice = createApi({
     }),
 
     deleteUserAccount: builder.mutation({
-      query: () => ({
+      query: password => ({
         url: `/user-delete`,
-        method: "DELETE",
+        method: "POST",
+        data: {
+          previous_password: password,
+        },
         includeToken: true,
       }),
     }),
@@ -91,19 +94,17 @@ export const apiSlice = createApi({
       query: data => ({
         url: `/edit-profile`,
         method: "POST",
-        data: {
-          data,
-        },
+        data: data,
+        includeToken: true,
       }),
     }),
 
     editFeatureImgAndBio: builder.mutation({
-      query: ({ data }) => ({
+      query: data => ({
         url: `/feature-image`,
         method: "POST",
         data: data,
         includeToken: true,
-        
       }),
     }),
   }),

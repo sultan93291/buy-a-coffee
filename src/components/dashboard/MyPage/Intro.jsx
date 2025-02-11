@@ -10,23 +10,32 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useEditFeatureImgAndBioMutation } from "@/redux/features/api/apiSlice";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import { AuthContext } from "@/provider/AuthContextProvider";
 
 function Intro() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const [Bio, setBio] = useState(loggedInUser?.bio);
   const [file, setfile] = useState();
+  const [feateureImage, setfeateureImage] = useState(
+    `${imgBaseUrl}/${loggedInUser?.featurd_images[0]?.image}`
+  );
 
   const [useEditeFeatureAndBio, { data, isLoading, error }] =
     useEditFeatureImgAndBioMutation();
 
+  const { fetchData } = useContext(AuthContext);
+
   useEffect(() => {
     if (loggedInUser) {
       setBio(loggedInUser?.bio);
+      setfeateureImage(
+        `${imgBaseUrl}/${loggedInUser?.featurd_images[0]?.image}`
+      );
     }
   }, [loggedInUser]);
 
@@ -40,17 +49,20 @@ function Intro() {
   const handleFeatureBioUpdate = async () => {
     try {
       const formData = new FormData();
-      formData.append("image", file);
       formData.append("bio", Bio);
+      if (file) formData.append("image", file);
 
+      console.log(...formData);
       const response = await useEditeFeatureAndBio(formData).unwrap();
+
       if (response?.code === 200) {
         toast.success(response?.message);
-        fetchData();
       }
     } catch (error) {
       toast.error(error?.data?.message);
       console.log(error?.data?.message);
+    } finally {
+      fetchData();
     }
   };
 
@@ -65,7 +77,7 @@ function Intro() {
         <div className="rounded-xl border w-full h-[300px] overflow-hidden ">
           <img
             className="w-full h-full object-cover "
-            src="https://images.unsplash.com/photo-1611689342806-0863700ce1e4?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={feateureImage}
             alt=""
           />
         </div>

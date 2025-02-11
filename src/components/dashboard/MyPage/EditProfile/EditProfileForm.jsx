@@ -147,11 +147,11 @@ function EditProfileForm() {
 
       setProfileUrl(`${imgBaseUrl}/${loggedInUser?.avatar}`);
       setPermission(
-        loggedInUser.edit_profile.supporter_visibility == 1
+        loggedInUser?.edit_profile?.supporter_visibility == 1
           ? handleCheckedChange(true)
           : handleCheckedChange(false)
       );
-      const newCoverFile = `${imgBaseUrl}/${loggedInUser.edit_profile.cover_photo}`;
+      const newCoverFile = `${imgBaseUrl}/${loggedInUser?.edit_profile?.cover_photo}`;
       setCoverUrl(newCoverFile);
     }
   }, [loggedInUser, reset, imgBaseUrl]);

@@ -17,28 +17,34 @@ function DeleteAccount() {
   const [deleteProfile, { data, error, isLoading, isSuccess }] =
     useDeleteUserAccountMutation();
   const [showDialog, setShowDialog] = useState(false);
+  const [password, setpassword] = useState();
 
   const { fetchData } = useContext(AuthContext);
 
   const handleDeleteAccount = async () => {
-    try {
-      const response = await deleteProfile().unwrap(); // Unwrap the response to access the result
+    if (!password) {
+      toast.error("Please enter your password!");
+      return;
+    } else {
+      try {
+        const response = await deleteProfile(password).unwrap(); // Unwrap the response to access the result
 
-      if (response?.code === 200) {
-        toast.success(response?.message || "Account deleted successfully!");
-        console.log("Account deleted successfully:", response);
-        localStorage.removeItem("token");
-        fetchData();
-      } else {
-        throw new Error(response?.message || "Unexpected server response");
+        if (response?.code === 200) {
+          toast.success(response?.message || "Account deleted successfully!");
+          console.log("Account deleted successfully:", response);
+          localStorage.removeItem("token");
+          fetchData();
+        } else {
+          throw new Error(response?.message || "Unexpected server response");
+        }
+      } catch (error) {
+        console.error("Account deletion failed:", error);
+        toast.error(
+          error?.data?.message || "Failed to delete account. Please try again."
+        );
+      } finally {
+        setShowDialog(false);
       }
-    } catch (error) {
-      console.error("Account deletion failed:", error);
-      toast.error(
-        error?.data?.message || "Failed to delete account. Please try again."
-      );
-    } finally {
-      setShowDialog(false);
     }
   };
 
@@ -71,6 +77,15 @@ function DeleteAccount() {
                 Are you sure you want to delete your account?
               </DialogTitle>
               <DialogDescription></DialogDescription>
+              <input
+                placeholder="Enter Your password"
+                type="text"
+                className=" p-3 outline-none border-[1px] border-solid rounded-[12px] "
+                value={password}
+                onChange={e => {
+                  setpassword(e.target.value);
+                }}
+              />
             </DialogHeader>
             <div>
               <div className="flex items-end justify-center gap-5 w-full">
