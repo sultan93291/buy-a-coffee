@@ -46,6 +46,14 @@ function Intro({ isMe, IntroData }) {
     }
   }, [loggedInUser]);
 
+  useEffect(() => {
+    setfeateureImage(
+      isMe
+        ? `${imgBaseUrl}/${loggedInUser?.featurd_images?.image}`
+        : `${imgBaseUrl}/${Searcheduser?.featurd_images?.image}`
+    );
+  }, [Searcheduser]);
+
   const handleFileUpload = e => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
