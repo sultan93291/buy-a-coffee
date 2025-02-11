@@ -10,6 +10,8 @@ function Search({onSearch, searchTerm}) {
 
   const onSubmit = (data) => {
     onSearch(data.creatorSearch)
+    console.log(data.creatorSearch);
+    
   };
   const handleSearchOnChange = (e) => {
     onSearch(e.target.value)

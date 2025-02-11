@@ -3,19 +3,25 @@ import EditProfileForm from "./EditProfile/EditProfileForm";
 import { useSelector } from "react-redux";
 import SharePopup from "../HomePage/SharePopup";
 
-function ProfileSection({ isCreator, isMe }) {
+
+function ProfileSection({ isCreator, isMe, data }) {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   console.log(loggedInUser, "User logged in");
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
-
   const [follow, setFollow] = useState(false);
 
+  const Searcheduser = data?.data;
+
   return (
-    <div className=" mt-6 ">
+    <div className={`${isMe ? "mt-6 " : " mb-[30px] lg:mb-[130px]"}`}>
       {/* background Cover */}
       <div
         style={{
-          backgroundImage: `url(${imgBaseUrl}/${loggedInUser?.edit_profile?.cover_photo})`,
+          backgroundImage: `url(${imgBaseUrl}/${
+            !isMe
+              ? Searcheduser?.edit_profile?.cover_photo
+              : loggedInUser?.edit_profile?.cover_photo
+          })`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -28,23 +34,31 @@ function ProfileSection({ isCreator, isMe }) {
             <div className="lg:flex-row flex-col gap-8 lg:gap-0 flex justify-between ">
               <div className="lg:space-y-3 space-y-1 pl-40 lg:pl-0">
                 <h3 className="text-textDark font-semibold text-sm lg:text-lg">
-                  {loggedInUser?.name}
+                  {!isMe ? Searcheduser?.name : loggedInUser?.name}
                 </h3>
                 <h4 className="lg:text-base font-medium text-textColor text-xs">
-                  Artist
+                  {!isMe
+                    ? Searcheduser?.edit_profile?.what_are_you_creating
+                    : loggedInUser?.edit_profile?.what_are_you_creating}
                 </h4>
                 <div className="flex items-center gap-2">
                   <h4 className="text-textColor lg:text-sm text-xs  font-medium">
-                    {loggedInUser.followers_count} followers
+                    {!isMe
+                      ? Searcheduser?.followers_count
+                      : loggedInUser?.followers_count}{" "}
+                    followers
                   </h4>
                   <li className="lg:text-sm list-none lg:list-disc text-xs text-textColor font-medium">
-                    {loggedInUser.following_count} following
+                    {!isMe
+                      ? Searcheduser?.following_count
+                      : loggedInUser?.following_count}{" "}
+                    following
                   </li>
                 </div>
               </div>
               {isMe && (
                 <div className="flex justify-center items-center gap-6">
-                 <SharePopup isProfilePage={true} />
+                  <SharePopup isProfilePage={true} />
                   {/* dialog */}
                   <div>
                     <EditProfileForm></EditProfileForm>
@@ -66,7 +80,9 @@ function ProfileSection({ isCreator, isMe }) {
             <div className=" w-full h-full bg-[#FAFAFA] ">
               <img
                 className="object-cover rounded-2xl w-full h-full "
-                src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+                src={`${imgBaseUrl}/${
+                  !isMe ? Searcheduser?.avatar : loggedInUser?.avatar
+                }`}
                 alt="not found"
               />
             </div>

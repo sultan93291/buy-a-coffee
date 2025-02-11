@@ -17,7 +17,7 @@ function MyPage() {
       <div className=" mt-40 lg:mt-32 grid grid-cols-1  lg:grid-cols-2 gap-4">
       <div className="">
           {/* column */}
-          <Intro></Intro>
+          <Intro isMe={true} ></Intro>
         {/* column */}
         {/* <BuyCoffee></BuyCoffee> */}
       </div>

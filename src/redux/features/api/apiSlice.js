@@ -107,6 +107,22 @@ export const apiSlice = createApi({
         includeToken: true,
       }),
     }),
+
+    trendingCreators: builder.query({
+      query: () => ({
+        url: `/trending-creator`,
+        method: "GET",
+        includeToken: true,
+      }),
+    }),
+
+    getSingleCreatorProfile: builder.query({
+      query: creatorId => ({
+        url: `/view-my-profile/${creatorId}`,
+        method: "GET",
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -123,6 +139,8 @@ export const {
   useConnectStripeAccountMutation,
   useEditUserProfileInfoMutation,
   useEditFeatureImgAndBioMutation,
+  useTrendingCreatorsQuery,
+  useGetSingleCreatorProfileQuery
 } = apiSlice;
 
 // all okay ready to go again...
