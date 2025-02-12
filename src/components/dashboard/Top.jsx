@@ -82,7 +82,7 @@ function Top({ title }) {
         onClick={() => setToggleMenu(true)}
         className={`flex lg:hidden ${
           toggleMenu ? "opacity-0 invisible hidden" : "opacity-100 visible"
-        }  items-center border rounded-full gap-1 w-fit p-6`}
+        }  items-center border rounded-full gap-1 w-fit p-1`}
       >
         <div className="w-10 h-10 rounded-full overflow-hidden ">
           <img
