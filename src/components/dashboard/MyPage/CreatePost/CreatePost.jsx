@@ -11,10 +11,47 @@ import {
 } from "@/components/ui/dialog";
 import { MdOutlineCloudDownload } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useCreatePostMutation } from "@/redux/features/api/apiSlice";
+import { BeatLoader } from "react-spinners";
 
 function CreatePost() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
+  const [tittle, settittle] = useState();
+  const [file, setfile] = useState();
+  const [createPost, { data, isLoading, error }] = useCreatePostMutation();
+
+  const handleFileUpload = e => {
+    console.log(e.target.files[0]);
+    setfile(e.target.files[0]);
+  };
+
+  const handleCratePost = async () => {
+    if (!tittle && !file) {
+      toast.error("Upload any or post a status");
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("title", tittle);
+      formData.append("file_url", file);
+
+      const response = await createPost(formData).unwrap();
+      if (response.code === 200) {
+        toast.success(response.message);
+        settittle("");
+        setfile(null);
+        // console.log(response);
+      }
+
+      console.log(data);
+    } catch (err) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className=" rounded-xl flex-col flex gap-4 space-y-3 h-full">
       <div className="bg-white lg:p-6 p-4 rounded-xl border space-y-3 h-full">
@@ -49,12 +86,12 @@ function CreatePost() {
                     <div className="flex gap-4 items-center">
                       <div className="w-10 h-10 rounded-full overflow-hidden">
                         <img
-                          src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+                          src={`${imgBaseUrl}/${loggedInUser?.avatar}`}
                           alt="not found"
                         />
                       </div>
                       <h3 className="text-sm font-medium text-textColor">
-                        {loggedInUser.name}
+                        {loggedInUser?.name}
                       </h3>
                     </div>
                     <div className="pt-4">
@@ -64,12 +101,17 @@ function CreatePost() {
                           name=""
                           placeholder="Whats in you mind?"
                           id=""
+                          value={tittle}
+                          onChange={e => {
+                            settittle(e.target.value);
+                          }}
                         ></textarea>
                       </div>
                     </div>
 
                     <div className="pt-4 w-full">
                       <input
+                        onChange={handleFileUpload}
                         className="hidden"
                         type="file"
                         accept="*/"
@@ -83,7 +125,9 @@ function CreatePost() {
                         <div className="w-full flex flex-col justify-center gap-2 items-center">
                           <MdOutlineCloudDownload size={40} />
                           <h4 className="text-textDark font-medium">
-                            Drop file here or click to upload
+                            {file?.name
+                              ? `Selected file , ${file?.name}`
+                              : "Drop file here or click to upload"}
                           </h4>
                           <h4 className="font-medium text-textDark">Browse</h4>
                         </div>
@@ -91,8 +135,22 @@ function CreatePost() {
                     </div>
 
                     <div className="flex justify-end pt-4">
-                      <button className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold ">
-                        Post
+                      <button
+                        disabled={isLoading}
+                        onClick={() => {
+                          handleCratePost();
+                        }}
+                        className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold "
+                      >
+                        {isLoading ? (
+                          <BeatLoader
+                            size={10}
+                            color={"#000"}
+                            speedMultiplier={0.5}
+                          />
+                        ) : (
+                          "Post"
+                        )}
                       </button>
                     </div>
                   </div>
@@ -216,12 +274,15 @@ function CreatePost() {
                       />
                     </div>
                     <h3 className="text-sm font-medium text-textColor">
-                      Mahmud Kawser
+                      {loggedInUser.name}
                     </h3>
                   </div>
                   <div className="pt-4">
                     <div>
                       <textarea
+                        onChange={e => {
+                          settittle(e.target.value);
+                        }}
                         className="px-4 resize-none border focus:outline-none placeholder:text-textDark py-3 rounded-xl text-textColor w-full h-[200px]"
                         name=""
                         placeholder="Whats in you mind?"
@@ -245,7 +306,9 @@ function CreatePost() {
                       <div className="w-full flex flex-col justify-center gap-2 items-center">
                         <MdOutlineCloudDownload size={40} />
                         <h4 className="text-textDark font-medium">
-                          Drop file here or click to upload
+                          {file?.name
+                            ? `Selected file , ${file?.name}`
+                            : "Drop file here or click to upload"}
                         </h4>
                         <h4 className="font-medium text-textDark">Browse</h4>
                       </div>
@@ -253,8 +316,18 @@ function CreatePost() {
                   </div>
 
                   <div className="flex justify-end pt-4">
-                    <button className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold ">
-                      Post
+                    <button
+                      disabled={isLoading}
+                      onClick={() => {
+                        handleCratePost();
+                      }}
+                      className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold "
+                    >
+                      <BeatLoader
+                        size={10}
+                        color={"#000"}
+                        speedMultiplier={0.5}
+                      />
                     </button>
                   </div>
                 </div>

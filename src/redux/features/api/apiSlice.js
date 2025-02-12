@@ -8,6 +8,7 @@ const SiteURl = import.meta.env.VITE_SERVER_BASE_URL;
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: axiosBaseQuery({ baseUrl: SiteURl }),
+  tagTypes: ["posts"],
   endpoints: builder => ({
     // ✅ Register User API Call
     registerUserIntent: builder.mutation({
@@ -123,6 +124,25 @@ export const apiSlice = createApi({
         includeToken: true,
       }),
     }),
+
+    createPost: builder.mutation({
+      query: data => ({
+        url: `/create-post`,
+        method: "POST",
+        data: data,
+        includeToken: true,
+      }),
+      invalidatesTags: ["posts"],
+    }),
+
+    getUserPost: builder.query({
+      query: () => ({
+        url: `/get-posts`,
+        method: "GET",
+        includeToken:true,
+      }),
+      providesTags:['posts']
+    }),
   }),
 });
 
@@ -140,7 +160,9 @@ export const {
   useEditUserProfileInfoMutation,
   useEditFeatureImgAndBioMutation,
   useTrendingCreatorsQuery,
-  useGetSingleCreatorProfileQuery
+  useGetSingleCreatorProfileQuery,
+  useCreatePostMutation,
+  useGetUserPostQuery
 } = apiSlice;
 
 // all okay ready to go again...
