@@ -136,7 +136,7 @@ function Top({ title }) {
         } absolute transition-all duration-300 px-8 py-4 -z-10 top-[78px] left-0 bg-white rounded-lg`}
       >
         <div className="w-full h-[86vh]  overflow-y-scroll  md:w-[500px] lg:p-6">
-          <div className="pt-0  pb-[80px] lg:pb-0 ">
+          <div className="pt-0  mb-[80px] lg:mb-0 ">
             {/* home */}
             <div className="flex items-center flex-col gap-2 w-full ">
               <CommonLink
