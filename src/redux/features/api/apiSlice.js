@@ -139,9 +139,18 @@ export const apiSlice = createApi({
       query: () => ({
         url: `/get-posts`,
         method: "GET",
-        includeToken:true,
+        includeToken: true,
       }),
-      providesTags:['posts']
+      providesTags: ["posts"],
+    }),
+
+    getUserPostsById: builder.query({
+      query: userId => ({
+        url: `/get-single-user-posts/${userId}`,
+        method: "GET",
+        includeToken: true,
+      }),
+      providesTags: ["posts"],
     }),
   }),
 });
@@ -162,7 +171,8 @@ export const {
   useTrendingCreatorsQuery,
   useGetSingleCreatorProfileQuery,
   useCreatePostMutation,
-  useGetUserPostQuery
+  useGetUserPostQuery,
+  useGetUserPostsByIdQuery
 } = apiSlice;
 
 // all okay ready to go again...
