@@ -71,7 +71,7 @@ function Top({ title }) {
   }
 
   return (
-    <div className="flex justify-between z-50 relative items-center pb-4 lg:pb-6 border-b">
+    <div className="flex justify-between z-50 relative items-center pb-4 lg:pb-6  border-b">
       <h3 className="text-textColor font-semibold lg:flex hidden text-3xl">
         {title}
       </h3>
@@ -82,7 +82,7 @@ function Top({ title }) {
         onClick={() => setToggleMenu(true)}
         className={`flex lg:hidden ${
           toggleMenu ? "opacity-0 invisible hidden" : "opacity-100 visible"
-        }  items-center border rounded-full gap-1 w-fit p-1`}
+        }  items-center border rounded-full gap-1 w-fit p-6`}
       >
         <div className="w-10 h-10 rounded-full overflow-hidden ">
           <img
@@ -135,7 +135,7 @@ function Top({ title }) {
             : "-translate-x-[150%] transition-all duration-300 -z-10 opacity-0"
         } absolute transition-all duration-300 px-8 py-4 -z-10 top-[78px] left-0 bg-white rounded-lg`}
       >
-        <div className="w-full h-[86vh] overflow-y-scroll  md:w-[500px] lg:p-6">
+        <div className="w-full h-[86vh]  overflow-y-scroll  md:w-[500px] lg:p-6">
           <div className="pt-0  pb-[80px] lg:pb-0 ">
             {/* home */}
             <div className="flex items-center flex-col gap-2 w-full ">
@@ -215,6 +215,7 @@ function Top({ title }) {
                 <div
                   onClick={() => {
                     handleLogout();
+                    setToggleMenu(false);
                   }}
                 >
                   <CommonLink
