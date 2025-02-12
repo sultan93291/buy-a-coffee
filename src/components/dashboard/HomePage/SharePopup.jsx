@@ -89,7 +89,7 @@ function SharePopup({ isProfilePage }) {
           )}
           <Toaster />
         </DialogTrigger>
-        <DialogContent className="h-[240px] ">
+        <DialogContent className="h-[300px] ">
           <DialogHeader>
             <DialogTitle className="p-0 border-b pb-4">
               <div className="relative">
@@ -123,7 +123,7 @@ function SharePopup({ isProfilePage }) {
                 className="text-[28px] text-[#1877F2] cursor-pointer "
               />
             </div>
-            {/* <button
+            <button
             onClick={copyToClipboard}
             className="flex items-center gap-2 px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold text-sm"
           >
@@ -145,8 +145,8 @@ function SharePopup({ isProfilePage }) {
                 fill="#222E48"
               />
             </svg>
-            Copy to Clipboard
-          </button> */}
+            Copy link to Clipboard
+          </button>
           </div>
         </DialogContent>
       </div>
