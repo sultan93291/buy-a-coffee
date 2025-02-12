@@ -67,17 +67,38 @@ function EditProfileForm() {
       currency,
     };
 
-    console.log("Form Data Before Submission:", allRequiredData);
-
     const formData = new FormData();
-    formData.append("name", allRequiredData?.fullName);
-    formData.append("category", allRequiredData?.category);
-    formData.append("what_are_you_creating", allRequiredData?.creating);
-    formData.append("currency", allRequiredData?.currency);
-    formData.append("supporter_visibility", allRequiredData.permission ? 1 : 0);
+    formData.append(
+      "name",
+      allRequiredData?.fullName ? allRequiredData.fullName : loggedInUser.name
+    );
+    formData.append(
+      "category",
+      allRequiredData?.category
+        ? allRequiredData?.category
+        : loggedInUser?.edit_profile?.currency
+    );
+    formData.append(
+      "what_are_you_creating",
+      allRequiredData?.creating
+        ? allRequiredData.creating
+        : loggedInUser?.edit_profile?.what_are_you_creating
+    );
+    formData.append(
+      "currency",
+      allRequiredData?.currency
+        ? allRequiredData.currency
+        : loggedInUser?.edit_profile?.currency
+    );
+    formData.append(
+      "supporter_visibility",
+      allRequiredData.permission ? 1 : loggedInUser.supporter_visibility ?? 0
+    );
 
     if (profileFile) formData.append("avatar", profileFile);
     if (CoverFile) formData.append("cover_photo", CoverFile);
+
+    console.log(...formData, "this is the payload data");
 
     try {
       const response = await editProfileInfo(formData).unwrap(); // ✅ Call the mutation properly
@@ -136,9 +157,6 @@ function EditProfileForm() {
   };
 
   useEffect(() => {
-    console.log("LoggedInUser updated:", loggedInUser);
-    console.log("Image Base URL:", imgBaseUrl);
-
     if (loggedInUser) {
       reset({
         fullName: loggedInUser.name || "",
