@@ -212,14 +212,18 @@ function Top({ title }) {
                   navName={"Support"}
                   Icon={MdOutlineContactSupport}
                 ></CommonLink>
-                <CommonLink
+                <div
                   onClick={() => {
                     handleLogout();
                   }}
-                  path={"/"}
-                  navName={"Log Out"}
-                  Icon={LuLogOut}
-                ></CommonLink>
+                >
+                  <CommonLink
+                    path={"/"}
+                    navName={"Log Out"}
+                    Icon={LuLogOut}
+                    isLogOut={true}
+                  ></CommonLink>
+                </div>
               </div>
             </div>
           </div>
