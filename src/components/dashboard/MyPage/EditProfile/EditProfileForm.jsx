@@ -76,7 +76,7 @@ function EditProfileForm() {
       "category",
       allRequiredData?.category
         ? allRequiredData?.category
-        : loggedInUser?.edit_profile?.currency
+        : loggedInUser?.edit_profile?.category
     );
     formData.append(
       "what_are_you_creating",

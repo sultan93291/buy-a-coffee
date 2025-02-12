@@ -9,6 +9,9 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaFacebookSquare } from "react-icons/fa";
+import { BiLogoInstagramAlt } from "react-icons/bi";
 
 function SharePopup({ isProfilePage }) {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
@@ -27,6 +30,25 @@ function SharePopup({ isProfilePage }) {
         toast("Failed to copy!"), { position: "center" };
         console.error("Could not copy text: ", err);
       });
+  };
+
+  const handleTwitterRedirect = () => {
+    const url = fullLocation; // Replace with your actual URL
+    const text = "Check this out!"; // Replace with your custom message
+    const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+      url
+    )}&text=${encodeURIComponent(text)}`;
+
+    window.open(twitterShareUrl, "_blank");
+  };
+
+  const handleFacebookRedirect = () => {
+    const url = fullLocation; // Replace with your actual URL
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      url
+    )}`;
+
+    window.open(facebookShareUrl, "_blank");
   };
 
   return (
@@ -86,8 +108,21 @@ function SharePopup({ isProfilePage }) {
             className="px-4 py-4 focus:outline-none w-full border rounded-full bg-gray-50 "
             id=""
           />
-
-          <button
+          <div className="flex flex-row items-center gap-x-4 ">
+            <FaSquareXTwitter
+              onClick={() => {
+                handleTwitterRedirect();
+              }}
+              className="text-[22px] cursor-pointer "
+            />
+            <FaFacebookSquare
+              onClick={() => {
+                handleFacebookRedirect();
+              }}
+              className="text-[22px] text-[#1877F2] cursor-pointer "
+            />
+          </div>
+          {/* <button
             onClick={copyToClipboard}
             className="flex items-center gap-2 px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold text-sm"
           >
@@ -110,7 +145,7 @@ function SharePopup({ isProfilePage }) {
               />
             </svg>
             Copy to Clipboard
-          </button>
+          </button> */}
         </div>
       </DialogContent>
     </Dialog>
