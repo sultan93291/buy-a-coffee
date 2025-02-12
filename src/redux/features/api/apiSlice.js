@@ -152,6 +152,23 @@ export const apiSlice = createApi({
       }),
       providesTags: ["posts"],
     }),
+
+    createPayment: builder.mutation({
+      query: data => ({
+        url: `/membership`,
+        method: "POST",
+        data: data,
+        includeToken: true,
+      }),
+    }),
+
+    createMemberShip: builder.mutation({
+      query: data => ({
+        url: `/membership`,
+        method: "POST",
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -172,7 +189,9 @@ export const {
   useGetSingleCreatorProfileQuery,
   useCreatePostMutation,
   useGetUserPostQuery,
-  useGetUserPostsByIdQuery
+  useGetUserPostsByIdQuery,
+  useCreateMemberShipMutation,
+  useCreatePaymnetMutation,
 } = apiSlice;
 
 // all okay ready to go again...
