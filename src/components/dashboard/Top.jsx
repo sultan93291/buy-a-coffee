@@ -25,6 +25,7 @@ import { useLogOutProfileIntentMutation } from "@/redux/features/api/apiSlice";
 import toast from "react-hot-toast";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { useSelector } from "react-redux";
+import { LuLogOut } from "react-icons/lu";
 
 function Top({ title }) {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -134,7 +135,7 @@ function Top({ title }) {
             : "-translate-x-[150%] transition-all duration-300 -z-10 opacity-0"
         } absolute transition-all duration-300 px-8 py-4 -z-10 top-[78px] left-0 bg-white rounded-lg`}
       >
-        <div className="w-full h-[86vh] md:w-[500px] p-6">
+        <div className="w-full h-[86vh] overflow-y-scroll md:w-[500px] p-6">
           <div className="pt-0">
             {/* home */}
             <div className="flex items-center flex-col gap-2 w-full ">
@@ -210,6 +211,14 @@ function Top({ title }) {
                   path={"/dashboard/support"}
                   navName={"Support"}
                   Icon={MdOutlineContactSupport}
+                ></CommonLink>
+                <CommonLink
+                  onClick={() => {
+                    handleLogout();
+                  }}
+                  path={"/"}
+                  navName={"Log Out"}
+                  Icon={LuLogOut}
                 ></CommonLink>
               </div>
             </div>

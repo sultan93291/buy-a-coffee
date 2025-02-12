@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
-import { BiLogoInstagramAlt } from "react-icons/bi";
+
 
 function SharePopup({ isProfilePage }) {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
@@ -34,7 +34,7 @@ function SharePopup({ isProfilePage }) {
 
   const handleTwitterRedirect = () => {
     const url = fullLocation; // Replace with your actual URL
-    const text = "Check this out!"; // Replace with your custom message
+    const text = "Follow me on buy a cofee!"; // Replace with your custom message
     const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
       url
     )}&text=${encodeURIComponent(text)}`;
@@ -113,7 +113,7 @@ function SharePopup({ isProfilePage }) {
               onClick={() => {
                 handleTwitterRedirect();
               }}
-              className="text-[22px] cursor-pointer "
+              className="text-[22px] cursor cursor-pointer "
             />
             <FaFacebookSquare
               onClick={() => {
