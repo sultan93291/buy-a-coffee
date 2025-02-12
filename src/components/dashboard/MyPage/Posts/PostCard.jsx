@@ -27,7 +27,6 @@ function PostCard({ data }) {
     }
   }, [data]); // Runs when `data` changes
 
-
   return (
     <div className="lg:flex-row flex flex-col gap-4 lg:p-6 p-4 bg-gray-50 rounded-xl h-full">
       <div className="lg:w-3/12 w-full overflow-hidden h-[300px] lg:h-full rounded-xl">
@@ -58,13 +57,7 @@ function PostCard({ data }) {
         )}
       </div>
       <div className="flex flex-col h-fit lg:h-full">
-        <h3 className="text-textDark font-bold pb-3 text-xl">
-          2024 California Classic Summer League
-        </h3>
-        <p className="text-textColor ">
-          Bryce McGowens scores a game-high 20 points and Jake Stephens adds 14
-          points ...more...
-        </p>
+        <p className="text-textColor ">{data?.title}</p>
       </div>
     </div>
   );
