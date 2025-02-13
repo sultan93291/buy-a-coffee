@@ -104,8 +104,8 @@ function StepsSignupPage() {
         <div className="auth-box">
           {step === 1 && (
             <div>
-              <div className="pb-10 border-b border-[rgba(113,113,113,0.12)]">
-                <h2 className="auth-header text-left text-ellipsis   ">Choose your profile picture</h2>
+              <div className="pb-10 border-b  border-[rgba(113,113,113,0.12)]">
+                <h2 className="auth-header text-center   ">Choose your profile picture</h2>
                 <input
                   type="file"
                   id="userAvatar"
