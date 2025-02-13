@@ -37,7 +37,7 @@ function Search({ onSearch, searchTerm }) {
       <div className="relative">
         <input
           {...register("creatorSearch")}
-          className="lg:py-5 py-3 pl-[60px] pr-3 text-sm border border-[rgba(113,113,113,0.12)] rounded-[100px] lg:text-base text-headingColor w-full focus:outline-none"
+          className="lg:py-5 py-3 pl-[60px] pr-[110px] lg:pr-3 text-sm border border-[rgba(113,113,113,0.12)] rounded-[100px] lg:text-base text-headingColor w-full focus:outline-none"
           type="text"
           name="creatorSearch"
           id="creatorSearch"

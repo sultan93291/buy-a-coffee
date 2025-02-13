@@ -43,7 +43,7 @@ function ChangesPasswordForm() {
       {/* input group  */}
       <div className="mt-4">
         <label htmlFor="prevPass" className="input-label">
-          Prvious password
+          Pervious password
         </label>
         <input
           className={`input-control ${

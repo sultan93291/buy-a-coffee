@@ -71,9 +71,6 @@ function EditProfileForm() {
       category,
       currency,
     };
-
-    return console.log(allRequiredData);
-
     const formData = new FormData();
     formData.append(
       "name",
@@ -546,18 +543,24 @@ function EditProfileForm() {
             </div>
 
             <div className="flex justify-end pt-4 px-8">
-              <button
-                disabled={isLoading}
-                type="submit"
-                className={`text-sm px-6 py-3 rounded-full duration-300  ease-in-out  font-semibold `}
-                style={buttonStyles}
-              >
-                {isLoading ? (
-                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
-                ) : (
-                  "Save changes"
-                )}
-              </button>
+              <DialogClose>
+                <button
+                  disabled={isLoading}
+                  type="submit"
+                  className={`text-sm px-6 py-3 rounded-full duration-300  ease-in-out  font-semibold `}
+                  style={buttonStyles}
+                >
+                  {isLoading ? (
+                    <BeatLoader
+                      size={10}
+                      color={"#000"}
+                      speedMultiplier={0.5}
+                    />
+                  ) : (
+                    "Save changes"
+                  )}
+                </button>
+              </DialogClose>
             </div>
           </form>
         </div>
