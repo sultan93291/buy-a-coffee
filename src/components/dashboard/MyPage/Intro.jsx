@@ -82,6 +82,20 @@ function Intro({ isMe, IntroData }) {
     }
   };
 
+
+  const [hovered, setHovered] = useState(false);
+  
+  const BtnColor = useSelector(state => state.btnReducer.btnColor);
+
+  const defaultColor = "#99FF6D";
+  const buttonColor = BtnColor || defaultColor; // If BtnColor is undefined, use the default color
+
+  const buttonStyles = {
+    backgroundColor: hovered ? "transparent" : buttonColor, // Transparent on hover, btn color otherwise
+    border: `2px solid ${hovered ? buttonColor : "transparent"}`, // Border is always there, but only shows color on hover
+    color: hovered ? buttonColor : "#000", // Text color on hover and default text color (black)
+  };
+
   return (
     <div className="lg:p-6 p-4 rounded-xl h-full flex flex-col justify-between bg-white border">
       <Title title={"Intro:"}></Title>
@@ -107,7 +121,7 @@ function Intro({ isMe, IntroData }) {
           <div className="pt-4">
             <Dialog>
               <DialogTrigger asChild className="w-full">
-                <button className="w-full rounded-full bg-primaryColor text-textDark font-bold  py-4">
+                <button style={buttonStyles} className="w-full rounded-full  text-textDark font-bold  py-4">
                   Edit Featured
                 </button>
               </DialogTrigger>
@@ -181,9 +195,10 @@ function Intro({ isMe, IntroData }) {
                       onClick={() => {
                         handleFeatureBioUpdate();
                       }}
+                      style={buttonStyles}
                       disabled={isLoading}
                       type="submit"
-                      className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold "
+                      className="text-sm px-6 py-3 rounded-full font-semibold "
                     >
                       {isLoading ? (
                         <BeatLoader

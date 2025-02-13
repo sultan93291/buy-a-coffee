@@ -18,11 +18,12 @@ import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEditUserProfileInfoMutation } from "@/redux/features/api/apiSlice";
 import toast from "react-hot-toast";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { BeatLoader } from "react-spinners";
+import { SetThemeColor } from "@/redux/features/BtnColorSlice";
 
 function EditProfileForm() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
@@ -32,6 +33,7 @@ function EditProfileForm() {
     useEditUserProfileInfoMutation();
 
   const { fetchData } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -58,6 +60,7 @@ function EditProfileForm() {
   const [profileFile, setprofileFile] = useState();
   const [CoverFile, setCoverFile] = useState();
   const selectedTheme = watch("themeColor");
+  const [hovered, setHovered] = useState(false);
 
   const onSubmit = async data => {
     const allRequiredData = {
@@ -168,7 +171,21 @@ function EditProfileForm() {
     teal: "#26B0A1",
     pink: "#F78EFF",
     yellow: "#FFDD00",
+    green: "#99FF6D",
   };
+
+  useEffect(() => {
+    // Log the selected theme color
+    console.log(themeColors[selectedTheme]);
+
+    // Check if the selected theme color is not an empty string and is not undefined
+    if (
+      themeColors[selectedTheme] !== "" &&
+      themeColors[selectedTheme] !== undefined
+    ) {
+      dispatch(SetThemeColor(themeColors[selectedTheme]));
+    }
+  }, [selectedTheme, dispatch]);
 
   useEffect(() => {
     if (loggedInUser) {
@@ -188,10 +205,24 @@ function EditProfileForm() {
     }
   }, [loggedInUser, reset, imgBaseUrl]);
 
+  const BtnColor = useSelector(state => state.btnReducer.btnColor);
+
+  const defaultColor = "#99FF6D";
+  const buttonColor = BtnColor || defaultColor; // If BtnColor is undefined, use the default color
+
+  const buttonStyles = {
+    backgroundColor: hovered ? "transparent" : buttonColor, // Transparent on hover, btn color otherwise
+    border: `2px solid ${hovered ? buttonColor : "transparent"}`, // Border is always there, but only shows color on hover
+    color: hovered ? buttonColor : "#000", // Text color on hover and default text color (black)
+  };
+
   return (
     <Dialog className="">
       <DialogTrigger asChild className="w-full">
-        <button className="lg:px-12 px-14 py-3 bg-primaryColor rounded-full text-textDark font-bold text-sm lg:text-sm">
+        <button
+          style={buttonStyles}
+          className="lg:px-12 px-14 py-3   rounded-full font-bold text-sm lg:text-sm"
+        >
           Edit Profile
         </button>
       </DialogTrigger>
@@ -518,7 +549,8 @@ function EditProfileForm() {
               <button
                 disabled={isLoading}
                 type="submit"
-                className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold "
+                className={`text-sm px-6 py-3 rounded-full duration-300  ease-in-out  font-semibold `}
+                style={buttonStyles}
               >
                 {isLoading ? (
                   <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />

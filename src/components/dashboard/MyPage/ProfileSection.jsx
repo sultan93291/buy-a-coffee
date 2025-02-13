@@ -9,8 +9,20 @@ function ProfileSection({ isCreator, isMe, data }) {
   console.log(loggedInUser, "User logged in");
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const [follow, setFollow] = useState(false);
+    const [hovered, setHovered] = useState(false);
 
   const Searcheduser = data?.data;
+  
+  const BtnColor = useSelector(state => state.btnReducer.btnColor);
+
+  const defaultColor = "#99FF6D";
+  const buttonColor = BtnColor || defaultColor; // If BtnColor is undefined, use the default color
+
+  const buttonStyles = {
+    backgroundColor: hovered ? "transparent" : buttonColor, // Transparent on hover, btn color otherwise
+    border: `2px solid ${hovered ? buttonColor : "transparent"}`, // Border is always there, but only shows color on hover
+    color: hovered ? buttonColor : "#000", // Text color on hover and default text color (black)
+  };
 
   return (
     <div className={`${isMe ? "mt-6 " : " mb-[30px] lg:mb-[130px]"}`}>

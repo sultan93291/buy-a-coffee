@@ -1,21 +1,37 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoSearchOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
-function Search({onSearch, searchTerm}) {
+
+function Search({ onSearch, searchTerm }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    onSearch(data.creatorSearch)
+  const onSubmit = data => {
+    onSearch(data.creatorSearch);
     console.log(data.creatorSearch);
-    
   };
-  const handleSearchOnChange = (e) => {
-    onSearch(e.target.value)
-  }
+  const handleSearchOnChange = e => {
+    onSearch(e.target.value);
+  };
+
+  const [hovered, setHovered] = useState(false);
+
+  const BtnColor = useSelector(state => state.btnReducer.btnColor);
+
+  const defaultColor = "#99FF6D";
+  const buttonColor = BtnColor || defaultColor; // If BtnColor is undefined, use the default color
+
+  const buttonStyles = {
+    backgroundColor: hovered ? "transparent" : buttonColor, // Transparent on hover, btn color otherwise
+    border: `2px solid ${hovered ? buttonColor : "transparent"}`, // Border is always there, but only shows color on hover
+    color: hovered ? buttonColor : "#000", // Text color on hover and default text color (black)
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative">
@@ -30,8 +46,9 @@ function Search({onSearch, searchTerm}) {
           onChange={handleSearchOnChange}
         />
         <button
+          style={buttonStyles}
           type="submit"
-          className="absolute py-[8px] text-sm lg:text-base lg:py-[10px] px-4 rounded-[100px] bg-primaryColor font-bold text-headingColor top-1/2 translate-y-[-50%] right-3"
+          className="absolute py-[8px] text-sm lg:text-base lg:py-[10px] px-4 rounded-[100px]  font-bold text-headingColor top-1/2 translate-y-[-50%] right-3"
         >
           Search
         </button>

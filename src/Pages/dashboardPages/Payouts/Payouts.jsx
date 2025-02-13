@@ -4,13 +4,26 @@ import thunderImg from "../../../assets/images/thunder.svg";
 import cardIcon from "../../../assets/images/card.svg";
 import { Link } from "react-router-dom";
 import { useConnectStripeAccountMutation } from "@/redux/features/api/apiSlice";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
+
 function Payouts() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
+  const [hovered, setHovered] = useState(false);
+
+  const BtnColor = useSelector(state => state.btnReducer.btnColor);
+
+  const defaultColor = "#99FF6D";
+  const buttonColor = BtnColor || defaultColor; // If BtnColor is undefined, use the default color
+
+  const buttonStyles = {
+    backgroundColor: hovered ? "transparent" : buttonColor, // Transparent on hover, btn color otherwise
+    border: `2px solid ${hovered ? buttonColor : "transparent"}`, // Border is always there, but only shows color on hover
+    color: hovered ? buttonColor : "#000", // Text color on hover and default text color (black)
+  };
 
   const [connectStripe, { data, isLoading, error }] =
     useConnectStripeAccountMutation();
@@ -78,8 +91,9 @@ function Payouts() {
             }}
           >
             <Link
+              style={buttonStyles}
               to={""}
-              className="flex items-center gap-[10px] py-4 px-8 rounded-[60px] bg-primaryColor text-headingColor w-fit mx-auto font-bold mt-9"
+              className="flex items-center gap-[10px] py-4 px-8 rounded-[60px]  text-headingColor w-fit mx-auto font-bold mt-9"
             >
               <img src={cardIcon} alt="cardIcon" />
               <p>Connect Stripe</p>
