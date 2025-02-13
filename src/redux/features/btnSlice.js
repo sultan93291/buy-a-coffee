@@ -4,12 +4,12 @@ import { createSlice } from "@reduxjs/toolkit";
 // Initial state for user data
 const initialState = {
   // Ensure we handle the case where the color might not be found in localStorage
-  btnColor: localStorage.getItem("btnColor") , // Default color if not set in localStorage
+  btnColor: localStorage.getItem("btnColor"), // Default color if not set in localStorage
 };
 
 // Create slice with actions and reducers
-const btnColorSlice = createSlice({
-  name: "btnColorSlice",
+const btnSlice = createSlice({
+  name: "btnSlice",
   initialState,
   reducers: {
     SetThemeColor: (state, action) => {
@@ -26,7 +26,7 @@ const btnColorSlice = createSlice({
 });
 
 // Export actions
-export const { SetThemeColor, removeBtnColor } = btnColorSlice.actions;
+export const { SetThemeColor, removeBtnColor } = btnSlice.actions;
 
 // Export reducer to be added to the store
-export default btnColorSlice.reducer;
+export default btnSlice.reducer;

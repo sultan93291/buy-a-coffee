@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./features/api/apiSlice";
 import userDocSlice from "./features/userDocSlice";
-import btnSlice from "./features/BtnColorSlice";
+import btnSlice from "./features/btnSlice";
 
 export const store = configureStore({
   reducer: {
