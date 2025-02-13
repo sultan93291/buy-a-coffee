@@ -37,6 +37,7 @@ function EditProfileForm() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -56,6 +57,7 @@ function EditProfileForm() {
   const [currency, setCurrency] = useState("");
   const [profileFile, setprofileFile] = useState();
   const [CoverFile, setCoverFile] = useState();
+  const selectedTheme = watch("themeColor");
 
   const onSubmit = async data => {
     const allRequiredData = {
@@ -66,6 +68,8 @@ function EditProfileForm() {
       category,
       currency,
     };
+
+    return console.log(allRequiredData);
 
     const formData = new FormData();
     formData.append(
@@ -154,6 +158,16 @@ function EditProfileForm() {
     console.log(checked);
 
     setPermission(checked);
+  };
+
+  const themeColors = {
+    orange: "#FF813F",
+    blue: "#5F7FFF",
+    purple: "#BD5FFF",
+    red: "#FF5F5F",
+    teal: "#26B0A1",
+    pink: "#F78EFF",
+    yellow: "#FFDD00",
   };
 
   useEffect(() => {
@@ -343,7 +357,7 @@ function EditProfileForm() {
                 </Select>
               </div>
               {/* creating */}
-              <div className="flex flex-col gap-2.5">
+              {/* <div className=" hidden flex-col gap-2.5">
                 <label
                   className="text-textColor font-semibold "
                   htmlFor="creating"
@@ -357,7 +371,7 @@ function EditProfileForm() {
                   id="creating"
                   {...register("creating", { required: true })}
                 />
-              </div>
+              </div> */}
               {/* currency */}
               <div className="flex flex-col gap-2.5">
                 <label
@@ -382,64 +396,38 @@ function EditProfileForm() {
               </div>
 
               {/* choose theme */}
-              {/* <div className="flex flex-col gap-2.5">
+              <div className="flex flex-col gap-2.5">
                 <label
-                  className="text-textColor font-semibold "
+                  className="text-textColor font-semibold"
                   htmlFor="themeColor"
                 >
-                  Chose a theme of your page
+                  Choose a theme of your page
                 </label>
                 <div className="flex items-center gap-2">
-                  <input
-                    className="appearance-none size-8 cursor-pointer bg-teal-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
-                    type="radio"
-                    name="themeColor"
-                    value={"teal"}
-                    id=""
-                    {...register("themeColor", { required: true })}
-                  />
-                  <input
-                    className="appearance-none size-8 cursor-pointer bg-green-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
-                    type="radio"
-                    name="themeColor"
-                    value={"green"}
-                    id=""
-                    {...register("themeColor", { required: true })}
-                  />
-                  <input
-                    className="appearance-none size-8 cursor-pointer bg-pink-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
-                    type="radio"
-                    name="themeColor"
-                    value={"pink"}
-                    id=""
-                    {...register("themeColor", { required: true })}
-                  />
-                  <input
-                    className="appearance-none size-8 cursor-pointer bg-orange-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
-                    type="radio"
-                    name="themeColor"
-                    value={"orange"}
-                    id=""
-                    {...register("themeColor", { required: true })}
-                  />
-                  <input
-                    className="appearance-none size-8 cursor-pointer bg-yellow-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
-                    type="radio"
-                    value={"yellow"}
-                    name="themeColor"
-                    id=""
-                    {...register("themeColor", { required: true })}
-                  />
-                  <input
-                    className="appearance-none size-8 cursor-pointer bg-blue-400 checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
-                    type="radio"
-                    value={"blue"}
-                    name="themeColor"
-                    id=""
-                    {...register("themeColor", { required: true })}
-                  />
+                  {Object.entries(themeColors).map(([key, color]) => (
+                    <input
+                      key={key}
+                      className="appearance-none size-8 cursor-pointer checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
+                      type="radio"
+                      name="themeColor"
+                      value={key}
+                      style={{ backgroundColor: color }}
+                      {...register("themeColor", { required: true })}
+                    />
+                  ))}
                 </div>
-              </div> */}
+
+                {/* Show selected theme color */}
+                {selectedTheme && (
+                  <p className="mt-2 text-sm font-medium">
+                    Selected Theme:{" "}
+                    <span style={{ color: themeColors[selectedTheme] }}>
+                      {selectedTheme.toUpperCase()} (
+                      {themeColors[selectedTheme]})
+                    </span>
+                  </p>
+                )}
+              </div>
               {/* toggle */}
               <div className="flex items-center pt-2 gap-3">
                 <Switch onCheckedChange={handleCheckedChange} />

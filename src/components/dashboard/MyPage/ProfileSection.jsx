@@ -38,8 +38,8 @@ function ProfileSection({ isCreator, isMe, data }) {
                 </h3>
                 <h4 className="lg:text-base font-medium text-textColor text-xs">
                   {!isMe
-                    ? Searcheduser?.edit_profile?.what_are_you_creating
-                    : loggedInUser?.edit_profile?.what_are_you_creating}
+                    ? Searcheduser?.edit_profile?.category
+                    : loggedInUser?.edit_profile?.category}
                 </h4>
                 <div className="flex items-center gap-2">
                   <h4 className="text-textColor lg:text-sm text-xs  font-medium">
