@@ -17,7 +17,7 @@ function Explore() {
 
   // Filter creators based on search input
   const filteredSearchData = creators.filter(creator =>
-    creator.name.toLowerCase().includes(searchTerm.toLowerCase())
+    creator?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

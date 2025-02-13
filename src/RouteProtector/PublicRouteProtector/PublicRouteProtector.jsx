@@ -6,7 +6,11 @@ const PublicRouteProtector = ({ children }) => {
   const { isAuthenticated } = useContext(AuthContext);
 
   // Redirect authenticated users to the dashboard
-  return isAuthenticated ? <Navigate to="/dashboard/home" replace /> : children;
+  return isAuthenticated ? (
+    <Navigate to="/dashboard/my-page" replace />
+  ) : (
+    children
+  );
 };
 
 export default PublicRouteProtector;
