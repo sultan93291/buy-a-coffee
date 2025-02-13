@@ -8,8 +8,8 @@ const initialState = {
 };
 
 // Create slice with actions and reducers
-const btnSlice = createSlice({
-  name: "btnSlice",
+const BtnColorSlice = createSlice({
+  name: "BtnColorSlice",
   initialState,
   reducers: {
     SetThemeColor: (state, action) => {
@@ -26,7 +26,7 @@ const btnSlice = createSlice({
 });
 
 // Export actions
-export const { SetThemeColor, removeBtnColor } = btnSlice.actions;
+export const { SetThemeColor, removeBtnColor } = BtnColorSlice.actions;
 
 // Export reducer to be added to the store
-export default btnSlice.reducer;
+export default BtnColorSlice.reducer;
