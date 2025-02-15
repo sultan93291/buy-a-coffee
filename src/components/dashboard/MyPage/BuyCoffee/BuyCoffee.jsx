@@ -2,9 +2,8 @@ import { useState } from "react";
 import Title from "../Title";
 import { useSelector } from "react-redux";
 
-
-function BuyCoffee() {
-    const [hovered, setHovered] = useState(false);
+function BuyCoffee({ isFullwidth }) {
+  const [hovered, setHovered] = useState(false);
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
 
   const defaultColor = "#99FF6D";
@@ -30,7 +29,11 @@ function BuyCoffee() {
   console.log(buyType);
 
   return (
-    <div className="lg:p-6 lg:min-w-[496px] p-4 rounded-xl flex h-full flex-col justify-between bg-white border space-y-4">
+    <div
+      className={`lg:p-6 ${
+        isFullwidth && "lg:w-[496px]"
+      }  p-4 rounded-xl flex h-full flex-col justify-between bg-white border space-y-4`}
+    >
       <Title title={"Buy a Coffee for Zaan:"}></Title>
       <div className="flex gap-4 pt-0 items-center">
         {buyCoffeOptions.map((option, index) => (

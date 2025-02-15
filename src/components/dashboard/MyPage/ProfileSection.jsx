@@ -2,17 +2,17 @@ import { useState } from "react";
 import EditProfileForm from "./EditProfile/EditProfileForm";
 import { useSelector } from "react-redux";
 import SharePopup from "../HomePage/SharePopup";
-
+import cover from "../../../assets/images/default.png";
 
 function ProfileSection({ isCreator, isMe, data }) {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   console.log(loggedInUser, "User logged in");
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const [follow, setFollow] = useState(false);
-    const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const Searcheduser = data?.data;
-  
+
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
 
   const defaultColor = "#99FF6D";
@@ -24,16 +24,23 @@ function ProfileSection({ isCreator, isMe, data }) {
     color: hovered ? buttonColor : "#000", // Text color on hover and default text color (black)
   };
 
+  const backgroundImage = `${
+    !isMe
+      ? `${imgBaseUrl}/${Searcheduser?.edit_profile?.cover_photo}`
+      : `${imgBaseUrl}/${loggedInUser?.edit_profile?.cover_photo}`
+  }`;
+
   return (
     <div className={`${isMe ? "mt-6 " : " mb-[30px] lg:mb-[130px]"}`}>
       {/* background Cover */}
       <div
         style={{
-          backgroundImage: `url(${imgBaseUrl}/${
-            !isMe
-              ? Searcheduser?.edit_profile?.cover_photo
-              : loggedInUser?.edit_profile?.cover_photo
-          })`,
+          backgroundImage: `${
+            Searcheduser?.edit_profile?.cover_photo ||
+            loggedInUser?.edit_profile?.cover_photo
+              ? `url(${backgroundImage})`
+              : `url(${cover})`
+          }`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",

@@ -218,7 +218,7 @@ function EditProfileForm() {
       <DialogTrigger asChild className="w-full">
         <button
           style={buttonStyles}
-          className="lg:px-12 px-14 py-3   rounded-full font-bold text-sm lg:text-sm"
+          className="lg:px-12 px-[30px] py-3 text-ellipsis rounded-full font-bold text-[12px] lg:text-sm"
         >
           Edit Profile
         </button>

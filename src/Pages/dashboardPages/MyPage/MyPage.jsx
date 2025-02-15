@@ -25,7 +25,9 @@ function MyPage() {
           {/* column */}
           <Intro isMe={true}></Intro>
           {/* column */}
-          <BuyCoffee></BuyCoffee>
+          <div className="lg:w-[496px]">
+            <BuyCoffee isFullwidth={true} ></BuyCoffee>
+          </div>
           <CreatePost></CreatePost>
         </div>
         {/* column */}
