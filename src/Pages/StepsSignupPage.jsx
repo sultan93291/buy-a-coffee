@@ -94,7 +94,7 @@ function StepsSignupPage() {
 
   return (
     <div className="flex items-start">
-      <div className="w-[40%] hidden lg:block">
+      <div className="w-[40%] hidden xl:block">
         <AuthLeft />
       </div>
       <form
@@ -105,7 +105,9 @@ function StepsSignupPage() {
           {step === 1 && (
             <div>
               <div className="pb-10 border-b  border-[rgba(113,113,113,0.12)]">
-                <h2 className="auth-header text-center   ">Choose your profile picture</h2>
+                <h2 className="auth-header text-center   ">
+                  Choose your profile picture
+                </h2>
                 <input
                   type="file"
                   id="userAvatar"
@@ -166,17 +168,29 @@ function StepsSignupPage() {
                 </div>
                 {errors.displayName && <span>This field is required</span>}
               </div>
-              <button
-                disabled={isLoading}
-                type="submit"
-                className="w-full text-center mt-7 md:mt-10"
-              >
-                {isLoading ? (
-                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
-                ) : (
-                  <ButtonPrimary text="Submit" />
-                )}
-              </button>
+              <div className="flex flex-row gap-x-4 justify-between ">
+                <div
+                  className="w-full text-center cursor-pointer mt-7 md:mt-10"
+                  onClick={prevStep}
+                >
+                  <ButtonPrimary text="Previous"  />
+                </div>
+                <button
+                  disabled={isLoading}
+                  type="submit"
+                  className="w-full text-center mt-7 md:mt-10"
+                >
+                  {isLoading ? (
+                    <BeatLoader
+                      size={10}
+                      color={"#000"}
+                      speedMultiplier={0.5}
+                    />
+                  ) : (
+                    <ButtonPrimary text="Submit" />
+                  )}
+                </button>
+              </div>
             </div>
           )}
         </div>

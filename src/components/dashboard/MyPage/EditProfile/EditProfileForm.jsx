@@ -424,7 +424,8 @@ function EditProfileForm() {
               </div>
 
               {/* choose theme */}
-              <div className="flex flex-col gap-2.5">
+
+              {/* <div className="flex flex-col gap-2.5">
                 <label
                   className="text-textColor font-semibold"
                   htmlFor="themeColor"
@@ -446,7 +447,7 @@ function EditProfileForm() {
                 </div>
 
                 {/* Show selected theme color */}
-                {selectedTheme && (
+                {/* {selectedTheme && (
                   <p className="mt-2 text-sm font-medium">
                     Selected Theme:{" "}
                     <span style={{ color: themeColors[selectedTheme] }}>
@@ -455,7 +456,9 @@ function EditProfileForm() {
                     </span>
                   </p>
                 )}
-              </div>
+              </div> */} 
+
+
               {/* toggle */}
               <div className="flex items-center pt-2 gap-3">
                 <Switch onCheckedChange={handleCheckedChange} />
