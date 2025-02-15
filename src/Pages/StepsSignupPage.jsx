@@ -173,22 +173,26 @@ function StepsSignupPage() {
                   className="w-full text-center cursor-pointer mt-7 md:mt-10"
                   onClick={prevStep}
                 >
-                  <ButtonPrimary text="Previous"  />
+                  <ButtonPrimary text="Previous" />
                 </div>
                 <button
                   disabled={isLoading}
                   type="submit"
                   className="w-full text-center mt-7 md:mt-10"
                 >
-                  {isLoading ? (
-                    <BeatLoader
-                      size={10}
-                      color={"#000"}
-                      speedMultiplier={0.5}
-                    />
-                  ) : (
-                    <ButtonPrimary text="Submit" />
-                  )}
+                  <ButtonPrimary
+                    text={
+                      isLoading ? (
+                        <BeatLoader
+                          size={10}
+                          color={"#000"}
+                          speedMultiplier={0.5}
+                        />
+                      ) : (
+                        "Submit"
+                      )
+                    }
+                  />
                 </button>
               </div>
             </div>

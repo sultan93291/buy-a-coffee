@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { useSelector } from "react-redux";
 import { useContext, useEffect, useState } from "react";
@@ -82,9 +83,8 @@ function Intro({ isMe, IntroData }) {
     }
   };
 
-
   const [hovered, setHovered] = useState(false);
-  
+
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
 
   const defaultColor = "#99FF6D";
@@ -121,7 +121,10 @@ function Intro({ isMe, IntroData }) {
           <div className="pt-4">
             <Dialog>
               <DialogTrigger asChild className="w-full">
-                <button style={buttonStyles} className="w-full rounded-full  text-textDark font-bold  py-4">
+                <button
+                  style={buttonStyles}
+                  className="w-full rounded-full  text-textDark font-bold  py-4"
+                >
                   Edit Featured
                 </button>
               </DialogTrigger>
@@ -191,25 +194,27 @@ function Intro({ isMe, IntroData }) {
                   </div>
 
                   <div className="flex justify-end pt-4">
-                    <button
-                      onClick={() => {
-                        handleFeatureBioUpdate();
-                      }}
-                      style={buttonStyles}
-                      disabled={isLoading}
-                      type="submit"
-                      className="text-sm px-6 py-3 rounded-full font-semibold "
-                    >
-                      {isLoading ? (
-                        <BeatLoader
-                          size={10}
-                          color={"#000"}
-                          speedMultiplier={0.5}
-                        />
-                      ) : (
-                        "Save changes"
-                      )}
-                    </button>
+                    <DialogClose>
+                      <button
+                        onClick={() => {
+                          handleFeatureBioUpdate();
+                        }}
+                        style={buttonStyles}
+                        disabled={isLoading}
+                        type="submit"
+                        className="text-sm px-6 py-3 rounded-full font-semibold "
+                      >
+                        {isLoading ? (
+                          <BeatLoader
+                            size={10}
+                            color={"#000"}
+                            speedMultiplier={0.5}
+                          />
+                        ) : (
+                          "Save changes"
+                        )}
+                      </button>
+                    </DialogClose>
                   </div>
                 </div>
               </DialogContent>

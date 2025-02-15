@@ -34,13 +34,17 @@ function MyPage() {
       <div className="lg:p-6 p-4 mt-6 rounded-xl  bg-white border">
         <Title title={"Posts:"}></Title>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[800px] lg:h-[300px] overflow-y-scroll scrollbar-hide">
-          {PostDataArr.slice()
-            .reverse()
-            .map((item, index) => {
-              return <PostCard data={item} key={item?.id}></PostCard>;
-            })}
-        </div>
+        {PostDataArr.length > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[800px] lg:h-[300px] overflow-y-scroll scrollbar-hide">
+            {PostDataArr.slice()
+              .reverse()
+              .map((item, index) => {
+                return <PostCard data={item} key={item?.id}></PostCard>;
+              })}
+          </div>
+        ) : (
+          <p> No post available </p>
+        )}
       </div>
     </div>
   );
