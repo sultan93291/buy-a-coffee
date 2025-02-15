@@ -41,13 +41,17 @@ function CreatorProfilePage() {
         <div>
           <Intro IntroData={data} />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[800px] lg:h-[300px] overflow-y-scroll scrollbar-hide">
-          {PostDataArr.slice()
-            .reverse()
-            .map((item, index) => {
-              return <PostCard data={item} key={item?.id}></PostCard>;
-            })}
-        </div>
+        {PostDataArr.length > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[800px] lg:h-[300px] overflow-y-scroll scrollbar-hide">
+            {PostDataArr.slice()
+              .reverse()
+              .map((item, index) => {
+                return <PostCard data={item} key={item?.id}></PostCard>;
+              })}
+          </div>
+        ) : (
+          <p className="my-4" >No post avialable</p>
+        )}
       </div>
     </div>
   );
