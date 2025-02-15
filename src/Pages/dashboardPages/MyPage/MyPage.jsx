@@ -21,16 +21,14 @@ function MyPage() {
       </div>
       <ProfileSection isMe={true} isCreator={false}></ProfileSection>
       <div className=" mt-40 lg:mt-32 grid grid-cols-1  lg:grid-cols-2 gap-4">
-        <div className="">
+        <div className="flex flex-col lg:flex-row gap-y-5 gap-x-4 ">
           {/* column */}
           <Intro isMe={true}></Intro>
           {/* column */}
-          {/* <BuyCoffee></BuyCoffee> */}
-        </div>
-        {/* column */}
-        <div className="h-full">
+          <BuyCoffee></BuyCoffee>
           <CreatePost></CreatePost>
         </div>
+        {/* column */}
       </div>
 
       <div className="lg:p-6 p-4 mt-6 rounded-xl  bg-white border">

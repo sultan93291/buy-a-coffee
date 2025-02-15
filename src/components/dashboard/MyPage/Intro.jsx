@@ -97,7 +97,7 @@ function Intro({ isMe, IntroData }) {
   };
 
   return (
-    <div className="lg:p-6 p-4 rounded-xl h-full flex flex-col justify-between bg-white border">
+    <div className="lg:p-6 lg:min-w-[496px] p-4 rounded-xl h-full flex flex-col justify-between bg-white border">
       <Title title={"Intro:"}></Title>
       <p className="text-textColor font-medium">
         {!isMe
