@@ -12,7 +12,6 @@ import { useLocation } from "react-router-dom";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 
-
 function SharePopup({ isProfilePage }) {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   const location = useLocation();
@@ -20,14 +19,21 @@ function SharePopup({ isProfilePage }) {
   // const [copySuccess, setCopySuccess] = useState('')
 
   const copyToClipboard = () => {
-    const urlToCopy = fullLocation; // You can replace this with dynamic content
+    const urlToCopy = fullLocation; // Make sure this variable is defined
+
+    if (!navigator.clipboard) {
+      toast.error("Clipboard API not supported!");
+      console.error("Clipboard API not available.");
+      return;
+    }
+
     navigator.clipboard
       .writeText(urlToCopy)
       .then(() => {
         toast.success("Copied to clipboard!");
       })
       .catch(err => {
-        toast("Failed to copy!"), { position: "center" };
+        toast.error("Failed to copy!");
         console.error("Could not copy text: ", err);
       });
   };
@@ -52,8 +58,8 @@ function SharePopup({ isProfilePage }) {
   };
 
   return (
-    <Dialog >
-      <div  >
+    <Dialog>
+      <div>
         <DialogTrigger className="w-fit">
           {isProfilePage ? (
             <div className="bg-white cursor-pointer border rounded-full p-2">
@@ -124,29 +130,29 @@ function SharePopup({ isProfilePage }) {
               />
             </div>
             <button
-            onClick={copyToClipboard}
-            className="flex items-center gap-2 px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold text-sm"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="25"
-              viewBox="0 0 24 25"
-              fill="none"
+              onClick={copyToClipboard}
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold text-sm"
             >
-              <path
-                d="M20 16.5C20.2652 16.5 20.5196 16.3946 20.7071 16.2071C20.8946 16.0196 21 15.7652 21 15.5V4.5C21 4.23478 20.8946 3.98043 20.7071 3.79289C20.5196 3.60536 20.2652 3.5 20 3.5H9C8.73478 3.5 8.48043 3.60536 8.29289 3.79289C8.10536 3.98043 8 4.23478 8 4.5V6.5H10V5.5H19V14.5H18V16.5H20Z"
-                fill="#222E48"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M4 8.5C3.73478 8.5 3.48043 8.60536 3.29289 8.79289C3.10536 8.98043 3 9.23478 3 9.5V20.5C3 20.7652 3.10536 21.0196 3.29289 21.2071C3.48043 21.3946 3.73478 21.5 4 21.5H15C15.2652 21.5 15.5196 21.3946 15.7071 21.2071C15.8946 21.0196 16 20.7652 16 20.5V9.5C16 9.23478 15.8946 8.98043 15.7071 8.79289C15.5196 8.60536 15.2652 8.5 15 8.5H4ZM5 19.5V10.5H14V19.5H5Z"
-                fill="#222E48"
-              />
-            </svg>
-            Copy link to Clipboard
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <path
+                  d="M20 16.5C20.2652 16.5 20.5196 16.3946 20.7071 16.2071C20.8946 16.0196 21 15.7652 21 15.5V4.5C21 4.23478 20.8946 3.98043 20.7071 3.79289C20.5196 3.60536 20.2652 3.5 20 3.5H9C8.73478 3.5 8.48043 3.60536 8.29289 3.79289C8.10536 3.98043 8 4.23478 8 4.5V6.5H10V5.5H19V14.5H18V16.5H20Z"
+                  fill="#222E48"
+                />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M4 8.5C3.73478 8.5 3.48043 8.60536 3.29289 8.79289C3.10536 8.98043 3 9.23478 3 9.5V20.5C3 20.7652 3.10536 21.0196 3.29289 21.2071C3.48043 21.3946 3.73478 21.5 4 21.5H15C15.2652 21.5 15.5196 21.3946 15.7071 21.2071C15.8946 21.0196 16 20.7652 16 20.5V9.5C16 9.23478 15.8946 8.98043 15.7071 8.79289C15.5196 8.60536 15.2652 8.5 15 8.5H4ZM5 19.5V10.5H14V19.5H5Z"
+                  fill="#222E48"
+                />
+              </svg>
+              Copy link to Clipboard
+            </button>
           </div>
         </DialogContent>
       </div>
