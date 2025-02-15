@@ -32,11 +32,15 @@ function CreatePost() {
   const handleCratePost = async () => {
     if (!tittle && !file) {
       toast.error("Upload any or post a status");
+      settittle('')
+      setfile(null)
       return;
     }
 
     if (!file) {
       toast.error("Please select a file");
+      settittle('')
+      setfile(null)
       return;
     }
 
@@ -59,6 +63,9 @@ function CreatePost() {
         err?.message || err?.data?.message || "An unknown error occurred";
 
       toast.error(errMessage); // Display the error message in the toast
+    } finally {
+      settittle("");
+      setfile(null)
     }
   };
 
