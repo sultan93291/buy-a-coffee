@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { MdOutlineCloudDownload } from "react-icons/md";
 import { useSelector } from "react-redux";
@@ -33,6 +34,12 @@ function CreatePost() {
       toast.error("Upload any or post a status");
       return;
     }
+
+    if (!file) {
+      toast.error("Please select a file");
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("title", tittle);
@@ -48,7 +55,10 @@ function CreatePost() {
 
       console.log(data);
     } catch (err) {
-      console.log(error);
+      const errMessage =
+        err?.message || err?.data?.message || "An unknown error occurred";
+
+      toast.error(errMessage); // Display the error message in the toast
     }
   };
 
@@ -135,23 +145,25 @@ function CreatePost() {
                     </div>
 
                     <div className="flex justify-end pt-4">
-                      <button
-                        disabled={isLoading}
-                        onClick={() => {
-                          handleCratePost();
-                        }}
-                        className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold "
-                      >
-                        {isLoading ? (
-                          <BeatLoader
-                            size={10}
-                            color={"#000"}
-                            speedMultiplier={0.5}
-                          />
-                        ) : (
-                          "Post"
-                        )}
-                      </button>
+                      <DialogClose>
+                        <button
+                          disabled={isLoading}
+                          onClick={() => {
+                            handleCratePost();
+                          }}
+                          className="text-sm px-6 py-3 rounded-full bg-primaryColor text-textDark font-semibold "
+                        >
+                          {isLoading ? (
+                            <BeatLoader
+                              size={10}
+                              color={"#000"}
+                              speedMultiplier={0.5}
+                            />
+                          ) : (
+                            "Post"
+                          )}
+                        </button>
+                      </DialogClose>
                     </div>
                   </div>
                 </DialogDescription>
@@ -254,7 +266,7 @@ function CreatePost() {
               </div>
             </div>
           </DialogTrigger>
-          <DialogContent className="">
+          <DialogContent className="hidden">
             <DialogHeader>
               <DialogTitle className="p-0 border-b pb-4">
                 <div className="relative">
