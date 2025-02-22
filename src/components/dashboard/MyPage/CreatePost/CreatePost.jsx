@@ -70,7 +70,7 @@ function CreatePost() {
   };
 
   return (
-    <div className=" rounded-xl lg:min-w-[496px] flex-col flex gap-4 space-y-3 h-full">
+    <div className=" rounded-xl xl:min-w-[496px] flex-col flex gap-4 space-y-3 h-full">
       <div className="bg-white lg:p-6 p-4 rounded-xl border space-y-3 h-full">
         <Title title={"Post an update:"}></Title>
         <div className="flex items-center gap-4 border-b pb-4">

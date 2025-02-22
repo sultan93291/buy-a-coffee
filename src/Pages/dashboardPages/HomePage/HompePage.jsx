@@ -56,14 +56,14 @@ function HompePage() {
                     <SelectValue className="text-sm" placeholder="All time" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
+                    <SelectItem value="light">Weekly</SelectItem>
+                    <SelectItem value="dark">Monthly</SelectItem>
+                    <SelectItem value="system">Annual</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            <h3 className="lg:text-4xl text-2xl font-bold text-textDark">$0</h3>
+            <h3 className="lg:text-4xl text-2xl font-bold text-textDark">£0</h3>
           </div>
           <div className="border flex-1 w-full p-6 flex flex-col gap-1 lg:gap-2 rounded-xl ">
             <div className="flex justify-between lg:gap-6 gap-6">
@@ -76,15 +76,15 @@ function HompePage() {
                     <SelectValue placeholder="All time" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
+                    <SelectItem value="light">Weekly</SelectItem>
+                    <SelectItem value="dark">Monthly</SelectItem>
+                    <SelectItem value="system">Annual</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <h3 className="lg:text-4xl text-2xl  font-bold text-textDark">
-              $0
+              £0
             </h3>
           </div>
         </div>

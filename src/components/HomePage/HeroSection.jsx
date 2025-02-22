@@ -50,12 +50,12 @@ function HeroSection() {
         </div>
       </div>
       <div
-        className="relative md:top-[-50px]"
+        className="relative md:top-[50px] xl:top-[-50px] "
         data-aos="fade-up"
         data-aos-delay="300"
       >
         <img
-          className="h-[140px] w-full sm:h-auto object-contain sm:object-cover md:object-cover mt-5 md:mt-0 md:h-[782px] "
+          className=" h-full w-full object-contain  "
           src={HeroImg}
           alt=""
         />

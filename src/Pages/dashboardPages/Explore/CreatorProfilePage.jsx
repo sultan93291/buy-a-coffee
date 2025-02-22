@@ -1,3 +1,4 @@
+import BuyCoffee from "@/components/dashboard/MyPage/BuyCoffee/BuyCoffee";
 import Intro from "@/components/dashboard/MyPage/Intro";
 import PostCard from "@/components/dashboard/MyPage/Posts/PostCard";
 import ProfileSection from "@/components/dashboard/MyPage/ProfileSection";
@@ -38,11 +39,15 @@ function CreatorProfilePage() {
       </div>
       <div>
         <ProfileSection data={data} />
-        <div>
+
+        <div className="flex flex-row gap-x-5  w-full ">
+          <div className="w-full">
+            <BuyCoffee />
+          </div>
           <Intro IntroData={data} />
         </div>
         {PostDataArr.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[800px] lg:h-[300px] overflow-y-scroll scrollbar-hide">
+          <div className="">
             {PostDataArr.slice()
               .reverse()
               .map((item, index) => {
@@ -50,7 +55,7 @@ function CreatorProfilePage() {
               })}
           </div>
         ) : (
-          <p className="my-4" >No post avialable</p>
+          <p className="my-4">No post avialable</p>
         )}
       </div>
     </div>

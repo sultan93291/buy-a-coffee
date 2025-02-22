@@ -9,23 +9,21 @@ import { Toaster } from "react-hot-toast";
 import AuthProvider from "./provider/AuthContextProvider";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-        <Toaster
-          position="top-center" // Toasts will appear at the top-right
-          reverseOrder={false} // Order of toasts
-          toastOptions={{
-            duration: 3000, // Duration of the toast in milliseconds
-            style: {
-              background: "#fff", // Background color of the toast
-              color: "#000", // Text color
-              padding: "16px", // Padding for the toast
-            },
-          }}
-        />
-      </AuthProvider>
-    </Provider>
-  </StrictMode>
+  <Provider store={store}>
+    <AuthProvider>
+      <RouterProvider router={router} />
+      <Toaster
+        position="top-center" // Toasts will appear at the top-right
+        reverseOrder={false} // Order of toasts
+        toastOptions={{
+          duration: 3000, // Duration of the toast in milliseconds
+          style: {
+            background: "#fff", // Background color of the toast
+            color: "#000", // Text color
+            padding: "16px", // Padding for the toast
+          },
+        }}
+      />
+    </AuthProvider>
+  </Provider>
 );

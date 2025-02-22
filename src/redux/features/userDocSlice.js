@@ -6,6 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   userName: "",
   loggedInuser: "",
+  isExploreCreators: false,
 };
 
 // Create slice with actions and reducers
@@ -19,11 +20,14 @@ const userSlice = createSlice({
     setLoggedInUserData: (state, action) => {
       state.loggedInuser = action.payload;
     },
+    setIsExploreCreators: (state,action) => {
+      state.isExploreCreators = action.payload;
+    },
   },
 });
 
 // Export actions
-export const { setUserName, setLoggedInUserData } =
+export const { setUserName, setLoggedInUserData, setIsExploreCreators } =
   userSlice.actions;
 
 // Export reducer to be added to the store

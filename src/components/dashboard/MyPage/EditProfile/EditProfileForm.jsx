@@ -409,16 +409,16 @@ function EditProfileForm() {
                   Currency
                 </label>
                 <Select
-                  defaultValue={loggedInUser?.edit_profile?.currency}
+                  defaultValue={loggedInUser?.edit_profile?.currency || "GBP"} // Set a default value
                   onValueChange={handleCurrencyValue}
                 >
                   <SelectTrigger className="w-full py-6 bg-gray-50 px-5">
                     <SelectValue placeholder="Select Currency" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="USD">Usd</SelectItem>
+                    <SelectItem value="GBP">GBP</SelectItem>
                     <SelectItem value="EURO">Euro</SelectItem>
-                    <SelectItem value="BDT">Bdt</SelectItem>
+                    <SelectItem value="USD">USD</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -447,7 +447,7 @@ function EditProfileForm() {
                 </div>
 
                 {/* Show selected theme color */}
-                {/* {selectedTheme && (
+              {/* {selectedTheme && (
                   <p className="mt-2 text-sm font-medium">
                     Selected Theme:{" "}
                     <span style={{ color: themeColors[selectedTheme] }}>
@@ -456,8 +456,7 @@ function EditProfileForm() {
                     </span>
                   </p>
                 )}
-              </div> */} 
-
+              </div> */}
 
               {/* toggle */}
               <div className="flex items-center pt-2 gap-3">

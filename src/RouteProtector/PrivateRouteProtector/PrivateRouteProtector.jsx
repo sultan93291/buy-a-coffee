@@ -5,6 +5,7 @@ import { Navigate, useLocation } from "react-router-dom";
 const PrivateRouteProtector = ({ children }) => {
   const { isAuthenticated } = useContext(AuthContext);
   const location = useLocation();
+ 
 
   return isAuthenticated ? (
     children

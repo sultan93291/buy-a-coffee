@@ -16,15 +16,15 @@ function BuyCoffee({ isFullwidth }) {
   };
 
   const [activeIndex, setActiveIndex] = useState(1);
-  const [buyType, setBuyType] = useState("monthly");
-  const [count, setCount] = useState(10);
+  const [buyType, setBuyType] = useState("membership");
+  const [count, setCount] = useState(1);
 
   const handleBuyCoffee = (index, value) => {
     setActiveIndex(index);
     setBuyType(value);
   };
 
-  const buyCoffeOptions = ["one-off", "monthly"];
+  const buyCoffeOptions = ["one-off", "membership"];
 
   console.log(buyType);
 
@@ -115,13 +115,39 @@ function BuyCoffee({ isFullwidth }) {
               />
             </g>
           </svg>
-          <h4 className="text-textColor">$3 each</h4>
+          <h4 className="text-textColor">£3 each</h4>
         </div>
 
         <div className="flex items-center gap-1">
           {buyType === "one-off" && (
             <div
-              onClick={() => setCount(prevState => prevState + 10)}
+              onClick={() =>
+                setCount(prevState => (count > 1 ? prevState - 1 : prevState))
+              }
+              className={` border cursor-pointer p-2 rounded-full`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M15.9199 12.75H7.91992C7.50992 12.75 7.16992 12.41 7.16992 12C7.16992 11.59 7.50992 11.25 7.91992 11.25H15.9199C16.3299 11.25 16.6699 11.59 16.6699 12C16.6699 12.41 16.3399 12.75 15.9199 12.75Z"
+                  fill="#292D32"
+                />
+              </svg>
+            </div>
+          )}
+
+          <h4 className="w-10 h-10 flex justify-center font-medium text-textDark items-center rounded-full border">
+            {buyType === "one-off" && count}
+            {buyType === "membership" && 10}
+          </h4>
+          {buyType === "one-off" && (
+            <div
+              onClick={() => setCount(prevState => prevState + 1)}
               className="border cursor-pointer p-2 rounded-full"
             >
               <svg
@@ -148,39 +174,13 @@ function BuyCoffee({ isFullwidth }) {
               </svg>
             </div>
           )}
-
-          <h4 className="w-10 h-10 flex justify-center font-medium text-textDark items-center rounded-full border">
-            {buyType === "one-off" && count}
-            {buyType === "monthly" && 10}
-          </h4>
-          {buyType === "one-off" && (
-            <div
-              onClick={() =>
-                setCount(prevState => (count > 10 ? prevState - 10 : prevState))
-              }
-              className={` border cursor-pointer p-2 rounded-full`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M15.9199 12.75H7.91992C7.50992 12.75 7.16992 12.41 7.16992 12C7.16992 11.59 7.50992 11.25 7.91992 11.25H15.9199C16.3299 11.25 16.6699 11.59 16.6699 12C16.6699 12.41 16.3399 12.75 15.9199 12.75Z"
-                  fill="#292D32"
-                />
-              </svg>
-            </div>
-          )}
         </div>
       </div>
       <div className="">
         <input
           type="text"
           // defaultValue={count}
-          value={` $ ${count}`}
+          value={`£ ${count}`}
           readOnly
           className=" px-4 text-sm focus:outline-none placeholder:text-textDark font-semibold text-textDark bg-gray-50 w-full py-3 rounded-full border "
           name=""

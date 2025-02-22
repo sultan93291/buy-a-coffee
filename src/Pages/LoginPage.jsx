@@ -12,10 +12,16 @@ import { useLoginUserIntentMutation } from "@/redux/features/api/apiSlice";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { BeatLoader } from "react-spinners";
 import { setUserName } from "@/redux/features/userDocSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function LoginPage() {
   const navigate = useNavigate();
+
+  const isExploreCreator = useSelector(
+    state => state.userDocReducer.isExploreCreators
+  );
+
+  console.log('isexplore creator' , isExploreCreator);
 
   const {
     register,

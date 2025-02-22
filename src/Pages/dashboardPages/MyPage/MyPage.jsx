@@ -21,32 +21,32 @@ function MyPage() {
       </div>
       <ProfileSection isMe={true} isCreator={false}></ProfileSection>
       <div className=" mt-40 lg:mt-32 grid grid-cols-1  lg:grid-cols-2 gap-4">
-        <div className="flex flex-col lg:flex-row gap-y-5 gap-x-4 ">
+        <div className="">
           {/* column */}
           <Intro isMe={true}></Intro>
           {/* column */}
-          <div className="lg:w-[496px]">
-            <BuyCoffee isFullwidth={true} ></BuyCoffee>
-          </div>
-          <CreatePost></CreatePost>
+          {/* <BuyCoffee></BuyCoffee> */}
         </div>
         {/* column */}
+        <div className="h-full">
+          <CreatePost></CreatePost>
+        </div>
       </div>
 
       <div className="lg:p-6 p-4 mt-6 rounded-xl  bg-white border">
         <Title title={"Posts:"}></Title>
 
-        {PostDataArr.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[800px] lg:h-[300px] overflow-y-scroll scrollbar-hide">
-            {PostDataArr.slice()
+        <div className="flex flex-row justify-center lg:justify-between items-center flex-wrap w-full  gap-x-4 gap-y-5  ">
+          {PostDataArr.length > 0 ? (
+            PostDataArr.slice()
               .reverse()
               .map((item, index) => {
-                return <PostCard data={item} key={item?.id}></PostCard>;
-              })}
-          </div>
-        ) : (
-          <p> No post available </p>
-        )}
+                return <PostCard data={item} key={item?.id} />;
+              })
+          ) : (
+            <p>No post found</p>
+          )}
+        </div>
       </div>
     </div>
   );

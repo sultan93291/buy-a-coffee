@@ -1,7 +1,10 @@
 import { useEffect, useState, createContext } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setLoggedInUserData } from "@/redux/features/userDocSlice";
+import {
+  setLoggedInUserData,
+  setUserName,
+} from "@/redux/features/userDocSlice";
 
 export const AuthContext = createContext(null);
 const SiteURl = import.meta.env.VITE_SERVER_BASE_URL;
@@ -45,6 +48,7 @@ const AuthProvider = ({ children }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsAuthenticated(false);
+    dispatch(setUserName(""));
     dispatch(setLoggedInUserData(null));
     window.location.href = "/";
   };
