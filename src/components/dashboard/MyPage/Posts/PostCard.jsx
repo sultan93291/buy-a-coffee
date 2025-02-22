@@ -94,11 +94,9 @@ function PostCard({ data }) {
         )}
       </div>
 
-      <div className="items-center  max-w-[300px]">
-        <p className="text-textColor text-center break-words truncate">
-          {data?.title}
-        </p>
-      </div>
+      <p className="text-textColor w-[250px] lg:max-w-[300px] px-8 text-center break-words truncate">
+        {data?.title}
+      </p>
     </div>
   );
 }

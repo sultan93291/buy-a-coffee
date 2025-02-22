@@ -6,6 +6,8 @@ import Title from "@/components/dashboard/MyPage/Title";
 import PostCard from "@/components/dashboard/MyPage/Posts/PostCard";
 import ProfileSection from "@/components/dashboard/MyPage/ProfileSection";
 import { useGetUserPostQuery } from "@/redux/features/api/apiSlice";
+import RecntSupporters from "@/components/RecntSupporters/RecntSupporters";
+
 
 function MyPage() {
   const { data, error, isLoading } = useGetUserPostQuery();
@@ -28,8 +30,11 @@ function MyPage() {
           {/* <BuyCoffee></BuyCoffee> */}
         </div>
         {/* column */}
-        <div className="h-full">
-          <CreatePost></CreatePost>
+        <div className="h-full relative flex flex-col gap-y-5 ">
+          <div>
+            <CreatePost></CreatePost>
+          </div>
+          <RecntSupporters isMe={true} />
         </div>
       </div>
 

@@ -24,6 +24,7 @@ export default {
         text_dark: "#343535",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        yellow_green: "rgba(208, 255, 113, 0.10)",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
