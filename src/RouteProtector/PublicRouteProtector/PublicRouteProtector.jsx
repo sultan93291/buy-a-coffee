@@ -2,6 +2,8 @@ import { AuthContext } from "@/provider/AuthContextProvider";
 import { setIsExploreCreators } from "@/redux/features/userDocSlice";
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 
 const PublicRouteProtector = ({ children }) => {
@@ -11,12 +13,17 @@ const PublicRouteProtector = ({ children }) => {
   );
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
 
   if (isAuthenticated && isExploreCreator) {
-    window.location.href = `/dashboard/explore`;
-    // dispatch(setIsExploreCreators(false));
+    navigate("/dashboard/explore");
+    setTimeout(() => {
+        dispatch(setIsExploreCreators(false));
+    }, 10000);
+  
   } else if (isAuthenticated && !isExploreCreator) {
-    window.location.href = `/dashboard/my-page`;
+    navigate("/dashboard/my-page");;
   }
 
   return children
