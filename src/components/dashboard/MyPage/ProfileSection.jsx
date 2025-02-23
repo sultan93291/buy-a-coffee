@@ -51,7 +51,7 @@ function ProfileSection({ isCreator, isMe, data }) {
         <div className="bg-white relative h-fit p-1.5 lg:p-3 w-[96%]  flex justify-center items-center rounded-2xl -bottom-40  lg:-bottom-60">
           <div className="bg-[#FAFAFA] w-full lg:pl-60 py-4 lg:py-12 rounded-2xl px-4  lg:px-7">
             <div className="lg:flex-row flex-col gap-8 lg:gap-0 flex justify-between ">
-              <div className="lg:space-y-3 space-y-1 pl-40 lg:pl-0">
+              <div className="lg:space-y-3 space-y-1 pl-[150px] md:pl-40 lg:pl-0">
                 <h3 className="text-textDark font-semibold text-sm lg:text-lg">
                   {!isMe ? Searcheduser?.name : loggedInUser?.name}
                 </h3>
@@ -61,13 +61,13 @@ function ProfileSection({ isCreator, isMe, data }) {
                     : loggedInUser?.edit_profile?.category}
                 </h4>
                 <div className="flex items-center gap-2">
-                  <h4 className="text-textColor lg:text-sm text-xs  font-medium">
+                  <h4 className="text-textColor lg:text-sm sm:text-xs text-[10px]  font-medium">
                     {!isMe
                       ? Searcheduser?.followers_count
                       : loggedInUser?.followers_count}{" "}
                     followers
                   </h4>
-                  <li className="lg:text-sm list-none lg:list-disc text-xs text-textColor font-medium">
+                  <li className="lg:text-sm sm:text-xs text-[10px] list-none lg:list-disc  text-textColor font-medium">
                     {!isMe
                       ? Searcheduser?.following_count
                       : loggedInUser?.following_count}{" "}
@@ -95,7 +95,7 @@ function ProfileSection({ isCreator, isMe, data }) {
             </div>
           </div>
           {/* profile image */}
-          <div className="bg-white absolute -top-12 left-6 lg:left-8 w-[150px] lg:w-[200px] h-[150px] lg:h-[220px] p-1.5 lg:p-2 rounded-2xl ">
+          <div className="bg-white absolute -top-12 left-6 lg:left-8 w-[140px] md:w-[150px] lg:w-[200px] h-[150px] lg:h-[220px] p-1.5 lg:p-2 rounded-2xl ">
             <div className=" w-full h-full bg-[#FAFAFA] ">
               <img
                 className="object-cover rounded-2xl w-full h-full "

@@ -55,12 +55,27 @@ function Intro({ isMe, IntroData }) {
     );
   }, [Searcheduser]);
 
-  const handleFileUpload = e => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setfile(selectedFile);
+const handleFileUpload = e => {
+  const selectedFile = e.target.files[0];
+
+  if (selectedFile) {
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/gif",
+      "image/svg+xml",
+    ];
+
+    if (!allowedTypes.includes(selectedFile.type)) {
+      toast.error("File format type  is not allowed")
+      return;
     }
-  };
+
+    setfile(selectedFile);
+  }
+};
+
 
   const handleFeatureBioUpdate = async () => {
     try {

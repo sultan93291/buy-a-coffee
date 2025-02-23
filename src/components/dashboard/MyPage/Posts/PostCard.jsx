@@ -29,7 +29,7 @@ function PostCard({ data }) {
   }, [data]); // Runs when `data` changes
 
   return (
-    <div className="2xl:flex-row relative overflow-x-hidden  flex flex-col w-[250px]   gap-4 lg:p-6 p-4  items-center lg:items-start  2xl:w-[640px] bg-[#fafafa]   rounded-xl after-content-[''] after:absolute after:top-0 after:left-0  after:w-full after:bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(255,255,255,0.5)]  after:backdrop-blur-sm after:rounded-xxl after:z-10  after:h-full z-0  ">
+    <div className="2xl:flex-row relative overflow-x-hidden  flex flex-col w-[250px]   gap-4 lg:p-6 p-4  items-center lg:items-start  2xl:w-[740px] bg-[#fafafa]   rounded-xl after-content-[''] after:absolute after:top-0 after:left-0  after:w-full after:bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(255,255,255,0.5)]  after:backdrop-blur-sm after:rounded-xxl after:z-10  after:h-full z-0  ">
       <div className="absolute top-0 left-0 z-50 w-full h-full flex justify-center items-center">
         <svg
           onClick={() => {
@@ -103,8 +103,4 @@ function PostCard({ data }) {
 
 export default PostCard;
 
-// className = "  ";
 
-{
-  /*  */
-}
