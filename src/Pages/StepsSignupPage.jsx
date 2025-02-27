@@ -38,6 +38,19 @@ function StepsSignupPage() {
   const handleUserProfile = e => {
     const file = e.target.files[0];
 
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/gif",
+      "image/svg+xml",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("File format type  is not allowed");
+      return;
+    }
+
     if (file && file.type.startsWith("image/")) {
       setUserAvatar(URL.createObjectURL(file));
       setValue("profilePic", file); // Ensure form state gets updated

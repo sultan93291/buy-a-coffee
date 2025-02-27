@@ -136,6 +136,18 @@ function EditProfileForm() {
   //cover
   const handleCover = e => {
     const selectedFile = e.target.files[0];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/gif",
+      "image/svg+xml",
+    ];
+
+    if (!allowedTypes.includes(selectedFile.type)) {
+      toast.error("File format type  is not allowed");
+      return;
+    }
     if (selectedFile) {
       const url = URL.createObjectURL(selectedFile);
       setCoverUrl(url);
@@ -146,6 +158,18 @@ function EditProfileForm() {
   //profile
   const handleProfile = e => {
     const selectedFile = e.target.files[0];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/gif",
+      "image/svg+xml",
+    ];
+
+    if (!allowedTypes.includes(selectedFile.type)) {
+      toast.error("File format type  is not allowed");
+      return;
+    }
     if (selectedFile) {
       const url = URL.createObjectURL(selectedFile);
       setProfileUrl(url);

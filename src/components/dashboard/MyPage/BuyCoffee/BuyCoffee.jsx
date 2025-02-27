@@ -180,7 +180,7 @@ function BuyCoffee({ isFullwidth }) {
         <input
           type="text"
           // defaultValue={count}
-          value={`£ ${count}`}
+          value={`£ ${count *3}`}
           readOnly
           className=" px-4 text-sm focus:outline-none placeholder:text-textDark font-semibold text-textDark bg-gray-50 w-full py-3 rounded-full border "
           name=""

@@ -50,7 +50,7 @@ function ProfileSection({ isCreator, isMe, data }) {
         {/* profile section */}
         <div className="bg-white relative h-fit p-1.5 lg:p-3 w-[96%]  flex justify-center items-center rounded-2xl -bottom-40  lg:-bottom-60">
           <div className="bg-[#FAFAFA] w-full lg:pl-60 py-4 lg:py-12 rounded-2xl px-4  lg:px-7">
-            <div className="lg:flex-row flex-col gap-8 lg:gap-0 flex justify-between ">
+            <div className="lg:flex-row flex-col gap-12   lg:gap-0 flex justify-between ">
               <div className="lg:space-y-3 space-y-1 pl-[150px] md:pl-40 lg:pl-0">
                 <h3 className="text-textDark font-semibold text-sm lg:text-lg">
                   {!isMe ? Searcheduser?.name : loggedInUser?.name}
@@ -76,7 +76,7 @@ function ProfileSection({ isCreator, isMe, data }) {
                 </div>
               </div>
               {isMe && (
-                <div className="flex justify-center items-center gap-6">
+                <div className="flex justify-end lg:justify-center items-center gap-6">
                   <SharePopup isProfilePage={true} />
                   {/* dialog */}
                   <div>
