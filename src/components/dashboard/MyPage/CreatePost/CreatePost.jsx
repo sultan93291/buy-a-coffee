@@ -107,9 +107,14 @@ function CreatePost() {
                           alt="not found"
                         />
                       </div>
-                      <h3 className="text-sm font-medium text-textColor">
-                        {loggedInUser?.name}
-                      </h3>
+                      <div className="flex flex-col gap-y-1">
+                        <h3 className="text-sm font-medium text-textColor">
+                          {loggedInUser?.name}
+                        </h3>
+                        <span className="text-[11px] font-medium text-textColor">
+                         Tittle: {loggedInUser?.edit_profile?.category}
+                        </span>
+                      </div>
                     </div>
                     <div className="pt-4">
                       <div>

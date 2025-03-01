@@ -2,9 +2,11 @@ import { useState } from "react";
 import Title from "../Title";
 import { useSelector } from "react-redux";
 
-function BuyCoffee({ isFullwidth }) {
+function BuyCoffee({ isFullwidth, data }) {
   const [hovered, setHovered] = useState(false);
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
+
+  console.log("this is serched user data", data?.data?.name);
 
   const defaultColor = "#99FF6D";
   const buttonColor = BtnColor || defaultColor; // If BtnColor is undefined, use the default color
@@ -34,7 +36,7 @@ function BuyCoffee({ isFullwidth }) {
         isFullwidth && "lg:w-[496px]"
       }  p-4 rounded-xl flex h-full flex-col justify-between bg-white border space-y-4`}
     >
-      <Title title={"Buy a Coffee for Zaan:"}></Title>
+      <Title title={`Gift a Coffee for : ${data?.data?.name}`}></Title>
       <div className="flex gap-4 pt-0 items-center">
         {buyCoffeOptions.map((option, index) => (
           <div key={option} className="flex-1">
@@ -180,7 +182,7 @@ function BuyCoffee({ isFullwidth }) {
         <input
           type="text"
           // defaultValue={count}
-          value={`£ ${count *3}`}
+          value={`£ ${count * 3}`}
           readOnly
           className=" px-4 text-sm focus:outline-none placeholder:text-textDark font-semibold text-textDark bg-gray-50 w-full py-3 rounded-full border "
           name=""

@@ -45,7 +45,7 @@ function CreatorProfilePage() {
         <div className="flex flex-col mt-12 lg:mt-0 gap-y-5 xl:flex-row gap-x-5  w-full ">
           <div className="w-full relative flex flex-col md:flex-row gap-5  ">
             <div className="md:w-[50%]">
-              <BuyCoffee />
+              <BuyCoffee data={data} />
             </div>
             <div className="md:w-[50%]">
               <RecntSupporters />
