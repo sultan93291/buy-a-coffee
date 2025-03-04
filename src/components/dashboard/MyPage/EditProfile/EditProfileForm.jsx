@@ -133,17 +133,17 @@ function EditProfileForm() {
     setCategory(value);
   };
 
-  //cover
   const handleCover = e => {
+    if (!e.target.files.length) return;
+
     const selectedFile = e.target.files[0];
 
-    if (!selectedFile) return;
+    // Reset the file input value to allow selecting the same file again
+    e.target.value = "";
 
     if (selectedFile.size > 2 * 1024 * 1024) {
       toast.error("File must be less than 2MB.");
-      setCoverFile("");
-      setCoverUrl(""); // Reset the preview URL as well
-      return;
+      return; // Do not reset the existing preview
     }
 
     const allowedTypes = [
@@ -156,12 +156,10 @@ function EditProfileForm() {
 
     if (!allowedTypes.includes(selectedFile.type)) {
       toast.error("File format type is not allowed.");
-      setCoverFile("");
-      setCoverUrl(""); // Reset the preview URL as well
-      return;
+      return; // Do not reset the existing preview
     }
 
-    // If all checks pass
+    // If all checks pass, update the preview
     const url = URL.createObjectURL(selectedFile);
     setCoverUrl(url);
     setCoverFile(selectedFile);
