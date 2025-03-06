@@ -57,6 +57,10 @@ function Intro({ isMe, IntroData }) {
 
 const handleFileUpload = e => {
   const selectedFile = e.target.files[0];
+   if (selectedFile.size > 2 * 1024 * 1024) {
+     toast.error("File must be less than 2MB.");
+     return; // Do not reset the existing preview
+   }
 
   if (selectedFile) {
     const allowedTypes = [

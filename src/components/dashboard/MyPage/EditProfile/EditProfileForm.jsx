@@ -61,6 +61,28 @@ function EditProfileForm() {
   const [CoverFile, setCoverFile] = useState();
   const selectedTheme = watch("themeColor");
   const [hovered, setHovered] = useState(false);
+  const [isChecked, setIsChecked] = useState(
+    loggedInUser?.edit_profile?.supporter_visibility == 1 ? true : false
+  );
+
+  const categories = [
+    "Artist",
+    "Athlete",
+    "Blogger",
+    "Causes",
+    "Charity",
+    "Cosplayer",
+    "Community",
+    "Content creator",
+    "Developer",
+    "Influencer",
+    "Musician",
+    "Online personality",
+    "Podcaster",
+    "Streamer",
+    "Writer",
+    "None",
+  ];
 
   const onSubmit = async data => {
     const allRequiredData = {
@@ -86,12 +108,16 @@ function EditProfileForm() {
       "what_are_you_creating",
       allRequiredData?.creating
         ? allRequiredData.creating
+        : loggedInUser?.edit_profile?.what_are_you_creating == "null"
+        ? "None"
         : loggedInUser?.edit_profile?.what_are_you_creating
     );
     formData.append(
       "currency",
       allRequiredData?.currency
         ? allRequiredData.currency
+        : loggedInUser?.edit_profile?.currency === "null"
+        ? "GBP"
         : loggedInUser?.edit_profile?.currency
     );
     formData.append(
@@ -143,7 +169,7 @@ function EditProfileForm() {
 
     if (selectedFile.size > 2 * 1024 * 1024) {
       toast.error("File must be less than 2MB.");
-      return; // Do not reset the existing preview
+      return; 
     }
 
     const allowedTypes = [
@@ -168,6 +194,10 @@ function EditProfileForm() {
   //profile
   const handleProfile = e => {
     const selectedFile = e.target.files[0];
+    if (selectedFile.size > 2 * 1024 * 1024) {
+      toast.error("File must be less than 2MB.");
+      return; // Do not reset the existing preview
+    }
     const allowedTypes = [
       "image/jpeg",
       "image/png",
@@ -189,8 +219,7 @@ function EditProfileForm() {
 
   //permission
   const handleCheckedChange = checked => {
-    console.log(checked);
-
+    setIsChecked(checked);
     setPermission(checked);
   };
 
@@ -226,6 +255,9 @@ function EditProfileForm() {
       });
 
       setProfileUrl(`${imgBaseUrl}/${loggedInUser?.avatar}`);
+      setIsChecked(
+        loggedInUser?.edit_profile?.supporter_visibility == 1 ? true : false
+      );
       setPermission(
         loggedInUser?.edit_profile?.supporter_visibility == 1
           ? handleCheckedChange(true)
@@ -405,16 +437,24 @@ function EditProfileForm() {
                   Category
                 </label>
                 <Select
-                  defaultValue={loggedInUser?.edit_profile?.category}
+                  defaultValue={
+                    loggedInUser?.edit_profile?.category
+                      ? loggedInUser?.edit_profile?.category
+                      : "None"
+                  }
                   onValueChange={handleCategoryValue}
                 >
                   <SelectTrigger className="w-full py-6 bg-gray-50 px-5">
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="musician">Musician</SelectItem>
-                    <SelectItem value="youtuber">Youtuber</SelectItem>
-                    <SelectItem value="None">None</SelectItem>
+                    {categories.map((item, index) => {
+                      return (
+                        <SelectItem key={index} value={item}>
+                          {item}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               </div>
@@ -443,7 +483,11 @@ function EditProfileForm() {
                   Currency
                 </label>
                 <Select
-                  defaultValue={loggedInUser?.edit_profile?.currency || "GBP"} // Set a default value
+                  defaultValue={
+                    loggedInUser?.edit_profile?.currency
+                      ? loggedInUser?.edit_profile?.currency
+                      : "GBP"
+                  } // Set a default value
                   onValueChange={handleCurrencyValue}
                 >
                   <SelectTrigger className="w-full py-6 bg-gray-50 px-5">
@@ -493,8 +537,11 @@ function EditProfileForm() {
               </div> */}
 
               {/* toggle */}
-              <div className="flex items-center pt-2 gap-3">
-                <Switch onCheckedChange={handleCheckedChange} />
+              <div className="flex flex-col items-start md:items-center md:flex-row  pt-2 gap-3">
+                <Switch
+                  checked={isChecked}
+                  onCheckedChange={handleCheckedChange}
+                />
                 <label className="flex flex-col gap-2" htmlFor="">
                   <h4 className="text-textDark font-medium">
                     Display supporter count

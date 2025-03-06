@@ -37,7 +37,10 @@ function StepsSignupPage() {
 
   const handleUserProfile = e => {
     const file = e.target.files[0];
-
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("File must be less than 2MB.");
+      return; // Do not reset the existing preview
+    }
     const allowedTypes = [
       "image/jpeg",
       "image/png",

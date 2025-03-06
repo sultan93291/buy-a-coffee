@@ -203,7 +203,7 @@ function SignUpPage() {
                         />
                       </>
                     ) : (
-                      "Sign up"
+                      "Start my page -it's free"
                     )
                   }
                 />

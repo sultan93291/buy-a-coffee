@@ -56,7 +56,7 @@ function ProfileSection({ isCreator, isMe, data }) {
                   {!isMe ? Searcheduser?.name : loggedInUser?.name}
                 </h3>
                 <h4 className="lg:text-base font-medium text-textColor text-xs">
-                  {!isMe
+                  {!isMe 
                     ? Searcheduser?.edit_profile?.category
                     : loggedInUser?.edit_profile?.category}
                 </h4>

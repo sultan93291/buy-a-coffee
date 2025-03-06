@@ -22,6 +22,7 @@ function CreatePost() {
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const [tittle, settittle] = useState();
   const [file, setfile] = useState();
+  const [descretption, setdescretption] = useState();
   const [createPost, { data, isLoading, error }] = useCreatePostMutation();
 
   const handleFileUpload = e => {
@@ -30,17 +31,18 @@ function CreatePost() {
   };
 
   const handleCratePost = async () => {
-    if (!tittle && !file) {
+    if (!tittle && !file && !descretption) {
       toast.error("Upload any or post a status");
-      settittle('')
-      setfile(null)
+      settittle("");
+      setdescretption("");
+      setfile(null);
       return;
     }
 
     if (!file) {
       toast.error("Please select a file");
-      settittle('')
-      setfile(null)
+      settittle("");
+      setfile(null);
       return;
     }
 
@@ -48,13 +50,13 @@ function CreatePost() {
       const formData = new FormData();
       formData.append("title", tittle);
       formData.append("file_url", file);
+      formData.append("description", descretption);
 
       const response = await createPost(formData).unwrap();
       if (response.code === 200) {
         toast.success(response.message);
         settittle("");
         setfile(null);
-        // console.log(response);
       }
 
       console.log(data);
@@ -65,7 +67,8 @@ function CreatePost() {
       toast.error(errMessage); // Display the error message in the toast
     } finally {
       settittle("");
-      setfile(null)
+      setfile(null);
+      setdescretption("");
     }
   };
 
@@ -111,21 +114,30 @@ function CreatePost() {
                         <h3 className="text-sm font-medium text-textColor">
                           {loggedInUser?.name}
                         </h3>
-                        <span className="text-[11px] font-medium text-textColor">
-                         Tittle: {loggedInUser?.edit_profile?.category}
-                        </span>
                       </div>
                     </div>
                     <div className="pt-4">
-                      <div>
-                        <textarea
-                          className="px-4 resize-none border focus:outline-none placeholder:text-textDark py-3 rounded-xl text-textColor w-full h-[200px]"
-                          name=""
-                          placeholder="Whats in you mind?"
-                          id=""
+                      <div className="text pb-4 ">
+                        <input
+                          type="text"
+                          name="tittle"
+                          className="px-4 resize-none border focus:outline-none placeholder:text-textDark py-3 rounded-xl text-textColor w-full h-[40px]"
+                          placeholder="Add a tittle"
                           value={tittle}
                           onChange={e => {
                             settittle(e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <textarea
+                          className="px-4 resize-none border focus:outline-none placeholder:text-textDark py-3 rounded-xl text-textColor w-full h-[200px]"
+                          name="description"
+                          placeholder="Whats in you mind?"
+                          id=""
+                          value={descretption}
+                          onChange={e => {
+                            setdescretption(e.target.value);
                           }}
                         ></textarea>
                       </div>
