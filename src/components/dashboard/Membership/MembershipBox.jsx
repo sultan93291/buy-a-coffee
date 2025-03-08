@@ -10,7 +10,7 @@ function MembershipBox() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     console.log(data);
   };
   return (
@@ -18,43 +18,19 @@ function MembershipBox() {
       <CommonBoxhShape>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* input group  */}
-          <div>
-            <label htmlFor="membershipType" className="input-label">
-              Membership Type
-            </label>
-            <input
-              className={`input-control ${
-                errors.membershipType
-                  ? "border-red-500"
-                  : "border-[rgba(113,113,113,0.12)]"
-              }`}
-              type="text"
-              id="membershipType"
-              name="membershipType"
-              placeholder="Basic"
-              {...register("membershipType", {
-                required: "Membership Type is required",
-              })}
-            />
-            {errors.membershipType && (
-              <p className="text-red-500 text-sm mt-2">
-                {errors.membershipType.message}
-              </p>
-            )}
-          </div>
-          {/* input group  */}
           <div className="mt-8">
             <label htmlFor="membershipPrice" className="input-label">
               Price
             </label>
             <div className="relative">
               <input
+                placeholder="Add Your Membership price amount.."
                 className={`input-control pl-16 ${
                   errors.membershipPrice
                     ? "border-red-500"
                     : "border-[rgba(113,113,113,0.12)]"
                 }`}
-                type="number"
+                type="text"
                 id="membershipPrice"
                 name="membershipPrice"
                 {...register("membershipPrice", {

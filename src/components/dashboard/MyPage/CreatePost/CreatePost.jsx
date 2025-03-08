@@ -122,7 +122,7 @@ function CreatePost() {
                           type="text"
                           name="tittle"
                           className="px-4 resize-none border focus:outline-none placeholder:text-textDark py-3 rounded-xl text-textColor w-full h-[40px]"
-                          placeholder="Add a tittle"
+                          placeholder="Add a title"
                           value={tittle}
                           onChange={e => {
                             settittle(e.target.value);

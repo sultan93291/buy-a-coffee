@@ -28,9 +28,6 @@ function Membership() {
             </div>
             <MembershipBox />
           </div>
-          <div className="mt-8 w-full lg:w-[30%]">
-            <BuyCoffee />
-          </div>
         </div>
       </div>
     </div>

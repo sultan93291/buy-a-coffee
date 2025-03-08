@@ -9,9 +9,10 @@ import { AuthContext } from "@/provider/AuthContextProvider";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-
 function Payouts() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
+  console.log(loggedInUser, "form payouts");
+
   const [hovered, setHovered] = useState(false);
 
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
@@ -63,6 +64,8 @@ function Payouts() {
     }
   };
 
+  if (isLoading) return <h1> hellow world </h1>;
+
   return (
     <div>
       <div>
@@ -75,31 +78,35 @@ function Payouts() {
         </CommonBoxhShape>
       </div>
       <div>
-        <CommonBoxhShape>
-          <p className="h-14 w-14 mx-auto mb-9 rounded-full flex items-center justify-center bg-[rgba(113,113,113,0.10)]">
-            <img src={thunderImg} alt="thunderImg" />
-          </p>
-          <div className="text-center">
-            <p className="text-[20px] font-semibold text-headingColor mb-2">
-              Get Paid with Stripe
+        {loggedInUser.onboard_complete === 0 && (
+          <CommonBoxhShape>
+            <p className="h-14 w-14 mx-auto mb-9 rounded-full flex items-center justify-center bg-[rgba(113,113,113,0.10)]">
+              <img src={thunderImg} alt="thunderImg" />
             </p>
-            <p className="text-base text-paraDark">Instant payout via stripe</p>
-          </div>
-          <div
-            onClick={() => {
-              handleStripeConnect();
-            }}
-          >
-            <Link
-              style={buttonStyles}
-              to={""}
-              className="flex items-center gap-[10px] py-4 px-8 rounded-[60px]  text-headingColor w-fit mx-auto font-bold mt-9"
+            <div className="text-center">
+              <p className="text-[20px] font-semibold text-headingColor mb-2">
+                Get Paid with Stripe
+              </p>
+              <p className="text-base text-paraDark">
+                Instant payout via stripe
+              </p>
+            </div>
+            <div
+              onClick={() => {
+                handleStripeConnect();
+              }}
             >
-              <img src={cardIcon} alt="cardIcon" />
-              <p>Connect Stripe</p>
-            </Link>
-          </div>
-        </CommonBoxhShape>
+              <Link
+                style={buttonStyles}
+                to={""}
+                className="flex items-center gap-[10px] py-4 px-8 rounded-[60px]  text-headingColor w-fit mx-auto font-bold mt-9"
+              >
+                <img src={cardIcon} alt="cardIcon" />
+                <p>Connect Stripe</p>
+              </Link>
+            </div>
+          </CommonBoxhShape>
+        )}
       </div>
     </div>
   );
