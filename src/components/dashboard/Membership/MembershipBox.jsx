@@ -20,6 +20,32 @@ function MembershipBox() {
           {/* input group  */}
           <div className="mt-8">
             <label htmlFor="membershipPrice" className="input-label">
+              Membership type
+            </label>
+            <div className="relative">
+              <input
+                placeholder="Add Your Membership type"
+                className={`input-control  ${
+                  errors.membershipPlan
+                    ? "border-red-500"
+                    : "border-[rgba(113,113,113,0.12)]"
+                }`}
+                type="text"
+                id="membershipPlan"
+                name="membershipPlan"
+                {...register("membershipPlan", {
+                  required: "Membership price is required",
+                })}
+              />
+            </div>
+            {errors.membershipPlan && (
+              <p className="text-red-500 text-sm mt-2">
+                {errors.membershipPlan.message}
+              </p>
+            )}
+          </div>
+          <div className="mt-8">
+            <label htmlFor="membershipPrice" className="input-label">
               Price
             </label>
             <div className="relative">
@@ -38,7 +64,7 @@ function MembershipBox() {
                 })}
               />
               <div className="absolute top-1/2 translate-y-[-50%] left-4 text-2xl text-paraDark">
-                <MdOutlineAttachMoney />
+                <span>£</span>
               </div>
               {/* divider  */}
               <p className="divider h-full w-[1px] bg-[#e3e3e3] absolute top-0 left-[52px]"></p>

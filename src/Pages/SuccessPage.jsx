@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import success from "../assets/images/success.jpg";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "@/provider/AuthContextProvider";
 
 const SuccessPage = () => {
   const navigate = useNavigate();
+  const { fetchData } = useContext(AuthContext);
   return (
     <div className="w-full h-[100vh] flex flex-col items-center justify-center ">
       <div className="flex flex-col gap-y-3 items-center ">
@@ -19,8 +21,8 @@ const SuccessPage = () => {
         <div
           onClick={() => {
             navigate("/dashboard/payouts");
+            fetchData();
           }}
-          className=""
         >
           <ButtonPrimary text={"Back to Dashboard"} />
         </div>
