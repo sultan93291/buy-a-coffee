@@ -63,9 +63,6 @@ function Payouts() {
       );
     }
   };
-
-  if (isLoading) return <h1> hellow world </h1>;
-
   return (
     <div>
       <div>
@@ -78,7 +75,7 @@ function Payouts() {
         </CommonBoxhShape>
       </div>
       <div>
-        {loggedInUser.onboard_complete === 0 && (
+        {loggedInUser.onboard_complete === 0 ? (
           <CommonBoxhShape>
             <p className="h-14 w-14 mx-auto mb-9 rounded-full flex items-center justify-center bg-[rgba(113,113,113,0.10)]">
               <img src={thunderImg} alt="thunderImg" />
@@ -106,6 +103,10 @@ function Payouts() {
               </Link>
             </div>
           </CommonBoxhShape>
+        ) : (
+          <h2 className="my-5 text-[20px] font-semibold text-headingColor  ">
+            Account Already connected
+          </h2>
         )}
       </div>
     </div>

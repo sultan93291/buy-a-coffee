@@ -19,6 +19,7 @@ import Support from "@/Pages/dashboardPages/Support/Support";
 import CreatorProfilePage from "@/Pages/dashboardPages/Explore/CreatorProfilePage";
 import PrivateRouteProtector from "@/RouteProtector/PrivateRouteProtector/PrivateRouteProtector";
 import PublicRouteProtector from "@/RouteProtector/PublicRouteProtector/PublicRouteProtector";
+import SuccessPage from "@/Pages/SuccessPage";
 
 const router = createBrowserRouter([
   {
@@ -120,6 +121,10 @@ const router = createBrowserRouter([
         element: <CreatorProfilePage></CreatorProfilePage>,
       },
     ],
+  },
+  {
+    path: "/account-connect-successfull",
+    element: <SuccessPage />,
   },
 ]);
 
