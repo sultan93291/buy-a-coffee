@@ -29,9 +29,9 @@ function PostCard({ data }) {
   }, [data]); // Runs when `data` changes
 
   return (
-    <div className="2xl:flex-row relative overflow-x-hidden  flex flex-col w-[250px]   gap-4 lg:p-6 p-4  items-center lg:items-start  2xl:w-[700px] bg-[#fafafa]   rounded-xl   ">
+    <div className="2xl:flex-row relative overflow-x-hidden  flex flex-col w-[250px]   gap-4   items-center lg:items-start  2xl:w-[700px] bg-[#fafafa]   rounded-xl   ">
       <div className="flex flex-col gap-y-4 w-full ">
-        <h3 className="text-[#34312C] text-xl  font-bold leading-[132%] tracking-[-0.2%] ">
+        <h3 className="text-[#34312C] text-base xl:text-xl  font-bold leading-[132%] tracking-[-0.2%] ">
           2024 California Classic Summer League
         </h3>
         <div className="flex flex-row gap-x-5 after-content-[''] relative w-full after:absolute after:top-0 after:left-0  after:w-full after:bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(255,255,255,0.5)]  after:backdrop-blur-sm after:rounded-xxl after:z-10  after:h-full z-0 after:rounded-[12px] after:p-4  ">

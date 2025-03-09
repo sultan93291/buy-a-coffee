@@ -3,16 +3,43 @@ import CommonBoxhShape from "@/components/dashboard/CommonComponents/CommonBoxhS
 import { MdOutlineAttachMoney } from "react-icons/md";
 import Rewards from "@/components/dashboard/Membership/Rewards";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
+import { useCreateMemberShipMutation } from "@/redux/features/api/apiSlice";
+import { BeatLoader } from "react-spinners";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 function MembershipBox() {
+  const [CreatememberShip, { data, isLoading, error }] =
+    useCreateMemberShipMutation();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = data => {
-    console.log(data);
+
+  const onSubmit = async data => {
+    console.log(data.membershipPrice);
+    await CreatememberShip({
+      price: data?.membershipPrice,
+    }).unwrap();
+    reset()
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.data.data);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (data) {
+      toast.success(data?.message);
+    }
+  }, [data]);
+
+  // console.log(data, isLoading, error);
+
   return (
     <div className="shadow-[8px_8px_32px_0px_rgba(34,34,34,0.13)] rounded-[12px]">
       <CommonBoxhShape>
@@ -93,8 +120,27 @@ function MembershipBox() {
           </div>
           {/* submit btn  */}
           <div>
-            <button type="submit" className="text-center w-full mt-8">
-              <ButtonPrimary type="small" text="Create" />
+            <button
+              disabled={isLoading}
+              type="submit"
+              className="text-center w-full mt-8"
+            >
+              <ButtonPrimary
+                type="small"
+                text={
+                  isLoading ? (
+                    <>
+                      <BeatLoader
+                        size={10}
+                        color={"#000"}
+                        speedMultiplier={0.5}
+                      />
+                    </>
+                  ) : (
+                    "Create Membership"
+                  )
+                }
+              />
             </button>
           </div>
         </form>

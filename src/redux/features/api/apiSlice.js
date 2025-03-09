@@ -163,10 +163,11 @@ export const apiSlice = createApi({
     }),
 
     createMemberShip: builder.mutation({
-      query: data => ({
+      query: price => ({
         url: `/membership`,
         method: "POST",
         includeToken: true,
+        data: price,
       }),
     }),
   }),
