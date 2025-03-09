@@ -58,13 +58,13 @@ function ProfileSection({ isCreator, isMe, data }) {
                 <h4 className="lg:text-base font-medium text-textColor text-xs">
                   {!isMe 
                     ? Searcheduser?.edit_profile?.category
-                    : loggedInUser?.edit_profile?.category}
+                    :  loggedInUser?.edit_profile?.category}
                 </h4>
                 <div className="flex items-center gap-2">
                   <h4 className="text-textColor lg:text-sm sm:text-xs text-[10px]  font-medium">
                     {!isMe
                       ? Searcheduser?.followers_count
-                      : loggedInUser?.followers_count}{" "}
+                      :  loggedInUser?.followers_count}{" "}
                     followers
                   </h4>
                   <li className="lg:text-sm sm:text-xs text-[10px] list-none lg:list-disc  text-textColor font-medium">

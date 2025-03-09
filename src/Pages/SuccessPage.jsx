@@ -20,8 +20,8 @@ const SuccessPage = () => {
         </h2>
         <div
           onClick={() => {
-            navigate("/dashboard/payouts");
             fetchData();
+            navigate("/dashboard/payouts");
           }}
         >
           <ButtonPrimary text={"Back to Dashboard"} />
