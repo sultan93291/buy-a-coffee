@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
 function Payouts() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
@@ -98,8 +99,14 @@ function Payouts() {
                 to={""}
                 className="flex items-center gap-[10px] py-4 px-8 rounded-[60px]  text-headingColor w-fit mx-auto font-bold mt-9"
               >
-                <img src={cardIcon} alt="cardIcon" />
-                <p>Connect Stripe</p>
+                {isLoading ? (
+                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
+                ) : (
+                  <>
+                    <img src={cardIcon} alt="cardIcon" />
+                    <p>Connect Stripe</p>
+                  </>
+                )}
               </Link>
             </div>
           </CommonBoxhShape>
