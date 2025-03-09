@@ -9,7 +9,7 @@ function SupporterFunctionalitySection() {
       id: 1,
       stepNum: "01",
       normalText: "Allow your supporters to make one off donations to show",
-      highlitedText: "their support your work.",
+      highlitedText: "their support for your work.",
     },
     {
       id: 2,

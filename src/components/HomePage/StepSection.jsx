@@ -19,7 +19,7 @@ function StepSection() {
         tag: "Membership",
         title: "Monthly membership for your biggest fans.",
         description:
-          "Generate a steady income by offering monthly subscriptions. Provide access to exclusive content, or simply create an opportunity for your audience to support for your work consistently.",
+          "Generate a steady income by offering monthly subscriptions. Provide access to exclusive content, or simply create an opportunity for your audience to support  your work consistently.",
         reversed: true,
       },
     ];
