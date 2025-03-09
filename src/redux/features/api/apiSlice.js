@@ -170,6 +170,13 @@ export const apiSlice = createApi({
         data: price,
       }),
     }),
+    getDonationsDetails: builder.query({
+      query: () => ({
+        url: `/donation-summary`,
+        method: "GET",
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -193,6 +200,5 @@ export const {
   useGetUserPostsByIdQuery,
   useCreateMemberShipMutation,
   useCreatePaymnetMutation,
+  useGetDonationsDetailsQuery,
 } = apiSlice;
-
-// all okay ready to go again...

@@ -28,7 +28,6 @@ function BuyCoffee({ isFullwidth, data }) {
 
   const buyCoffeOptions = ["one-off", "membership"];
 
-  console.log(buyType);
 
   return (
     <div
