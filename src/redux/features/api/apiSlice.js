@@ -179,15 +179,25 @@ export const apiSlice = createApi({
     }),
 
     getTotalEarningFromMember: builder.query({
-      query: (range) => ({
-        url: `/total-earning-from-monthly-subscription?range=${range?range:""}`,
+      query: range => ({
+        url: `/total-earning-from-monthly-subscription?range=${
+          range ? range : ""
+        }`,
         method: "GET",
         includeToken: true,
       }),
     }),
     getTotalEarningFromSuporter: builder.query({
-      query: (range) => ({
-        url: `/total-earning-from-buy-a-coffee?range=${range?range:""}`,
+      query: range => ({
+        url: `/total-earning-from-buy-a-coffee?range=${range ? range : ""}`,
+        method: "GET",
+        includeToken: true,
+      }),
+    }),
+
+    getMemberShipList: builder.query({
+      query: creatorId => ({
+        url: `/membership-show/${creatorId}`,
         method: "GET",
         includeToken: true,
       }),
@@ -217,5 +227,6 @@ export const {
   useCreatePaymnetMutation,
   useGetDonationsDetailsQuery,
   useGetTotalEarningFromMemberQuery,
-  useGetTotalEarningFromSuporterQuery
+  useGetTotalEarningFromSuporterQuery,
+  useGetMemberShipListQuery
 } = apiSlice;

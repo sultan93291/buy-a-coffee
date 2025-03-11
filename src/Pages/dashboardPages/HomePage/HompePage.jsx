@@ -59,9 +59,6 @@ function HompePage() {
         <PuffLoader size={100} color="#99FF6D" />
       </div>
     );
-  
-
-  
 
   return (
     <div className="">

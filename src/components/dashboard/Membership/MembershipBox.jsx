@@ -47,29 +47,11 @@ function MembershipBox() {
           {/* input group  */}
           <div className="mt-8">
             <label htmlFor="membershipPrice" className="input-label">
-              Membership type
+              Membership Moto
             </label>
-            <div className="relative">
-              <input
-                placeholder="Add Your Membership type"
-                className={`input-control  ${
-                  errors.membershipPlan
-                    ? "border-red-500"
-                    : "border-[rgba(113,113,113,0.12)]"
-                }`}
-                type="text"
-                id="membershipPlan"
-                name="membershipPlan"
-                {...register("membershipPlan", {
-                  required: "Membership price is required",
-                })}
-              />
+            <div className="relative input-control">
+              Create your monthly plan and share post .
             </div>
-            {errors.membershipPlan && (
-              <p className="text-red-500 text-sm mt-2">
-                {errors.membershipPlan.message}
-              </p>
-            )}
           </div>
           <div className="mt-8">
             <label htmlFor="membershipPrice" className="input-label">

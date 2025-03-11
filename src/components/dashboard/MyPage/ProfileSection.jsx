@@ -16,12 +16,12 @@ function ProfileSection({ isCreator, isMe, data }) {
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
 
   const defaultColor = "#99FF6D";
-  const buttonColor = BtnColor || defaultColor; // If BtnColor is undefined, use the default color
+  const buttonColor = BtnColor || defaultColor; 
 
   const buttonStyles = {
-    backgroundColor: hovered ? "transparent" : buttonColor, // Transparent on hover, btn color otherwise
-    border: `2px solid ${hovered ? buttonColor : "transparent"}`, // Border is always there, but only shows color on hover
-    color: hovered ? buttonColor : "#000", // Text color on hover and default text color (black)
+    backgroundColor: hovered ? "transparent" : buttonColor, 
+    border: `2px solid ${hovered ? buttonColor : "transparent"}`, 
+    color: hovered ? buttonColor : "#000", 
   };
 
   const backgroundImage = `${

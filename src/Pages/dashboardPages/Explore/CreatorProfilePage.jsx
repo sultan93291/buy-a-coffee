@@ -13,6 +13,8 @@ import {
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { PuffLoader } from "react-spinners";
+
 
 function CreatorProfilePage() {
   const { creatorId } = useParams();
@@ -33,6 +35,13 @@ function CreatorProfilePage() {
       navigate("/dashboard/my-page");
     }
   }, [creatorId, loggedInUser, navigate]);
+
+    if (isLoading || isPostLoading)
+      return (
+        <div className="h-full w-full flex items-center justify-center ">
+          <PuffLoader size={100} color="#99FF6D" />
+        </div>
+      );
 
   return (
     <>
