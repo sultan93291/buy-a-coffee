@@ -21,29 +21,64 @@ function DeleteAccount() {
 
   const { fetchData } = useContext(AuthContext);
 
-  const handleDeleteAccount = async () => {
-    if (!password) {
-      toast.error("Please enter your password!");
-      return;
-    } else {
-      try {
-        const response = await deleteProfile(password).unwrap(); // Unwrap the response to access the result
-
-        if (response?.code === 200) {
-          toast.success(response?.message || "Account deleted successfully!");
-          console.log("Account deleted successfully:", response);
-          localStorage.removeItem("token");
-          fetchData();
+  const handleDeleteAccount = async e => {
+    if (e) {
+      if (e.key === "Enter") {
+        if (!password) {
+          toast.error("Please enter your password!");
+          return;
         } else {
-          throw new Error(response?.message || "Unexpected server response");
+          try {
+            const response = await deleteProfile(password).unwrap(); // Unwrap the response to access the result
+
+            if (response?.code === 200) {
+              toast.success(
+                response?.message || "Account deleted successfully!"
+              );
+              console.log("Account deleted successfully:", response);
+              localStorage.removeItem("token");
+              fetchData();
+            } else {
+              throw new Error(
+                response?.message || "Unexpected server response"
+              );
+            }
+          } catch (error) {
+            console.error("Account deletion failed:", error);
+            toast.error(
+              error?.data?.message ||
+                "Failed to delete account. Please try again."
+            );
+          } finally {
+            setShowDialog(false);
+          }
         }
-      } catch (error) {
-        console.error("Account deletion failed:", error);
-        toast.error(
-          error?.data?.message || "Failed to delete account. Please try again."
-        );
-      } finally {
-        setShowDialog(false);
+      }
+    } else {
+      if (!password) {
+        toast.error("Please enter your password!");
+        return;
+      } else {
+        try {
+          const response = await deleteProfile(password).unwrap(); // Unwrap the response to access the result
+
+          if (response?.code === 200) {
+            toast.success(response?.message || "Account deleted successfully!");
+            console.log("Account deleted successfully:", response);
+            localStorage.removeItem("token");
+            fetchData();
+          } else {
+            throw new Error(response?.message || "Unexpected server response");
+          }
+        } catch (error) {
+          console.error("Account deletion failed:", error);
+          toast.error(
+            error?.data?.message ||
+              "Failed to delete account. Please try again."
+          );
+        } finally {
+          setShowDialog(false);
+        }
       }
     }
   };
@@ -82,6 +117,7 @@ function DeleteAccount() {
                 type="text"
                 className=" p-3 outline-none border-[1px] border-solid rounded-[12px] "
                 value={password}
+                onKeyDown={handleDeleteAccount}
                 onChange={e => {
                   setpassword(e.target.value);
                 }}

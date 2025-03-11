@@ -38,7 +38,7 @@ function Top({ title }) {
 
   const handleLogout = async () => {
     try {
-      const response = await logOut().unwrap(); // Call the logOut mutation here
+      const response = await logOut().unwrap();
 
       if (response?.code === 200) {
         toast.success(response?.message);
@@ -207,7 +207,8 @@ function Top({ title }) {
                   navName={"My Account"}
                   Icon={IoNotificationsOutline}
                 ></CommonLink>
-                <div className="pb-[40px]"
+                <div
+                  className="pb-[40px]"
                   onClick={() => {
                     handleLogout();
                     setToggleMenu(false);
@@ -280,7 +281,12 @@ function Top({ title }) {
           >
             Dashboard
           </DropdownMenuItem>
-          <DropdownMenuItem className="px-4 py-2 font-medium text-textDark text-base">
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/dashboard/following");
+            }}
+            className="px-4 py-2 font-medium text-textDark text-base"
+          >
             Creators I follow
           </DropdownMenuItem>
           <DropdownMenuItem

@@ -50,10 +50,14 @@ function InforForm() {
 
   const onInfoSubmit = async data => {
     const updateData = {
-      name: data.fname,
-      email: data.email,
-      page_link: data.pagelink,
-      country: data.country,
+      name: data.fname || loggedInUser?.name,
+      email: data.email || loggedInUser?.email,
+      page_link:
+        data.pagelink || loggedInUser?.page_link
+          ? loggedInUser.page_link
+          : "https://demo.page.link",
+      country:
+        data.country || loggedInUser?.country ? loggedInUser?.country : "UK",
     };
 
     console.log("Updating Profile with Data:", updateData);
