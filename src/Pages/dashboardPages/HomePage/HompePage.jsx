@@ -8,11 +8,60 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  useGetTotalEarningFromMemberQuery,
+  useGetTotalEarningFromSuporterQuery,
+} from "@/redux/features/api/apiSlice";
+import { PuffLoader } from "react-spinners";
 
 function HompePage() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
-  console.log(loggedInUser, "User logged in");
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
+  const [memberInocme, setmemberInocme] = useState();
+  const [supporterIncome, setSupporterIncome] = useState();
+  const [selectedRange, setSelectedRange] = useState();
+  const [supporterValue, setsupporterValue] = useState();
+
+  const { data, error, isLoading } =
+    useGetTotalEarningFromMemberQuery(selectedRange);
+
+  const {
+    data: SuppporterData,
+    isLoading: isSupporterLoading,
+    error: isSupporterError,
+  } = useGetTotalEarningFromSuporterQuery(supporterValue);
+
+  const handleValueChange = value => {
+    setSelectedRange(value);
+  };
+
+  const handleSupporterValueChange = value => {
+    setsupporterValue(value);
+  };
+
+
+  useEffect(() => {
+    if (SuppporterData) {
+      setSupporterIncome(SuppporterData);
+    }
+  }, [SuppporterData]);
+
+  useEffect(() => {
+    if (data) {
+      setmemberInocme(data?.data);
+    }
+  }, [data]);
+
+  if (isLoading || isSupporterLoading)
+    return (
+      <div className="h-full w-full flex items-center justify-center ">
+        <PuffLoader size={100} color="#99FF6D" />
+      </div>
+    );
+  
+
+  
 
   return (
     <div className="">
@@ -51,19 +100,26 @@ function HompePage() {
                 Registered supporters
               </h3>
               <div>
-                <Select className="rounded-full">
+                <Select
+                  onValueChange={value => {
+                    handleValueChange(value);
+                  }}
+                  className="rounded-full"
+                >
                   <SelectTrigger className="lg:w-[180px] w-[100px] px-4 lg:py-6 py-3 rounded-full text-textDark font-semibold ">
                     <SelectValue className="text-sm" placeholder="All time" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="light">Weekly</SelectItem>
-                    <SelectItem value="dark">Monthly</SelectItem>
-                    <SelectItem value="system">Annual</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                    <SelectItem value="annual">Annual</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            <h3 className="lg:text-4xl text-2xl font-bold text-textDark">£0</h3>
+            <h3 className="lg:text-4xl text-2xl font-bold text-textDark">
+              £{memberInocme?.total_earning}
+            </h3>
           </div>
           <div className="border flex-1 w-full p-6 flex flex-col gap-1 lg:gap-2 rounded-xl ">
             <div className="flex justify-between lg:gap-6 gap-6">
@@ -71,20 +127,25 @@ function HompePage() {
                 Other supporters
               </h3>
               <div>
-                <Select className="rounded-full">
+                <Select
+                  onValueChange={value => {
+                    handleSupporterValueChange(value);
+                  }}
+                  className="rounded-full"
+                >
                   <SelectTrigger className="lg:w-[180px] w-[100px] px-4 lg:py-6 py-3 rounded-full text-textDark font-semibold  ">
                     <SelectValue placeholder="All time" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="light">Weekly</SelectItem>
-                    <SelectItem value="dark">Monthly</SelectItem>
-                    <SelectItem value="system">Annual</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                    <SelectItem value="annual">Annual</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <h3 className="lg:text-4xl text-2xl  font-bold text-textDark">
-              £0
+              £{supporterIncome?.data?.total_earning}
             </h3>
           </div>
         </div>

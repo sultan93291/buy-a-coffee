@@ -29,11 +29,10 @@ const AuthProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      const userData = res.data.data; // Extract only the `data` object
-      console.log("Fetched User Data:", userData);
-
-      dispatch(setLoggedInUserData(userData)); // ✅ Store only `data`
+      const userData = res.data.data; 
+      dispatch(setLoggedInUserData(userData)); 
       setIsAuthenticated(true);
+
     } catch (error) {
       console.error("Error fetching data:", error);
       localStorage.removeItem("token");
@@ -62,7 +61,7 @@ const AuthProvider = ({ children }) => {
     } else if (token && currentPath !== "/signupsteps") {
       window.location.href = "/signupsteps";
     }
-  }, []); // No dependencies (runs only once)
+  }, []); 
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, handleLogout, fetchData }}>
