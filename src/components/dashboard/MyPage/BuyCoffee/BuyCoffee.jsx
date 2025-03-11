@@ -44,12 +44,7 @@ function BuyCoffee({ isFullwidth, data }) {
     }
   }, [MemberShipData]);
 
-  if (isLoading)
-    return (
-      <div className="h-full w-full flex items-center justify-center ">
-        <PuffLoader size={100} color="#99FF6D" />
-      </div>
-    );
+
   
   console.log(MemberShipData?.data[0]?.price);
   

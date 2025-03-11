@@ -58,7 +58,6 @@ const {role} = useContext(MainContext)
             role === 'creator' &&  <CommonLink path={'/dashboard/payouts'} navName={'Payouts'} Icon={AiOutlineThunderbolt}></CommonLink>
           }
           <CommonLink path={'/dashboard/my-account'} navName={'My Account'} Icon={IoNotificationsOutline}></CommonLink>
-          <CommonLink path={'/dashboard/support'} navName={'Support'} Icon={MdOutlineContactSupport}></CommonLink>
           </div>
         </div>
         

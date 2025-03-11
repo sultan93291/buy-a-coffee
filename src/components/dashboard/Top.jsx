@@ -207,11 +207,6 @@ function Top({ title }) {
                   navName={"My Account"}
                   Icon={IoNotificationsOutline}
                 ></CommonLink>
-                <CommonLink
-                  path={"/dashboard/support"}
-                  navName={"Support"}
-                  Icon={MdOutlineContactSupport}
-                ></CommonLink>
                 <div className="pb-[40px]"
                   onClick={() => {
                     handleLogout();

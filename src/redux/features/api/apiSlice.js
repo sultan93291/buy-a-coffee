@@ -202,6 +202,22 @@ export const apiSlice = createApi({
         includeToken: true,
       }),
     }),
+
+    getAllFollowers: builder.query({
+      query: () => ({
+        url: `/follower-list`,
+        method: "GET",
+        includeToken: true,
+      }),
+    }),
+
+    getAllFollowing: builder.query({
+      query: () => ({
+        url: `/following-list`,
+        method: "GET",
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -228,5 +244,7 @@ export const {
   useGetDonationsDetailsQuery,
   useGetTotalEarningFromMemberQuery,
   useGetTotalEarningFromSuporterQuery,
-  useGetMemberShipListQuery
+  useGetMemberShipListQuery,
+  useGetAllFollowersQuery,
+  useGetAllFollowingQuery
 } = apiSlice;

@@ -10,12 +10,9 @@ import { MoonLoader } from "react-spinners";
 function Explore() {
   const { data, error, isLoading } = useTrendingCreatorsQuery();
   const [searchTerm, setSearchTerm] = useState("");
-  
 
-  // Ensure API response is handled safely
   const creators = data?.data || [];
 
-  // Filter creators based on search input
   const filteredSearchData = creators.filter(creator =>
     creator?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
