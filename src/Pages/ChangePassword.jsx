@@ -14,7 +14,7 @@ import { BeatLoader } from "react-spinners";
 import { setUserName } from "@/redux/features/userDocSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-function LoginPage() {
+function ChangePassword() {
   const navigate = useNavigate();
 
   const isExploreCreator = useSelector(
@@ -27,6 +27,7 @@ function LoginPage() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -58,6 +59,7 @@ function LoginPage() {
     }
   };
 
+  const password = watch("password");
   return (
     <section>
       <div className="flex items-start">
@@ -95,26 +97,7 @@ function LoginPage() {
               className="mt-10 lg:mt-[56px]"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <h1 className="auth-header">Welcome back</h1>
-              {/* email  */}
-              <div className="mt-4">
-                <input
-                  {...register("email", { required: "Email is required" })}
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                  className={`auth-input ${
-                    errors.email ? "border-red-300" : ""
-                  }`}
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-              {/* password  */}
+              <h1 className="auth-header">Reset Password</h1>
               <div className="mt-4">
                 <input
                   {...register("password", {
@@ -139,13 +122,34 @@ function LoginPage() {
                 )}
               </div>
 
+              {/* Confirm Password */}
+              <div className="mt-4">
+                <input
+                  {...register("confirmPassword", {
+                    required: "Confirm Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters",
+                    },
+                    validate: value =>
+                      value === password || "Passwords do not match",
+                  })}
+                  type="password"
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  placeholder="Confirm Password"
+                  className={`auth-input ${
+                    errors.confirmPassword ? "border-red-300" : ""
+                  }`}
+                />
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+
               <div>
-                <div className="mt-4 w-full flex items-end justify-end  ">
-                  <Link to={"/forgot-pass"} className="cursor-pointer underline ">
-                    {" "}
-                    Forgot password{" "}
-                  </Link>
-                </div>
                 {/* submit btn  */}
                 <button
                   disabled={isLoading}
@@ -163,7 +167,7 @@ function LoginPage() {
                           />
                         </>
                       ) : (
-                        "Log in"
+                        "Reset Password"
                       )
                     }
                   />
@@ -178,4 +182,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default ChangePassword;

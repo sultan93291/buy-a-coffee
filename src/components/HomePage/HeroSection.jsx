@@ -5,12 +5,6 @@ import planeShape from "../../assets/images/plane.png";
 import { useSelector } from "react-redux";
 
 function HeroSection() {
-  const loggedInUserData = useSelector(
-    state => state.userDocReducer.loggedInuser
-  );
-
-  console.log(loggedInUserData);
-
   return (
     <section className="bg-heroColor pt-[92px] md:pt-[184px] relative">
       <div className="container">

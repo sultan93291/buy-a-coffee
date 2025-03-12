@@ -218,6 +218,49 @@ export const apiSlice = createApi({
         includeToken: true,
       }),
     }),
+
+    forgotPassword: builder.mutation({
+      query: email => ({
+        url: "/forgot-password",
+        method: "post",
+        data: email,
+      }),
+    }),
+
+    verifyOtp: builder.mutation({
+      query: data => ({
+        url: `/otp-verify`,
+        method: `post`,
+        data: data,
+      }),
+    }),
+
+    resetPass: builder.mutation({
+      query: data => ({
+        url: `/reset-password`,
+        method: `post`,
+        data: data,
+      }),
+    }),
+
+    resendOtp: builder.mutation({
+      query: email => ({
+        url: `/otp-resend`,
+        method: `POST`,
+        data: {
+          email: email,
+        },
+      }),
+    }),
+
+    addPayment: builder.mutation({
+      query: ({ userId, Data }) => ({
+        url: `/checkout/${userId}`,
+        method: "post",
+        data: Data,
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -246,5 +289,10 @@ export const {
   useGetTotalEarningFromSuporterQuery,
   useGetMemberShipListQuery,
   useGetAllFollowersQuery,
-  useGetAllFollowingQuery
+  useGetAllFollowingQuery,
+  useForgotPasswordMutation,
+  useAddPaymentMutation,
+  useResetPassMutation,
+  useVerifyOtpMutation,
+  useResendOtpMutation,
 } = apiSlice;

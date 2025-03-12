@@ -20,6 +20,12 @@ import CreatorProfilePage from "@/Pages/dashboardPages/Explore/CreatorProfilePag
 import PrivateRouteProtector from "@/RouteProtector/PrivateRouteProtector/PrivateRouteProtector";
 import PublicRouteProtector from "@/RouteProtector/PublicRouteProtector/PublicRouteProtector";
 import SuccessPage from "@/Pages/SuccessPage";
+import ForgotPass from "@/Pages/ForgotPass";
+import VerifyOtp from "@/Pages/VerifyOtp";
+import ChangePassword from "@/Pages/ChangePassword";
+import PaymentSuccessPage from "@/Pages/PaymentSuccessPage";
+import paymentErrorPage from "../Pages/PaymentErrorPage";
+import PaymentErrorPage from "../Pages/PaymentErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +61,30 @@ const router = createBrowserRouter([
         element: (
           <PublicRouteProtector>
             <CreateAccount />
+          </PublicRouteProtector>
+        ),
+      },
+      {
+        path: "/forgot-pass",
+        element: (
+          <PublicRouteProtector>
+            <ForgotPass />
+          </PublicRouteProtector>
+        ),
+      },
+      {
+        path: "/verify-otp",
+        element: (
+          <PublicRouteProtector>
+            <VerifyOtp />
+          </PublicRouteProtector>
+        ),
+      },
+      {
+        path: "/change-password",
+        element: (
+          <PublicRouteProtector>
+            <ChangePassword />
           </PublicRouteProtector>
         ),
       },
@@ -125,6 +155,14 @@ const router = createBrowserRouter([
   {
     path: "/account-connect-successfull",
     element: <SuccessPage />,
+  },
+  {
+    path: "/payment-success",
+    element: <PaymentSuccessPage />,
+  },
+  {
+    path: "/payment-error",
+    element: <PaymentErrorPage />,
   },
 ]);
 

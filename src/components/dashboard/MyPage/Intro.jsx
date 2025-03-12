@@ -116,7 +116,11 @@ const handleFileUpload = e => {
   };
 
   return (
-    <div className="lg:p-6 2xl:min-w-[496px] max-h-[649px] p-4 rounded-xl h-full flex flex-col justify-between bg-white border">
+    <div
+      className={`lg:p-6 ${
+        isMe ? "2xl:min-w-[496px]" : " 2xl:min-w-[350px] 2xl:max-w-[496px]"
+      } max-h-[649px] p-4 rounded-xl h-full flex flex-col justify-between bg-white border`}
+    >
       <Title title={"Intro:"}></Title>
       <p className="text-textColor font-medium">
         {!isMe
@@ -225,9 +229,7 @@ const handleFileUpload = e => {
                       >
                         {isLoading ? (
                           <BeatLoader
-                            size={10}
-                            color={"#000"}
-                            speedMultiplier={0.5}
+                           
                           />
                         ) : (
                           "Save changes"

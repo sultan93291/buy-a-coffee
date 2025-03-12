@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useContext } from "react";
 import AuthLeft from "../components/auth/AuthLeft";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -8,13 +9,13 @@ import FacebookIcon from "../assets/images/Facebook-ssl.svg";
 import GoogleIcon from "../assets/images/google-ssl.svg";
 import toast, { Toaster } from "react-hot-toast";
 import Logo from "../assets/images/logo.svg";
-import { useLoginUserIntentMutation } from "@/redux/features/api/apiSlice";
+import { useForgotPasswordMutation } from "@/redux/features/api/apiSlice";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { BeatLoader } from "react-spinners";
 import { setUserName } from "@/redux/features/userDocSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-function LoginPage() {
+const ForgotPass = () => {
   const navigate = useNavigate();
 
   const isExploreCreator = useSelector(
@@ -32,32 +33,27 @@ function LoginPage() {
 
   const dispatch = useDispatch();
 
-  const [useLoginUserIntent, { data, isLoading, error }] =
-    useLoginUserIntentMutation();
+  const [forgotPass, { data, isLoading, error }] = useForgotPasswordMutation();
   const { fetchData } = useContext(AuthContext);
 
   const onSubmit = async data => {
-    console.log(data.email, data.password);
-
     try {
-      const response = await useLoginUserIntent({
+      const response = await forgotPass({
         email: data.email,
-        password: data.password,
       }).unwrap();
 
-      if (response?.code === 200) {
+      if (response?.code == 200) {
+        console.log(response);
         toast.success(response?.message);
-        localStorage.setItem("token", response?.data?.token);
-        fetchData();
+        localStorage.setItem("email", data?.email);
+        navigate("/verify-otp");
       }
     } catch (error) {
-      toast.error(error?.data?.message);
-      console.log(error?.data?.message);
+      toast.error(error?.data?.message || error?.message.email[0]);
     } finally {
       reset();
     }
   };
-
   return (
     <section>
       <div className="flex items-start">
@@ -95,7 +91,7 @@ function LoginPage() {
               className="mt-10 lg:mt-[56px]"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <h1 className="auth-header">Welcome back</h1>
+              <h1 className="auth-header">Forgot password </h1>
               {/* email  */}
               <div className="mt-4">
                 <input
@@ -114,61 +110,27 @@ function LoginPage() {
                   </p>
                 )}
               </div>
-              {/* password  */}
-              <div className="mt-4">
-                <input
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Password must be at least 8 characters",
-                    },
-                  })}
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  className={`auth-input ${
-                    errors.password ? "border-red-300" : ""
-                  }`}
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="text-center w-full mt-8"
+              >
+                <ButtonPrimary
+                  text={
+                    isLoading ? (
+                      <>
+                        <BeatLoader
+                          size={10}
+                          color={"#000"}
+                          speedMultiplier={0.5}
+                        />
+                      </>
+                    ) : (
+                      "Verify your email address"
+                    )
+                  }
                 />
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <div className="mt-4 w-full flex items-end justify-end  ">
-                  <Link to={"/forgot-pass"} className="cursor-pointer underline ">
-                    {" "}
-                    Forgot password{" "}
-                  </Link>
-                </div>
-                {/* submit btn  */}
-                <button
-                  disabled={isLoading}
-                  type="submit"
-                  className="text-center w-full mt-8"
-                >
-                  <ButtonPrimary
-                    text={
-                      isLoading ? (
-                        <>
-                          <BeatLoader
-                            size={10}
-                            color={"#000"}
-                            speedMultiplier={0.5}
-                          />
-                        </>
-                      ) : (
-                        "Log in"
-                      )
-                    }
-                  />
-                </button>
-              </div>
+              </button>
             </form>
           </div>
         </div>
@@ -176,6 +138,6 @@ function LoginPage() {
       <Toaster />
     </section>
   );
-}
+};
 
-export default LoginPage;
+export default ForgotPass;

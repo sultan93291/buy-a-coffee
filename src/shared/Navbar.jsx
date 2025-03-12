@@ -15,7 +15,10 @@ function Navbar() {
     location.pathname === "/login" ||
     location.pathname === "/signup" ||
     location.pathname === "/createaccount" ||
-    location.pathname === "/signupsteps"
+    location.pathname === "/signupsteps" ||
+    location.pathname === "/forgot-pass" ||
+    location.pathname === "/verify-otp" ||
+    location.pathname === "/change-password"
   ) {
     return null;
   }
