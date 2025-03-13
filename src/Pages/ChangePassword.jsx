@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import AuthLeft from "../components/auth/AuthLeft";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -8,7 +8,10 @@ import FacebookIcon from "../assets/images/Facebook-ssl.svg";
 import GoogleIcon from "../assets/images/google-ssl.svg";
 import toast, { Toaster } from "react-hot-toast";
 import Logo from "../assets/images/logo.svg";
-import { useLoginUserIntentMutation } from "@/redux/features/api/apiSlice";
+import {
+  useLoginUserIntentMutation,
+  useResetPassMutation,
+} from "@/redux/features/api/apiSlice";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { BeatLoader } from "react-spinners";
 import { setUserName } from "@/redux/features/userDocSlice";
@@ -16,6 +19,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 function ChangePassword() {
   const navigate = useNavigate();
+  const RefreshToken = localStorage.getItem("RefreshToken");
+
+
 
   const isExploreCreator = useSelector(
     state => state.userDocReducer.isExploreCreators
@@ -33,22 +39,23 @@ function ChangePassword() {
 
   const dispatch = useDispatch();
 
-  const [useLoginUserIntent, { data, isLoading, error }] =
-    useLoginUserIntentMutation();
+  const [useResetPass, { data, isLoading, error }] = useResetPassMutation();
   const { fetchData } = useContext(AuthContext);
 
   const onSubmit = async data => {
-    console.log(data.email, data.password);
-
     try {
-      const response = await useLoginUserIntent({
-        email: data.email,
+      const email = localStorage.getItem("email");
+      const Data = {
+        password_confirmation: data.confirmPassword,
         password: data.password,
-      }).unwrap();
+        email: email,
+      };
+      const response = await useResetPass(Data).unwrap();
 
       if (response?.code === 200) {
         toast.success(response?.message);
-        localStorage.setItem("token", response?.data?.token);
+        localStorage.removeItem("RefreshToken");
+        navigate("/login");
         fetchData();
       }
     } catch (error) {
@@ -58,6 +65,12 @@ function ChangePassword() {
       reset();
     }
   };
+
+    useEffect(() => {
+      if (!RefreshToken) {
+        navigate("/login");
+      }
+    }, [RefreshToken, navigate, onSubmit]);
 
   const password = watch("password");
   return (

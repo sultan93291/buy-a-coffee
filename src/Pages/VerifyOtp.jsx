@@ -62,6 +62,8 @@ const VerifyOtp = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   const handlePaste = e => {
     e.preventDefault();
     const pasteData = e.clipboardData.getData("text").trim();
@@ -106,13 +108,15 @@ const VerifyOtp = () => {
     };
     try {
       const response = await useVerifyOtp(data).unwrap();
+      console.log(response.code);
+
       if (response?.code == 200) {
         toast.success(response?.message);
-        localStorage.setItem("email", data?.email);
+        localStorage.setItem("RefreshToken", response?.data?.token);
         navigate("/change-password");
       }
     } catch (error) {
-      toast.error(error?.data?.message || error?.message.email[0]);
+      toast.error(error?.data?.message || error?.message.email);
     } finally {
       setOtp({
         otpOne: "",
@@ -121,7 +125,6 @@ const VerifyOtp = () => {
         otpFour: "",
       });
     }
-    
   };
 
   const handleResendVerifyOtp = async () => {
@@ -228,7 +231,7 @@ const VerifyOtp = () => {
                         />
                       </>
                     ) : (
-                      "Verify your email address"
+                      "Verify otp"
                     )
                   }
                 />

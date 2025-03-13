@@ -73,14 +73,12 @@ function BuyCoffee({ isFullwidth, data }) {
           return;
         }
         payLoad.quantity = count;
-        payLoad.buy_a_coffee_amount = count * 3;
+        payLoad.unit_price =  3;
         payLoad.type = "buy_a_coffee";
         payLoad.success_url = `${baseUrl}/payment-success`;
         payLoad.cancel_url = `${baseUrl}/payment-error`;
         payLoad.message = message;
       }
-      console.log("reachign this point");
-
       await completePayment({ userId: creatorId, Data: payLoad });
     } else {
       toast.error("Please provide a message");
@@ -90,11 +88,10 @@ function BuyCoffee({ isFullwidth, data }) {
 
   useEffect(() => {
     if (payMentData) {
-      console.log(payMentData?.data);
-
-      return;
-      toast.success(payMentData?.data?.message);
-
+      console.log(payMentData);
+      toast.success(payMentData?.message);
+      setmessage("")
+      setCount(1)
       window.open(payMentData?.data?.payment_link);
     }
   }, [payMentData]);
