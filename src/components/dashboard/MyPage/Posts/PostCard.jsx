@@ -109,7 +109,7 @@ function PostCard({ data, isMe }) {
               />
             </svg>
           </div>
-          <div className="flex flex-col-reverse  xl:flex-row bg-white rounded-[12px] p-4 shadow-md  ">
+          <div className="flex flex-col-reverse  xl:flex-row bg-white rounded-[12px] p-4 gap-y-2 shadow-md  ">
             <div className="lg:w-[202px] md:h-[101px] w-full relative overflow-hidden lg rounded-xl">
               {imageUrl ? (
                 <img
@@ -141,9 +141,11 @@ function PostCard({ data, isMe }) {
               )}
             </div>
 
-            <p className="text-textColor w-[250px] lg:max-w-[300px] px-8 text-center break-words truncate">
-              {data?.title}
-            </p>
+            <div className="w-full  flex items-center xl:items-start ">
+              <p className="text-textColor xl:w-[250px] 2xl:max-w-[300px] px-8 text-center break-words truncate ">
+                {data?.description}
+              </p>
+            </div>
           </div>
         </div>
       </div>

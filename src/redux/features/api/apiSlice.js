@@ -288,10 +288,10 @@ export const apiSlice = createApi({
     }),
 
     sendMsgToFollowers: builder.mutation({
-      query: data => ({
-        url: ``,
-        method: "GET",
-        data: data,
+      query: message => ({
+        url: `/reply-your-follower`,
+        method: "POST",
+        data: message,
         includeToken: true,
       }),
       invalidatesTags: ["message"],

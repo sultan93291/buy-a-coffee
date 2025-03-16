@@ -37,8 +37,6 @@ function LoginPage() {
   const { fetchData } = useContext(AuthContext);
 
   const onSubmit = async data => {
-    console.log(data.email, data.password);
-
     try {
       const response = await useLoginUserIntent({
         email: data.email,

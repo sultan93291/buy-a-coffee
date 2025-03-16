@@ -7,11 +7,14 @@ import {
   useGetSupporterMessageQuery,
   useSendMsgToFollowersMutation,
 } from "@/redux/features/api/apiSlice";
+import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
 const RecntSupporters = ({ isMe }) => {
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   const [msgArr, setmsgArr] = useState([]);
+  const [myMsg, setmyMsg] = useState();
 
   const { data, isLoading, error } = useGetSupporterMessageQuery();
   const {
@@ -28,29 +31,58 @@ const RecntSupporters = ({ isMe }) => {
   useEffect(() => {
     if (yourData) {
       const sanitizedData = yourData?.data?.map(item => ({
+        id: item.id, // Ensure uniqueness
         msg: item.message,
-        avatar: loggedInUser.avatar,
+        avatar: `${imgBaseUrl}/${loggedInUser.avatar}`,
       }));
 
-      setmsgArr(msg => [...msg, ...sanitizedData]); // ✅ Corrected
+      setmsgArr(prevMsgs => {
+        // Remove duplicates based on ID
+        const existingIds = new Set(prevMsgs.map(msg => msg.id));
+        const uniqueMsgs = sanitizedData.filter(
+          msg => !existingIds.has(msg.id)
+        );
+        return [...prevMsgs, ...uniqueMsgs];
+      });
     }
   }, [yourData]);
 
   useEffect(() => {
     if (data) {
       const sanitizedData = data?.data?.map(item => ({
+        id: item.id, // Ensure uniqueness
         msg: item.message,
-        avatar: item?.user?.avatar,
+        avatar: `${imgBaseUrl}/${item?.user?.avatar}`,
       }));
 
-      setmsgArr(msg => [...msg, ...sanitizedData]); // ✅ Corrected
+      setmsgArr(prevMsgs => {
+        // Remove duplicates based on ID
+        const existingIds = new Set(prevMsgs.map(msg => msg.id));
+        const uniqueMsgs = sanitizedData.filter(
+          msg => !existingIds.has(msg.id)
+        );
+        return [...prevMsgs, ...uniqueMsgs];
+      });
     }
   }, [data]);
 
-  
-  console.log(msgArr, ' this is the all msg');
-  
-
+  const handleFollowerReply = async () => {
+    if (!myMsg || myMsg.length < 1) {
+      toast.error(`Please leave a message for your supporter`);
+      return;
+    }
+    try {
+      const response = await createMsg({ message: myMsg }).unwrap();
+      if (response?.code === 200) {
+        toast.success(response?.message);
+      }
+    } catch (error) {
+      toast.error(error?.data?.message);
+      console.log(error?.data?.message);
+    } finally {
+      setmyMsg("");
+    }
+  };
 
   return (
     <div
@@ -77,35 +109,29 @@ const RecntSupporters = ({ isMe }) => {
             </div>
           </div>
           <div className="flex flex-col gap-y-4">
-            <div className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2">
-              <div
-                className=" w-[44px]  h-[40px]  rounded-full "
-                style={{
-                  backgroundImage: `url(${women})`,
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                }}
-              ></div>
-              <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
-                Love your podcast! Keep up the good work.
-              </h3>
-            </div>
-            {isMe && (
-              <div className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2">
-                <div
-                  className=" w-[44px]  h-[40px]  rounded-full "
-                  style={{
-                    backgroundImage: `url(${`${imgBaseUrl}/${loggedInUser.avatar}`})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-                <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
-                  Thanks. Stay connected.
-                </h3>
-              </div>
+            {msgArr.length > 0 ? (
+              msgArr?.map((item, index) => {
+                return (
+                  <div className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2">
+                    <div
+                      className=" w-[44px]  h-[40px]  rounded-full "
+                      style={{
+                        backgroundImage: `url(${item?.avatar})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                      }}
+                    ></div>
+                    <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
+                      {item?.msg}
+                    </h3>
+                  </div>
+                );
+              })
+            ) : (
+              <span className="text-[#222222CC] opacity-[0.8] text-base leading-[160%] font-normal">
+                No message yet
+              </span>
             )}
           </div>
         </div>
@@ -122,8 +148,12 @@ const RecntSupporters = ({ isMe }) => {
             ></div>
             <textarea
               className=" h-[144px] px-4 text-sm focus:outline-none placeholder:text-textDark font-semibold text-textDark bg-[rgba(113, 113, 113, 0.24)] w-full py-3 rounded-[8px] border-[1px] border-solid border-[rgba(153, 154, 154, 0.05)]  "
-              name=""
+              name="msg"
               id=""
+              onChange={e => {
+                setmyMsg(e.target.value);
+              }}
+              value={myMsg}
               placeholder="Write your message"
             ></textarea>
           </div>
@@ -131,8 +161,18 @@ const RecntSupporters = ({ isMe }) => {
       </div>
       {isMe && (
         <div className="flex items-end justify-end  w-full">
-          <button className="w-auto max-w-[119px]  rounded-[32px] h-auto py-3 px-6 bg-primaryColor text-base font-semibold leading-[130%] ">
-            Message
+          <button
+            disabled={isMsgLoading}
+            onClick={() => {
+              handleFollowerReply();
+            }}
+            className="w-auto max-w-[119px]  rounded-[32px] h-auto py-3 px-6 bg-primaryColor text-base font-semibold leading-[130%] "
+          >
+            {isMsgLoading ? (
+              <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
+            ) : (
+              "Message"
+            )}
           </button>
         </div>
       )}
