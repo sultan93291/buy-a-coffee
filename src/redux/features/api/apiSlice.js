@@ -8,7 +8,7 @@ const SiteURl = import.meta.env.VITE_SERVER_BASE_URL;
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: axiosBaseQuery({ baseUrl: SiteURl }),
-  tagTypes: ["posts"],
+  tagTypes: ["posts", "message"],
   endpoints: builder => ({
     // ✅ Register User API Call
     registerUserIntent: builder.mutation({
@@ -261,6 +261,49 @@ export const apiSlice = createApi({
         includeToken: true,
       }),
     }),
+
+    getCreatorsFollowerList: builder.query({
+      query: userID => ({
+        url: `/check-followers/${userID}`,
+        method: `GET`,
+        includeToken: true,
+      }),
+    }),
+
+    getSupporterMessage: builder.query({
+      query: () => ({
+        url: `/messages-for-you`,
+        method: `GET`,
+        includeToken: true,
+      }),
+    }),
+
+    getyourMessage: builder.query({
+      query: () => ({
+        url: `/messages-for-followers`,
+        method: `GET`,
+        includeToken: true,
+      }),
+      providesTags: ["message"],
+    }),
+
+    sendMsgToFollowers: builder.mutation({
+      query: data => ({
+        url: ``,
+        method: "GET",
+        data: data,
+        includeToken: true,
+      }),
+      invalidatesTags: ["message"],
+    }),
+
+    getTotalPayout: builder.query({
+      query: () => ({
+        url: `/total-payout`,
+        method: "GET",
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -295,4 +338,9 @@ export const {
   useResetPassMutation,
   useVerifyOtpMutation,
   useResendOtpMutation,
+  useGetCreatorsFollowerListQuery,
+  useGetSupporterMessageQuery,
+  useGetyourMessageQuery,
+  useSendMsgToFollowersMutation,
+  useGetTotalPayoutQuery,
 } = apiSlice;

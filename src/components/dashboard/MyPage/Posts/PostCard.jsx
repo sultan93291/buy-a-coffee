@@ -1,12 +1,40 @@
+import { useGetCreatorsFollowerListQuery } from "@/redux/features/api/apiSlice";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-function PostCard({ data }) {
+function PostCard({ data, isMe }) {
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
+  const { creatorId } = useParams();
 
   const [imageUrl, setImageUrl] = useState();
   const [audioUrl, setAudioUrl] = useState();
   const [videoUrl, setVideoUrl] = useState();
+  const [followerDataArr, setfollowerDataArr] = useState([]);
+  const {
+    data: followerData,
+    isLoading,
+    error,
+  } = useGetCreatorsFollowerListQuery(creatorId);
+
+  const loggedInUserData = useSelector(
+    state => state.userDocReducer.loggedInuser
+  );
+
+  useEffect(() => {
+    if (followerData) {
+      setfollowerDataArr(followerData.data);
+    }
+  }, [followerData]);
+
+  const isAuthorized =
+    Array.isArray(followerDataArr) &&
+    followerDataArr.some(
+      follower => follower === loggedInUserData?.id
+    );
+
+  console.log(isAuthorized);
 
   let fileExtension;
   let fileName;
@@ -15,7 +43,7 @@ function PostCard({ data }) {
     if (!data?.file_url) return; // Ensure file_url exists
 
     fileName = data.file_url;
-    fileExtension = fileName.split(".").pop().toLowerCase(); // Convert to lowercase for consistency
+    fileExtension = fileName.split(".").pop().toLowerCase();
 
     console.log(fileExtension);
 
@@ -28,14 +56,28 @@ function PostCard({ data }) {
     }
   }, [data]); // Runs when `data` changes
 
+  
+
   return (
-    <div className="2xl:flex-row relative overflow-x-hidden  flex flex-col w-[250px]   gap-4   items-center lg:items-start  2xl:w-[700px] bg-[#fafafa]   rounded-xl   ">
+    <div className="2xl:flex-row relative overflow-x-hidden p-4  flex flex-col w-[250px]   gap-4   items-center lg:items-start  2xl:w-[700px] bg-[#fafafa]   rounded-xl   ">
       <div className="flex flex-col gap-y-4 w-full ">
         <h3 className="text-[#34312C] text-base xl:text-xl  font-bold leading-[132%] tracking-[-0.2%] ">
-          2024 California Classic Summer League
+          {data?.title}
         </h3>
-        <div className="flex flex-row gap-x-5 after-content-[''] relative w-full after:absolute after:top-0 after:left-0  after:w-full after:bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(255,255,255,0.5)]  after:backdrop-blur-sm after:rounded-xxl after:z-10  after:h-full z-0 after:rounded-[12px] after:p-4  ">
-          <div className="absolute top-0 left-0 z-50 w-full h-full flex justify-center items-center">
+        <div
+          className={`${
+            isMe || isAuthorized
+              ? "after:hidden"
+              : "flex flex-row gap-x-5 after-content-[''] relative w-full after:absolute after:top-0 after:left-0  after:w-full after:bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(255,255,255,0.5)]  after:backdrop-blur-sm after:rounded-xxl after:z-10  after:h-full z-0 after:rounded-[12px] after:p-4 "
+          }`}
+        >
+          <div
+            className={`${
+              isMe || isAuthorized
+                ? "hidden"
+                : "absolute top-0 left-0 z-50 w-full h-full flex justify-center items-center"
+            }`}
+          >
             <svg
               onClick={() => {
                 toast.error("Membership required to view the post.");
@@ -67,40 +109,42 @@ function PostCard({ data }) {
               />
             </svg>
           </div>
-          <div className="lg:w-[202px] md:h-[101px] w-full relative overflow-hidden lg rounded-xl">
-            {imageUrl ? (
-              <img
-                className=" w-full  md:w-[202px] h-[101px] object-cover"
-                src={imageUrl}
-                alt="dynamic content"
-              />
-            ) : audioUrl ? (
-              <audio className="w-full  md:w-[202px] object-cover" controls>
-                <source
-                  src={audioUrl}
-                  type={`audio/${audioUrl.split(".").pop().toLowerCase()}`}
+          <div className="flex flex-col-reverse  xl:flex-row bg-white rounded-[12px] p-4 shadow-md  ">
+            <div className="lg:w-[202px] md:h-[101px] w-full relative overflow-hidden lg rounded-xl">
+              {imageUrl ? (
+                <img
+                  className=" w-full  md:w-[202px] h-[101px] object-cover"
+                  src={imageUrl}
+                  alt="dynamic content"
                 />
-                Your browser does not support the audio element.
-              </audio>
-            ) : videoUrl ? (
-              <video
-                className="w-full  md:w-[202px] h-[101px] object-cover"
-                controls
-              >
-                <source
-                  src={videoUrl}
-                  type={`video/${videoUrl.split(".").pop().toLowerCase()}`}
-                />
-                Your browser does not support the video element.
-              </video>
-            ) : (
-              <p>Unsupported file type</p>
-            )}
-          </div>
+              ) : audioUrl ? (
+                <audio className="w-full  md:w-[202px] object-cover" controls>
+                  <source
+                    src={audioUrl}
+                    type={`audio/${audioUrl.split(".").pop().toLowerCase()}`}
+                  />
+                  Your browser does not support the audio element.
+                </audio>
+              ) : videoUrl ? (
+                <video
+                  className="w-full  md:w-[202px] h-[101px] object-cover"
+                  controls
+                >
+                  <source
+                    src={videoUrl}
+                    type={`video/${videoUrl.split(".").pop().toLowerCase()}`}
+                  />
+                  Your browser does not support the video element.
+                </video>
+              ) : (
+                <p>Unsupported file type</p>
+              )}
+            </div>
 
-          <p className="text-textColor w-[250px] lg:max-w-[300px] px-8 text-center break-words truncate">
-            {data?.title}
-          </p>
+            <p className="text-textColor w-[250px] lg:max-w-[300px] px-8 text-center break-words truncate">
+              {data?.title}
+            </p>
+          </div>
         </div>
       </div>
     </div>

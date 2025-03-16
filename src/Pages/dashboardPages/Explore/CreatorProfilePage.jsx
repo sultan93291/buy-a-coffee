@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 
-
 function CreatorProfilePage() {
   const { creatorId } = useParams();
   const navigate = useNavigate();
@@ -30,18 +29,20 @@ function CreatorProfilePage() {
   const PostDataArr = postData?.data || [];
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
 
+  console.log(" this is the searched user data", data);
+
   useEffect(() => {
     if (loggedInUser?.id == creatorId) {
       navigate("/dashboard/my-page");
     }
   }, [creatorId, loggedInUser, navigate]);
 
-    if (isLoading || isPostLoading)
-      return (
-        <div className="h-full w-full flex items-center justify-center ">
-          <PuffLoader size={100} color="#99FF6D" />
-        </div>
-      );
+  if (isLoading || isPostLoading)
+    return (
+      <div className="h-full w-full flex items-center justify-center ">
+        <PuffLoader size={100} color="#99FF6D" />
+      </div>
+    );
 
   return (
     <>
@@ -70,7 +71,13 @@ function CreatorProfilePage() {
               PostDataArr.slice()
                 .reverse()
                 .map((item, index) => {
-                  return <PostCard data={item} key={item?.id} />;
+                  return (
+                    <PostCard
+                      isMe={false}
+                      data={item}
+                      key={item?.id}
+                    />
+                  );
                 })
             ) : (
               <p>No post found</p>

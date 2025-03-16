@@ -1,11 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import women from "../../assets/images/women.png";
 import logo from "../../assets/images/logo.svg";
+import {
+  useGetyourMessageQuery,
+  useGetSupporterMessageQuery,
+  useSendMsgToFollowersMutation,
+} from "@/redux/features/api/apiSlice";
 
 const RecntSupporters = ({ isMe }) => {
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
+  const [msgArr, setmsgArr] = useState([]);
+
+  const { data, isLoading, error } = useGetSupporterMessageQuery();
+  const {
+    data: yourData,
+    isLoading: isYourDataLoading,
+    error: yourDataError,
+  } = useGetyourMessageQuery();
+
+  const [
+    createMsg,
+    { data: msgData, error: msgError, isLoading: isMsgLoading },
+  ] = useSendMsgToFollowersMutation();
+
+  useEffect(() => {
+    if (yourData) {
+      const sanitizedData = yourData?.data?.map(item => ({
+        msg: item.message,
+        avatar: loggedInUser.avatar,
+      }));
+
+      setmsgArr(msg => [...msg, ...sanitizedData]); // ✅ Corrected
+    }
+  }, [yourData]);
+
+  useEffect(() => {
+    if (data) {
+      const sanitizedData = data?.data?.map(item => ({
+        msg: item.message,
+        avatar: item?.user?.avatar,
+      }));
+
+      setmsgArr(msg => [...msg, ...sanitizedData]); // ✅ Corrected
+    }
+  }, [data]);
+
+  
+  console.log(msgArr, ' this is the all msg');
+  
+
+
   return (
     <div
       className={`bg-white p-6 rounded-[12px]  flex flex-col gap-y-6 ${
@@ -19,8 +65,15 @@ const RecntSupporters = ({ isMe }) => {
               Recent Supporters:
             </h2>
             <div className="flex flex-row items-center gap-x-1 ">
-              <img src={logo} className="h-12 w-12 object-cover" alt="not found" />
-              <span className="text-[#222222CC] opacity-[0.8] text-base leading-[160%] font-normal "> bought a coffee.</span>
+              <img
+                src={logo}
+                className="h-12 w-12 object-cover"
+                alt="not found"
+              />
+              <span className="text-[#222222CC] opacity-[0.8] text-base leading-[160%] font-normal ">
+                {" "}
+                bought a coffee.
+              </span>
             </div>
           </div>
           <div className="flex flex-col gap-y-4">

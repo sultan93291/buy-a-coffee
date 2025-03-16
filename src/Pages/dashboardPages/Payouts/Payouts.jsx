@@ -3,7 +3,10 @@ import Top from "@/components/dashboard/Top";
 import thunderImg from "../../../assets/images/thunder.svg";
 import cardIcon from "../../../assets/images/card.svg";
 import { Link } from "react-router-dom";
-import { useConnectStripeAccountMutation } from "@/redux/features/api/apiSlice";
+import {
+  useConnectStripeAccountMutation,
+  useGetTotalPayoutQuery,
+} from "@/redux/features/api/apiSlice";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { useSelector } from "react-redux";
@@ -15,6 +18,7 @@ function Payouts() {
   console.log(loggedInUser, "form payouts");
 
   const [hovered, setHovered] = useState(false);
+  const [payoutAmount, setpayoutAmount] = useState();
 
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
 
@@ -22,10 +26,18 @@ function Payouts() {
   const buttonColor = BtnColor || defaultColor; // If BtnColor is undefined, use the default color
 
   const buttonStyles = {
-    backgroundColor: hovered ? "transparent" : buttonColor, // Transparent on hover, btn color otherwise
-    border: `2px solid ${hovered ? buttonColor : "transparent"}`, // Border is always there, but only shows color on hover
-    color: hovered ? buttonColor : "#000", // Text color on hover and default text color (black)
+    backgroundColor: hovered ? "transparent" : buttonColor,
+    border: `2px solid ${hovered ? buttonColor : "transparent"}`,
+    color: hovered ? buttonColor : "#000",
   };
+
+  const {
+    data: payoutData,
+    isLoading: isPayoutLoading,
+    error: ispayoutError,
+  } = useGetTotalPayoutQuery();
+
+  console.log(payoutData?.data);
 
   const [connectStripe, { data, isLoading, error }] =
     useConnectStripeAccountMutation();
@@ -64,6 +76,13 @@ function Payouts() {
       );
     }
   };
+
+  useEffect(() => {
+    if (payoutData) {
+      setpayoutAmount(payoutData?.data);
+    }
+  }, []);
+
   return (
     <div>
       <div>
@@ -72,7 +91,9 @@ function Payouts() {
       <div>
         <CommonBoxhShape>
           <p className="text-headingColor font-semibold mb-6">Total payouts</p>
-          <h3 className="text-[40px] font-bold text-[#3D464F]">£0</h3>
+          <h3 className="text-[40px] font-bold text-[#3D464F]">
+            £{payoutAmount}
+          </h3>
         </CommonBoxhShape>
       </div>
       <div>

@@ -46,7 +46,7 @@ function MyPage() {
             PostDataArr.slice()
               .reverse()
               .map((item, index) => {
-                return <PostCard data={item} key={item?.id} />;
+                return <PostCard isMe={true} data={item} key={item?.id} />;
               })
           ) : (
             <p>No post found</p>

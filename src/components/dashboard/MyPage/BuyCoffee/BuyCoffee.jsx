@@ -22,6 +22,9 @@ function BuyCoffee({ isFullwidth, data }) {
     error,
   } = useGetMemberShipListQuery(creatorId);
 
+
+  
+
   const [
     completePayment,
     { data: payMentData, isLoading: ispayMenLoading, error: PaymentError },
@@ -57,6 +60,7 @@ function BuyCoffee({ isFullwidth, data }) {
     state => state.userDocReducer.loggedInuser
   );
 
+
   const handleaddPayment = async () => {
     let payLoad = {};
     const baseUrl = window.location.origin;
@@ -73,7 +77,7 @@ function BuyCoffee({ isFullwidth, data }) {
           return;
         }
         payLoad.quantity = count;
-        payLoad.unit_price =  3;
+        payLoad.unit_price = 3;
         payLoad.type = "buy_a_coffee";
         payLoad.success_url = `${baseUrl}/payment-success`;
         payLoad.cancel_url = `${baseUrl}/payment-error`;
@@ -90,8 +94,8 @@ function BuyCoffee({ isFullwidth, data }) {
     if (payMentData) {
       console.log(payMentData);
       toast.success(payMentData?.message);
-      setmessage("")
-      setCount(1)
+      setmessage("");
+      setCount(1);
       window.open(payMentData?.data?.payment_link);
     }
   }, [payMentData]);
@@ -211,7 +215,7 @@ function BuyCoffee({ isFullwidth, data }) {
           {buyType === "membership" && (
             <div className=" text-black text-sm lg:text-base focus:outline-none font-jakarta font-bold bg-gray-50  py-2 px-4 lg:py-3 flex flex-col gap-3 lg:flex-row justify-between   resize-none border rounded-[12px] lg:rounded-[99px] w-full">
               {MemberShipData?.data[0]?.price
-                ? MemberShipData?.data[0]?.price
+                ? `Membership price  ${MemberShipData?.data[0]?.price} £ `
                 : "Currently this user has no membership plan"}
             </div>
           )}
@@ -238,8 +242,10 @@ function BuyCoffee({ isFullwidth, data }) {
             >
               {ispayMenLoading ? (
                 <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
+              ) : buyType === "membership" ? (
+                "Get Membership"
               ) : (
-                " Support Now"
+                "Support now"
               )}
             </button>
           </div>
