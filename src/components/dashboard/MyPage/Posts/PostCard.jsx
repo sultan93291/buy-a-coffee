@@ -34,7 +34,7 @@ function PostCard({ data, isMe }) {
       follower => follower === loggedInUserData?.id
     );
 
-  console.log(isAuthorized);
+
 
   let fileExtension;
   let fileName;
@@ -60,8 +60,8 @@ function PostCard({ data, isMe }) {
 
   return (
     <div className="2xl:flex-row relative overflow-x-hidden p-4  flex flex-col w-[250px]   gap-4   items-center lg:items-start  2xl:w-[700px] bg-[#fafafa]   rounded-xl   ">
-      <div className="flex flex-col gap-y-4 w-full ">
-        <h3 className="text-[#34312C] text-base xl:text-xl  font-bold leading-[132%] tracking-[-0.2%] ">
+      <div className="flex flex-col  gap-y-4 w-full ">
+        <h3 className="text-[#34312C]  text-base xl:text-xl  font-bold leading-[132%] tracking-[-0.2%] ">
           {data?.title}
         </h3>
         <div
@@ -109,7 +109,7 @@ function PostCard({ data, isMe }) {
               />
             </svg>
           </div>
-          <div className="flex flex-col-reverse  xl:flex-row bg-white rounded-[12px] p-4 gap-y-2 shadow-md  ">
+          <div className="flex flex-col-reverse p-4  xl:flex-row bg-white rounded-[12px]  gap-y-2 shadow-md  ">
             <div className="lg:w-[202px] md:h-[101px] w-full relative overflow-hidden lg rounded-xl">
               {imageUrl ? (
                 <img

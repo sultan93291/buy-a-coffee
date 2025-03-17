@@ -18,6 +18,7 @@ function Followers() {
   const creators = data?.data?.follower_list || [];
 
   useEffect(() => {
+
     if (data?.data?.follower_list) {
       const followers = data.data.follower_list.map(item => item?.users).flat(); 
       setallfollowers(followers);
@@ -80,7 +81,7 @@ function Followers() {
                 ) : filteredSearchData.length > 0 ? (
                   filteredSearchData.map((creator, index) => (
                     <Link
-                      to={`/dashboard/explore/creator/${creator.id}`}
+                      to={`/dashboard/explore/creator/${creator?.id}`}
                       key={index}
                     >
                       <CreatorProfile creator={creator} />

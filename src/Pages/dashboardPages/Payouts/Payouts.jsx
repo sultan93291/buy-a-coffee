@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { BeatLoader } from "react-spinners";
+import { BeatLoader, PuffLoader } from "react-spinners";
 
 function Payouts() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
@@ -81,7 +81,14 @@ function Payouts() {
     if (payoutData) {
       setpayoutAmount(payoutData?.data);
     }
-  }, []);
+  }, [payoutData]);
+
+  if (isPayoutLoading)
+    return (
+      <div className="h-full w-full flex items-center justify-center ">
+        <PuffLoader size={100} color="#99FF6D" />
+      </div>
+    );
 
   return (
     <div>
@@ -91,7 +98,7 @@ function Payouts() {
       <div>
         <CommonBoxhShape>
           <p className="text-headingColor font-semibold mb-6">Total payouts</p>
-          <h3 className="text-[40px] font-bold text-[#3D464F]">
+          <h3 className=" text-[20px] xl:text-[40px] font-bold text-[#3D464F]">
             £{payoutAmount}
           </h3>
         </CommonBoxhShape>

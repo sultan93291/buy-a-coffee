@@ -49,7 +49,7 @@ function Following() {
             <p className="text-center text-headingColor font-semibold">
               {loggedInUser?.following_count === 0
                 ? ` You don't have any followers yet`
-                : ` You have ${loggedInUser?.following_count} followers `}
+                : ` You have ${loggedInUser?.following_count} following `}
             </p>
           </CommonBoxhShape>
         </div>

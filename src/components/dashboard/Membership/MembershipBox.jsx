@@ -3,14 +3,28 @@ import CommonBoxhShape from "@/components/dashboard/CommonComponents/CommonBoxhS
 import { MdOutlineAttachMoney } from "react-icons/md";
 import Rewards from "@/components/dashboard/Membership/Rewards";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
-import { useCreateMemberShipMutation } from "@/redux/features/api/apiSlice";
+import {
+  useCreateMemberShipMutation,
+  useGetMemberShipListQuery,
+} from "@/redux/features/api/apiSlice";
 import { BeatLoader } from "react-spinners";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 function MembershipBox() {
+  const loggedInUserData = useSelector(
+    state => state.userDocReducer.loggedInuser
+  );
+
   const [CreatememberShip, { data, isLoading, error }] =
     useCreateMemberShipMutation();
+  const {
+    data: membershipData,
+    error: membershipError,
+    isLoading: ismembershipLoading,
+    refetch,
+  } = useGetMemberShipListQuery(loggedInUserData?.id);
   const {
     register,
     handleSubmit,
@@ -23,7 +37,7 @@ function MembershipBox() {
     await CreatememberShip({
       price: data?.membershipPrice,
     }).unwrap();
-    reset()
+    reset();
   };
 
   useEffect(() => {
@@ -35,10 +49,11 @@ function MembershipBox() {
   useEffect(() => {
     if (data) {
       toast.success(data?.message);
+      refetch();
     }
   }, [data]);
 
-  // console.log(data, isLoading, error);
+  console.log(membershipData?.data[0]?.price);
 
   return (
     <div className="shadow-[8px_8px_32px_0px_rgba(34,34,34,0.13)] rounded-[12px]">
@@ -59,7 +74,11 @@ function MembershipBox() {
             </label>
             <div className="relative">
               <input
-                placeholder="Add Your Membership price amount.."
+                placeholder={
+                  membershipData?.data[0]?.price
+                    ? `Current  cost  ${membershipData?.data[0]?.price} £ `
+                    : `Membership cost..`
+                }
                 className={`input-control pl-16 ${
                   errors.membershipPrice
                     ? "border-red-500"
@@ -119,7 +138,9 @@ function MembershipBox() {
                       />
                     </>
                   ) : (
-                    "Create Membership"
+                    `${
+                      membershipData?.data[0]?.price ? "Update" : "Create"
+                    }  Membership`
                   )
                 }
               />

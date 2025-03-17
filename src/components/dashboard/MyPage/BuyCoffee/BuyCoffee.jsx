@@ -5,6 +5,7 @@ import { BuyaCofeeLogo } from "@/components/SvgContianer/SvgContainer";
 import { useParams } from "react-router-dom";
 import {
   useAddPaymentMutation,
+  useGetCreatorsFollowerListQuery,
   useGetMemberShipListQuery,
 } from "@/redux/features/api/apiSlice";
 import { BeatLoader, PuffLoader } from "react-spinners";
@@ -12,18 +13,36 @@ import toast from "react-hot-toast";
 
 function BuyCoffee({ isFullwidth, data }) {
   const [hovered, setHovered] = useState(false);
+  const [followerDataArr, setfollowerDataArr] = useState([]);
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
   const { creatorId } = useParams();
+  const loggedInUserData = useSelector(
+    state => state.userDocReducer.loggedInuser
+  );
+  const {
+    data: followerData,
+    isLoading: isfollowerDataLoading,
+    error: followererror,
+  } = useGetCreatorsFollowerListQuery(creatorId);
+
   const [message, setmessage] = useState("");
   const [memberListsData, setmemberListsData] = useState();
+
   const {
     data: MemberShipData,
     isLoading,
     error,
   } = useGetMemberShipListQuery(creatorId);
 
+  const isAuthorized =
+    Array.isArray(followerDataArr) &&
+    followerDataArr.some(follower => follower === loggedInUserData?.id);
 
-  
+  useEffect(() => {
+    if (followerData) {
+      setfollowerDataArr(followerData.data);
+    }
+  }, [followerData]);
 
   const [
     completePayment,
@@ -55,11 +74,6 @@ function BuyCoffee({ isFullwidth, data }) {
       setmemberListsData(MemberShipData?.data.data);
     }
   }, [MemberShipData]);
-
-  const loggedInUserData = useSelector(
-    state => state.userDocReducer.loggedInuser
-  );
-
 
   const handleaddPayment = async () => {
     let payLoad = {};
@@ -215,7 +229,7 @@ function BuyCoffee({ isFullwidth, data }) {
           {buyType === "membership" && (
             <div className=" text-black text-sm lg:text-base focus:outline-none font-jakarta font-bold bg-gray-50  py-2 px-4 lg:py-3 flex flex-col gap-3 lg:flex-row justify-between   resize-none border rounded-[12px] lg:rounded-[99px] w-full">
               {MemberShipData?.data[0]?.price
-                ? `Membership price  ${MemberShipData?.data[0]?.price} £ `
+                ? `Membership price  £${MemberShipData?.data[0]?.price}`
                 : "Currently this user has no membership plan"}
             </div>
           )}
@@ -226,14 +240,21 @@ function BuyCoffee({ isFullwidth, data }) {
               }}
               className="text-textColor focus:outline-none bg-gray-50 px-4 py-3 h-[220px] resize-none border rounded-xl w-full"
               name=""
-              placeholder="Your work is amazing!!"
+              disabled={isAuthorized && buyType === "membership" ? true : false}
+              placeholder={
+                isAuthorized && buyType === "membership"
+                  ? `Already a memeber`
+                  : "Your work is amazing!!"
+              }
               id=""
               value={message}
             ></textarea>
           </div>
           <div className="">
             <button
-              disabled={ispayMenLoading}
+              disabled={
+                ispayMenLoading || (buyType === "membership" && isAuthorized)
+              }
               onClick={() => {
                 handleaddPayment();
               }}
@@ -243,7 +264,11 @@ function BuyCoffee({ isFullwidth, data }) {
               {ispayMenLoading ? (
                 <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
               ) : buyType === "membership" ? (
-                "Get Membership"
+                isAuthorized ? (
+                  "Already a member"
+                ) : (
+                  "Get Membership"
+                )
               ) : (
                 "Support now"
               )}

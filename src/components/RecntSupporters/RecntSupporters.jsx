@@ -6,21 +6,32 @@ import {
   useGetyourMessageQuery,
   useGetSupporterMessageQuery,
   useSendMsgToFollowersMutation,
+  useGetCreatorsMessageQuery,
 } from "@/redux/features/api/apiSlice";
 import toast from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
+import { useParams } from "react-router-dom";
 
 const RecntSupporters = ({ isMe }) => {
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
-  const [msgArr, setmsgArr] = useState([]);
+  const [msgArr1, setMsgArr1] = useState([]);
+  const [msgArr2, setMsgArr2] = useState([]);
+  const [creatorsMsg, setcreatorsMsg] = useState([]);
   const [myMsg, setmyMsg] = useState();
+  const { creatorId } = useParams();
 
   const { data, isLoading, error } = useGetSupporterMessageQuery();
+  const {
+    data: CreatorsData,
+    isLoading: isCreatordataLoading,
+    error: creatorError,
+  } = useGetCreatorsMessageQuery(creatorId);
   const {
     data: yourData,
     isLoading: isYourDataLoading,
     error: yourDataError,
+    refetch,
   } = useGetyourMessageQuery();
 
   const [
@@ -33,10 +44,10 @@ const RecntSupporters = ({ isMe }) => {
       const sanitizedData = yourData?.data?.map(item => ({
         id: item.id, // Ensure uniqueness
         msg: item.message,
-        avatar: `${imgBaseUrl}/${loggedInUser.avatar}`,
+        avatar: `${imgBaseUrl}/${loggedInUser?.avatar}`,
       }));
 
-      setmsgArr(prevMsgs => {
+      setMsgArr1(prevMsgs => {
         // Remove duplicates based on ID
         const existingIds = new Set(prevMsgs.map(msg => msg.id));
         const uniqueMsgs = sanitizedData.filter(
@@ -55,7 +66,7 @@ const RecntSupporters = ({ isMe }) => {
         avatar: `${imgBaseUrl}/${item?.user?.avatar}`,
       }));
 
-      setmsgArr(prevMsgs => {
+      setMsgArr2(prevMsgs => {
         // Remove duplicates based on ID
         const existingIds = new Set(prevMsgs.map(msg => msg.id));
         const uniqueMsgs = sanitizedData.filter(
@@ -75,6 +86,7 @@ const RecntSupporters = ({ isMe }) => {
       const response = await createMsg({ message: myMsg }).unwrap();
       if (response?.code === 200) {
         toast.success(response?.message);
+        refetch();
       }
     } catch (error) {
       toast.error(error?.data?.message);
@@ -83,6 +95,18 @@ const RecntSupporters = ({ isMe }) => {
       setmyMsg("");
     }
   };
+
+  const combinedArr = [...msgArr2, ...msgArr1];
+
+  useEffect(() => {
+    if (CreatorsData) {
+      console.log(CreatorsData.data);
+
+      setcreatorsMsg(CreatorsData?.data);
+    }
+  }, [CreatorsData]);
+
+  console.log(creatorsMsg, " this th");
 
   return (
     <div
@@ -108,22 +132,55 @@ const RecntSupporters = ({ isMe }) => {
               </span>
             </div>
           </div>
-          <div className="flex flex-col gap-y-4">
-            {msgArr.length > 0 ? (
-              msgArr?.map((item, index) => {
+          <div className="flex flex-col h-[160px] overflow-y-auto  gap-y-4">
+            {isMe ? (
+              combinedArr.length > 0 ? (
+                combinedArr?.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
+                    >
+                      <div
+                        className=" w-[44px]  h-[40px]  rounded-full "
+                        style={{
+                          backgroundImage: `url(${item?.avatar})`,
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
+                        }}
+                      ></div>
+                      <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
+                        {item?.msg}
+                      </h3>
+                    </div>
+                  );
+                })
+              ) : (
+                <span className="text-[#222222CC] opacity-[0.8] text-base leading-[160%] font-normal">
+                  No message yet
+                </span>
+              )
+            ) : creatorsMsg.length > 0? (
+              creatorsMsg?.map((item, index) => {
+                console.log(item);
+
                 return (
-                  <div className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2">
+                  <div
+                    key={index}
+                    className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
+                  >
                     <div
                       className=" w-[44px]  h-[40px]  rounded-full "
                       style={{
-                        backgroundImage: `url(${item?.avatar})`,
+                        backgroundImage: `url(${imgBaseUrl}/${item?.user?.avatar})`,
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                       }}
                     ></div>
                     <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
-                      {item?.msg}
+                      {item?.message}
                     </h3>
                   </div>
                 );

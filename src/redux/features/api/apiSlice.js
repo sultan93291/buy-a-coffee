@@ -304,6 +304,14 @@ export const apiSlice = createApi({
         includeToken: true,
       }),
     }),
+
+    getCreatorsMessage: builder.query({
+      query: (id) => ({
+        url: `/messages-for-others/${id}`,
+        method: `GET`,
+        includeToken: true,
+      }),
+    }),
   }),
 });
 
@@ -343,4 +351,5 @@ export const {
   useGetyourMessageQuery,
   useSendMsgToFollowersMutation,
   useGetTotalPayoutQuery,
+  useGetCreatorsMessageQuery,
 } = apiSlice;
