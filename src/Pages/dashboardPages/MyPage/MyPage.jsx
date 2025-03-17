@@ -7,7 +7,7 @@ import PostCard from "@/components/dashboard/MyPage/Posts/PostCard";
 import ProfileSection from "@/components/dashboard/MyPage/ProfileSection";
 import { useGetUserPostQuery } from "@/redux/features/api/apiSlice";
 import RecntSupporters from "@/components/RecntSupporters/RecntSupporters";
-
+import { useState } from "react";
 
 function MyPage() {
   const { data, error, isLoading } = useGetUserPostQuery();

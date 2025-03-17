@@ -18,8 +18,15 @@ function Following() {
   const creators = data?.data?.follower_list || [];
 
   useEffect(() => {
-    if (data?.data?.follower_list) {
-      const followers = data.data.follower_list.map(item => item?.users).flat(); // 🔹 Flatten nested arrays
+    if (data?.data?.following_list) {
+      console.log(data.data.fo);
+
+      const followers = data.data.following_list
+        .map(item => item?.following)
+        .flat(); // 🔹 Flatten nested arrays
+
+      console.log(followers, " this is the followers");
+
       setallfollowers(followers);
     }
   }, [data]);
@@ -27,6 +34,8 @@ function Following() {
   const filteredSearchData = allfollowers.filter(creator =>
     (creator?.name || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  console.log(filteredSearchData, " this is the filtered search data");
 
   if (isLoading && !loggedInUser)
     return (
@@ -48,7 +57,7 @@ function Following() {
             </p>
             <p className="text-center text-headingColor font-semibold">
               {loggedInUser?.following_count === 0
-                ? ` You don't have any followers yet`
+                ? ` Currently you're following no one `
                 : ` You have ${loggedInUser?.following_count} following `}
             </p>
           </CommonBoxhShape>

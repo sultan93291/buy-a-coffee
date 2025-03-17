@@ -18,9 +18,8 @@ function Followers() {
   const creators = data?.data?.follower_list || [];
 
   useEffect(() => {
-
     if (data?.data?.follower_list) {
-      const followers = data.data.follower_list.map(item => item?.users).flat(); 
+      const followers = data.data.follower_list.map(item => item?.followers);
       setallfollowers(followers);
     }
   }, [data]);
