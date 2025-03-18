@@ -44,6 +44,7 @@ const RecntSupporters = ({ isMe }) => {
       const sanitizedData = yourData?.data?.map(item => ({
         id: item.id,
         msg: item.message,
+        name: loggedInUser.name,
         userId: item?.user?.id,
         avatar: `${imgBaseUrl}/${loggedInUser?.avatar}`,
       }));
@@ -64,6 +65,7 @@ const RecntSupporters = ({ isMe }) => {
       const sanitizedData = data?.data?.map(item => ({
         id: item.id,
         msg: item.message,
+        name: item.user.name,
         userId: item?.user?.id,
         avatar: `${imgBaseUrl}/${item?.user?.avatar}`,
       }));
@@ -92,7 +94,6 @@ const RecntSupporters = ({ isMe }) => {
       }
     } catch (error) {
       toast.error(error?.data?.message);
-      console.log(error?.data?.message);
     } finally {
       setmyMsg("");
     }
@@ -133,7 +134,7 @@ const RecntSupporters = ({ isMe }) => {
               </span>
             </div>
           </div>
-          <div className="flex flex-col max-h-[160px] overflow-y-auto  gap-y-4">
+          <div className="flex flex-col max-h-[180px] overflow-y-auto  gap-y-4">
             {isMe ? (
               combinedArr.length > 0 ? (
                 combinedArr?.map((item, index) => {
@@ -154,9 +155,12 @@ const RecntSupporters = ({ isMe }) => {
                           backgroundPosition: "center",
                         }}
                       ></div>
-                      <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
-                        {item?.msg}
-                      </h3>
+                      <div className="flex flex-col gap-y-1">
+                        <span className="text-sm capitalize " >{item?.name}</span>
+                        <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
+                          {item?.msg}
+                        </h3>
+                      </div>
                     </div>
                   );
                 })
@@ -188,9 +192,12 @@ const RecntSupporters = ({ isMe }) => {
                           backgroundPosition: "center",
                         }}
                       ></div>
-                      <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
-                        {item?.message}
-                      </h3>
+                      <div className="flex flex-col gap-y-1">
+                        <span className="capitalize text-sm">{item.user.name}</span>
+                        <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
+                          {item?.message}
+                        </h3>
+                      </div>
                     </div>
                   );
                 })}
