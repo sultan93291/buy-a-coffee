@@ -43,14 +43,13 @@ function Payouts() {
     useConnectStripeAccountMutation();
   const { fetchData } = useContext(AuthContext);
 
-  const handleStripeConnect = async () => {
-    console.log(loggedInUser?.email);
-
-    if (!loggedInUser?.email) {
-      toast.error("User email is missing!");
-      return;
+  const handleRedirect = url => {
+    if (url) {
+      window.location.href = url; // iOS will allow this if triggered by a user event
     }
+  };
 
+  const handleStripeConnect = async () => {
     try {
       const response = await connectStripe({
         email: loggedInUser.email,
@@ -61,9 +60,13 @@ function Payouts() {
           response?.message || "Stripe account connected successfully!",
           "please checkout the page and fill up all information"
         );
+        
         if (response?.connected_account_url) {
-          window.location.href = response.connected_account_url;
+          setTimeout(() => {
+            handleRedirect(response.connected_account_url);
+          }, 500); 
         }
+
         fetchData();
       }
     } catch (error) {
