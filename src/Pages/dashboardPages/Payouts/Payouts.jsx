@@ -16,9 +16,8 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogTitle,
-} from "@radix-ui/react-dialog";
-import { DialogHeader } from "@/components/ui/dialog";
+  DialogHeader,
+} from "@/components/ui/dialog";
 
 function Payouts() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
@@ -75,6 +74,12 @@ function Payouts() {
       toast.error(
         error?.data?.message || "Failed to connect to Stripe. Please try again."
       );
+    }
+  };
+
+  const handleRedirect = link => {
+    if (link) {
+      window.location.href = link;
     }
   };
 
@@ -154,11 +159,32 @@ function Payouts() {
         </div>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent onClick={e => e.stopPropagation()}>
           <DialogHeader>
-            <DialogTitle>Are you sure you wanna connect stripe </DialogTitle>
-            <DialogDescription>
-              <div className="p-6"></div>
+            <DialogDescription onClick={e => e.stopPropagation()}>
+              <div className=" flex flex-col gap-y-5 h-auto w-auto z-[999] bg-white  rounded-[12px]">
+                <span className=" text-base xl:text-xl text-black ">
+                  Are you sure you want to proceed?
+                </span>
+                <div className="flex flex-row gap-x-4">
+                  <button
+                    onClick={() => {
+                      handleRedirect(Stripeurl);
+                    }}
+                    className=" py-4 px-8 bg-primaryColor text-black rounded-[20px] "
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                    className="bg-red-500  py-4 px-8 text-black rounded-[20px] "
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
