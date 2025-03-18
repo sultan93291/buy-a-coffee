@@ -69,7 +69,7 @@ function Payouts() {
       }
     } catch (error) {
       console.error("Stripe Connection Error:", error);
-      alert(
+      toast.error(
         error?.message ||
           error.data.message ||
           error.response ||

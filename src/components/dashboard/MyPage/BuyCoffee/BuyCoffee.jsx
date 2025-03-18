@@ -246,7 +246,7 @@ function BuyCoffee({ isFullwidth, data }) {
               disabled={isAuthorized && buyType === "membership" ? true : false}
               placeholder={
                 isAuthorized && buyType === "membership"
-                  ? `Already a memeber`
+                  ? `Already a member`
                   : "Your work is amazing!!"
               }
               id=""

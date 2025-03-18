@@ -50,8 +50,6 @@ function PostCard({ data, isMe }) {
     }
   };
 
-  console.log(selectedMedia);
-
   const {
     data: followerData,
     isLoading,
@@ -80,8 +78,6 @@ function PostCard({ data, isMe }) {
 
     fileName = data.file_url;
     fileExtension = fileName.split(".").pop().toLowerCase();
-
-    console.log(fileExtension);
 
     if (["jpg", "jpeg", "png", "gif", "webp"].includes(fileExtension)) {
       setImageUrl(`${imgBaseUrl}/${fileName}`);

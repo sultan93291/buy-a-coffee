@@ -42,8 +42,9 @@ const RecntSupporters = ({ isMe }) => {
   useEffect(() => {
     if (yourData) {
       const sanitizedData = yourData?.data?.map(item => ({
-        id: item.id, // Ensure uniqueness
+        id: item.id,
         msg: item.message,
+        name: loggedInUser.name,
         avatar: `${imgBaseUrl}/${loggedInUser?.avatar}`,
       }));
 
@@ -61,8 +62,9 @@ const RecntSupporters = ({ isMe }) => {
   useEffect(() => {
     if (data) {
       const sanitizedData = data?.data?.map(item => ({
-        id: item.id, // Ensure uniqueness
+        id: item.id,
         msg: item.message,
+        name: loggedInUser.name,
         avatar: `${imgBaseUrl}/${item?.user?.avatar}`,
       }));
 
@@ -105,8 +107,6 @@ const RecntSupporters = ({ isMe }) => {
       setcreatorsMsg(CreatorsData?.data);
     }
   }, [CreatorsData]);
-
-  console.log(creatorsMsg, " this th");
 
   return (
     <div
@@ -162,10 +162,13 @@ const RecntSupporters = ({ isMe }) => {
                 </span>
               )
             ) : creatorsMsg.length > 0 ? (
-              <div  className="max-h-[250px] flex flex-col gap-y-3" >
+              <div className="max-h-[250px] flex flex-col gap-y-3">
                 {creatorsMsg?.map((item, index) => {
                   return (
                     <div
+                      onClick={() => {
+                        navigate
+                      }}
                       key={index}
                       className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
                     >
