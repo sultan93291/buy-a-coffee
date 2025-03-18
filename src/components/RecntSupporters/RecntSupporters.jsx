@@ -10,7 +10,7 @@ import {
 } from "@/redux/features/api/apiSlice";
 import toast from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const RecntSupporters = ({ isMe }) => {
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
@@ -44,7 +44,7 @@ const RecntSupporters = ({ isMe }) => {
       const sanitizedData = yourData?.data?.map(item => ({
         id: item.id,
         msg: item.message,
-        name: loggedInUser.name,
+        userId: item?.user?.id,
         avatar: `${imgBaseUrl}/${loggedInUser?.avatar}`,
       }));
 
@@ -64,7 +64,7 @@ const RecntSupporters = ({ isMe }) => {
       const sanitizedData = data?.data?.map(item => ({
         id: item.id,
         msg: item.message,
-        name: loggedInUser.name,
+        userId: item?.user?.id,
         avatar: `${imgBaseUrl}/${item?.user?.avatar}`,
       }));
 
@@ -99,10 +99,11 @@ const RecntSupporters = ({ isMe }) => {
   };
 
   const combinedArr = [...msgArr2, ...msgArr1];
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (CreatorsData) {
-      console.log(CreatorsData.data);
+      console.log(CreatorsData.data, "this is the creators data");
 
       setcreatorsMsg(CreatorsData?.data);
     }
@@ -138,8 +139,11 @@ const RecntSupporters = ({ isMe }) => {
                 combinedArr?.map((item, index) => {
                   return (
                     <div
+                      onClick={() => {
+                        navigate(`/dashboard/explore/creator/${item?.userId}`);
+                      }}
                       key={index}
-                      className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
+                      className="flex cursor-pointer bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
                     >
                       <div
                         className=" w-[44px]  h-[40px]  rounded-full "
@@ -167,10 +171,13 @@ const RecntSupporters = ({ isMe }) => {
                   return (
                     <div
                       onClick={() => {
-                        navigate
+                        console.log(item);
+                        navigate(
+                          `/dashboard/explore/creator/${item?.user?.id}`
+                        );
                       }}
                       key={index}
-                      className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
+                      className="flex cursor-pointer bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
                     >
                       <div
                         className=" w-[44px]  h-[40px]  rounded-full "

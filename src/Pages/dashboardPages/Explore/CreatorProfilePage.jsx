@@ -24,12 +24,10 @@ function CreatorProfilePage() {
     error: postError,
     isLoading: isPostLoading,
   } = useGetUserPostsByIdQuery(creatorId);
-  console.log(data, error, isLoading);
 
   const PostDataArr = postData?.data || [];
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
 
-  console.log(" this is the searched user data", data);
 
   useEffect(() => {
     if (loggedInUser?.id == creatorId) {

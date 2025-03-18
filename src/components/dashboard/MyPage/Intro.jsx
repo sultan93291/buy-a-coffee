@@ -29,7 +29,6 @@ function Intro({ isMe, IntroData }) {
       : `${imgBaseUrl}/${Searcheduser?.featurd_images?.image}`
   );
 
-  console.log(Searcheduser);
 
   const [useEditeFeatureAndBio, { data, isLoading, error }] =
     useEditFeatureImgAndBioMutation();
