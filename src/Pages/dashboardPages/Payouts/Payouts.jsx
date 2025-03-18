@@ -66,8 +66,6 @@ function Payouts() {
           setStripeurl(response.connected_account_url);
           setOpen(true);
         }
-
-        fetchData();
       }
     } catch (error) {
       console.error("Stripe Connection Error:", error);
