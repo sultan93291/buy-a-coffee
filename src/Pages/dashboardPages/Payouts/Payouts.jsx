@@ -12,13 +12,21 @@ import { AuthContext } from "@/provider/AuthContextProvider";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { BeatLoader, PuffLoader } from "react-spinners";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@radix-ui/react-dialog";
+import { DialogHeader } from "@/components/ui/dialog";
 
 function Payouts() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
-  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   const [hovered, setHovered] = useState(false);
   const [payoutAmount, setpayoutAmount] = useState();
+  const [Stripeurl, setStripeurl] = useState();
 
   const BtnColor = useSelector(state => state.btnReducer.btnColor);
 
@@ -43,12 +51,6 @@ function Payouts() {
     useConnectStripeAccountMutation();
   const { fetchData } = useContext(AuthContext);
 
-  const handleRedirect = url => {
-    if (url) {
-      window.location.href = url; // iOS will allow this if triggered by a user event
-    }
-  };
-
   const handleStripeConnect = async () => {
     try {
       const response = await connectStripe({
@@ -60,11 +62,10 @@ function Payouts() {
           response?.message || "Stripe account connected successfully!",
           "please checkout the page and fill up all information"
         );
-        
+
         if (response?.connected_account_url) {
-          setTimeout(() => {
-            handleRedirect(response.connected_account_url);
-          }, 500); 
+          setStripeurl(response.connected_account_url);
+          setOpen(true);
         }
 
         fetchData();
@@ -91,60 +92,78 @@ function Payouts() {
     );
 
   return (
-    <div>
+    <>
       <div>
-        <Top title="Payouts" />
-      </div>
-      <div>
-        <CommonBoxhShape>
-          <p className="text-headingColor font-semibold mb-6">Total payouts</p>
-          <h3 className=" text-[20px] xl:text-[40px] font-bold text-[#3D464F]">
-            £{payoutAmount}
-          </h3>
-        </CommonBoxhShape>
-      </div>
-      <div>
-        {loggedInUser.onboard_complete === 0 ? (
+        <div>
+          <Top title="Payouts" />
+        </div>
+        <div>
           <CommonBoxhShape>
-            <p className="h-14 w-14 mx-auto mb-9 rounded-full flex items-center justify-center bg-[rgba(113,113,113,0.10)]">
-              <img src={thunderImg} alt="thunderImg" />
+            <p className="text-headingColor font-semibold mb-6">
+              Total payouts
             </p>
-            <div className="text-center">
-              <p className="text-[20px] font-semibold text-headingColor mb-2">
-                Get Paid with Stripe
-              </p>
-              <p className="text-base text-paraDark">
-                Instant payout via stripe
-              </p>
-            </div>
-            <div
-              onClick={() => {
-                handleStripeConnect();
-              }}
-            >
-              <Link
-                style={buttonStyles}
-                to={""}
-                className="flex items-center gap-[10px] py-4 px-8 rounded-[60px]  text-headingColor w-fit mx-auto font-bold mt-9"
-              >
-                {isLoading ? (
-                  <BeatLoader size={10} color={"#000"} speedMultiplier={0.5} />
-                ) : (
-                  <>
-                    <img src={cardIcon} alt="cardIcon" />
-                    <p>Connect Stripe</p>
-                  </>
-                )}
-              </Link>
-            </div>
+            <h3 className=" text-[20px] xl:text-[40px] font-bold text-[#3D464F]">
+              £{payoutAmount}
+            </h3>
           </CommonBoxhShape>
-        ) : (
-          <h2 className="my-5 text-[20px] font-semibold text-headingColor  ">
-            Account Already connected
-          </h2>
-        )}
+        </div>
+        <div>
+          {loggedInUser.onboard_complete === 0 ? (
+            <CommonBoxhShape>
+              <p className="h-14 w-14 mx-auto mb-9 rounded-full flex items-center justify-center bg-[rgba(113,113,113,0.10)]">
+                <img src={thunderImg} alt="thunderImg" />
+              </p>
+              <div className="text-center">
+                <p className="text-[20px] font-semibold text-headingColor mb-2">
+                  Get Paid with Stripe
+                </p>
+                <p className="text-base text-paraDark">
+                  Instant payout via stripe
+                </p>
+              </div>
+              <div
+                onClick={() => {
+                  handleStripeConnect();
+                }}
+              >
+                <Link
+                  style={buttonStyles}
+                  to={""}
+                  className="flex items-center gap-[10px] py-4 px-8 rounded-[60px]  text-headingColor w-fit mx-auto font-bold mt-9"
+                >
+                  {isLoading ? (
+                    <BeatLoader
+                      size={10}
+                      color={"#000"}
+                      speedMultiplier={0.5}
+                    />
+                  ) : (
+                    <>
+                      <img src={cardIcon} alt="cardIcon" />
+                      <p>Connect Stripe</p>
+                    </>
+                  )}
+                </Link>
+              </div>
+            </CommonBoxhShape>
+          ) : (
+            <h2 className="my-5 text-[20px] font-semibold text-headingColor  ">
+              Account Already connected
+            </h2>
+          )}
+        </div>
       </div>
-    </div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you sure you wanna connect stripe </DialogTitle>
+            <DialogDescription>
+              <div className="p-6"></div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
