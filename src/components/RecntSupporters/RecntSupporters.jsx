@@ -111,7 +111,7 @@ const RecntSupporters = ({ isMe }) => {
   return (
     <div
       className={`bg-white p-6 rounded-[12px]  flex flex-col gap-y-6 ${
-        !isMe && "h-[397px]"
+        !isMe && "max-h-[397px]"
       } `}
     >
       <div className="flex flex-col gap-y-6 ">
@@ -132,7 +132,7 @@ const RecntSupporters = ({ isMe }) => {
               </span>
             </div>
           </div>
-          <div className="flex flex-col h-[160px] overflow-y-auto  gap-y-4">
+          <div className="flex flex-col max-h-[160px] overflow-y-auto  gap-y-4">
             {isMe ? (
               combinedArr.length > 0 ? (
                 combinedArr?.map((item, index) => {
@@ -161,30 +161,30 @@ const RecntSupporters = ({ isMe }) => {
                   No message yet
                 </span>
               )
-            ) : creatorsMsg.length > 0? (
-              creatorsMsg?.map((item, index) => {
-                console.log(item);
-
-                return (
-                  <div
-                    key={index}
-                    className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
-                  >
+            ) : creatorsMsg.length > 0 ? (
+              <div  className="max-h-[250px] flex flex-col gap-y-3" >
+                {creatorsMsg?.map((item, index) => {
+                  return (
                     <div
-                      className=" w-[44px]  h-[40px]  rounded-full "
-                      style={{
-                        backgroundImage: `url(${imgBaseUrl}/${item?.user?.avatar})`,
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                      }}
-                    ></div>
-                    <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
-                      {item?.message}
-                    </h3>
-                  </div>
-                );
-              })
+                      key={index}
+                      className="flex bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
+                    >
+                      <div
+                        className=" w-[44px]  h-[40px]  rounded-full "
+                        style={{
+                          backgroundImage: `url(${imgBaseUrl}/${item?.user?.avatar})`,
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center",
+                        }}
+                      ></div>
+                      <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
+                        {item?.message}
+                      </h3>
+                    </div>
+                  );
+                })}
+              </div>
             ) : (
               <span className="text-[#222222CC] opacity-[0.8] text-base leading-[160%] font-normal">
                 No message yet

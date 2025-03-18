@@ -58,8 +58,8 @@ function BuyCoffee({ isFullwidth, data }) {
     color: hovered ? buttonColor : "#000",
   };
 
-  const [activeIndex, setActiveIndex] = useState(1);
-  const [buyType, setBuyType] = useState("membership");
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [buyType, setBuyType] = useState("one-off");
   const [count, setCount] = useState(1);
 
   const handleBuyCoffee = (index, value) => {
@@ -77,7 +77,9 @@ function BuyCoffee({ isFullwidth, data }) {
 
   const handleaddPayment = async () => {
     let payLoad = {};
+
     const baseUrl = window.location.origin;
+    const creatorUrl = window.location.href;
 
     if (message.length > 0) {
       if (buyType === "membership") {
@@ -85,6 +87,7 @@ function BuyCoffee({ isFullwidth, data }) {
         payLoad.message = message;
         payLoad.success_url = `${baseUrl}/payment-success`;
         payLoad.cancel_url = `${baseUrl}/payment-error`;
+        payLoad.subscription_success_url = creatorUrl;
       } else if (buyType === "one-off") {
         if (count <= 0) {
           toast.error("Quantity must be greater than 0");
@@ -238,7 +241,7 @@ function BuyCoffee({ isFullwidth, data }) {
               onChange={e => {
                 setmessage(e.target.value);
               }}
-              className="text-textColor focus:outline-none bg-gray-50 px-4 py-3 h-[220px] resize-none border rounded-xl w-full"
+              className="text-textColor focus:outline-none bg-gray-50 px-4 py-3 h-[220px] resize-none border rounded-xl w-full placeholder:text-[#000] placeholder:font-bold "
               name=""
               disabled={isAuthorized && buyType === "membership" ? true : false}
               placeholder={

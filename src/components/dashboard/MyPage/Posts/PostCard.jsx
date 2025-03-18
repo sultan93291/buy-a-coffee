@@ -96,6 +96,7 @@ function PostCard({ data, isMe }) {
     <>
       <div
         onClick={() => {
+          
           if (isMe || isAuthorized) {
             setOpen(true);
             handleClick();
@@ -104,7 +105,7 @@ function PostCard({ data, isMe }) {
         className="2xl:flex-row relative cursor-pointer overflow-x-hidden   flex flex-col w-[250px]  p-4  gap-4   items-center lg:items-start  2xl:w-[700px] bg-[#fafafa]   rounded-xl   "
       >
         <div className="flex flex-col   gap-y-4 relative w-full ">
-          <div className="" >
+          <div className="">
             <h3 className="text-[#34312C]  text-base xl:text-xl  font-bold leading-[132%] tracking-[-0.2%] ">
               {data?.title}
             </h3>
@@ -113,7 +114,7 @@ function PostCard({ data, isMe }) {
             className={`${
               isMe || isAuthorized
                 ? "after:hidden"
-                : "flex flex-row gap-x-5 after-content-[''] relative w-full after:absolute after:top-0 after:left-0  after:w-full after:bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(255,255,255,0.5)]  after:backdrop-blur-sm after:rounded-xxl after:z-10  after:h-full z-0 after:rounded-[12px]   "
+                : "flex flex-row gap-x-5  after-content-[''] relative w-full after:absolute after:top-0 after:left-0  after:w-full after:bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(255,255,255,0.5)]  after:backdrop-blur-sm after:rounded-xxl after:z-10  after:h-full z-0 after:rounded-[12px]"
             }`}
           >
             <div
@@ -163,10 +164,7 @@ function PostCard({ data, isMe }) {
                     alt="dynamic content"
                   />
                 ) : audioUrl ? (
-                  <audio
-                    className="w-full mx-auto block"
-                    controls
-                  >
+                  <audio className="w-full mx-auto block" controls>
                     <source
                       src={audioUrl}
                       type={`audio/${audioUrl.split(".").pop().toLowerCase()}`}
@@ -240,9 +238,11 @@ function PostCard({ data, isMe }) {
                   <p className="text-xl font-bold leading-[132%] tracking-[-0.2%] text-[#34312C]  ">
                     {selectedMedia?.title}
                   </p>
-                  <span className="text-base leading-[164%] text-[#717171] font-normal ">
-                    {selectedMedia?.description}
-                  </span>
+                  <div className="max-h-[200px] overflow-y-scroll" >
+                    <span className="text-base leading-[164%] text-[#717171] font-normal ">
+                      {selectedMedia?.description}
+                    </span>
+                  </div>
                 </div>
               </div>
             </DialogDescription>

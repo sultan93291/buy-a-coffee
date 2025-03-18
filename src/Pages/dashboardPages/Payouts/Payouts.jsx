@@ -2,7 +2,7 @@ import CommonBoxhShape from "@/components/dashboard/CommonComponents/CommonBoxhS
 import Top from "@/components/dashboard/Top";
 import thunderImg from "../../../assets/images/thunder.svg";
 import cardIcon from "../../../assets/images/card.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   useConnectStripeAccountMutation,
   useGetTotalPayoutQuery,
@@ -15,7 +15,7 @@ import { BeatLoader, PuffLoader } from "react-spinners";
 
 function Payouts() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
-  console.log(loggedInUser, "form payouts");
+  const navigate = useNavigate();
 
   const [hovered, setHovered] = useState(false);
   const [payoutAmount, setpayoutAmount] = useState();
@@ -56,16 +56,14 @@ function Payouts() {
         email: loggedInUser.email,
       }).unwrap();
 
-      console.log(response);
-
       if (response?.status === "success") {
-        console.log("Stripe Connection Response:", response);
         toast.success(
           response?.message || "Stripe account connected successfully!",
           "please checkout the page and fill up all information"
         );
         if (response?.connected_account_url) {
-          window.open(response.connected_account_url);
+          const newTab = window.open("", "_blank"); 
+          newTab.location.href = response.connected_account_url;
         }
         fetchData();
       }

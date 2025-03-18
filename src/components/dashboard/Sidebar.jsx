@@ -16,7 +16,7 @@ function Sidebar() {
 const {role} = useContext(MainContext)
 
   return (
-    <div className="w-full p-6">
+    <div className="w-full  p-6 overflow-y-scroll h-[100vh] ">
       {/* logoss */}
       
       <Link to={'/dashboard/home'} >
