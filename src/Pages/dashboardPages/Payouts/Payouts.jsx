@@ -50,8 +50,6 @@ function Payouts() {
     useConnectStripeAccountMutation();
   const { fetchData } = useContext(AuthContext);
 
-
-
   const handleStripeConnect = async () => {
     try {
       const response = await connectStripe({
@@ -71,25 +69,14 @@ function Payouts() {
       }
     } catch (error) {
       console.error("Stripe Connection Error:", error);
-      if (error?.response) {
-        toast.error(
-          error.response.data.message ||
-            "Failed to connect to Stripe. Please try again."
-        );
-      } else if (error?.data) {
-        toast.error(
-          error.data.message || "Failed to connect to Stripe. Please try again."
-        );
-      } else if (error?.message) {
-        toast.error(
-          error.message || "Failed to connect to Stripe. Please try again."
-        );
-      } else {
-        toast.error("An unexpected error occurred. Please try again.");
-      }
+      alert(
+        error?.message ||
+          error.data.message ||
+          error.response ||
+          error.response.message
+      );
     }
   };
-
 
   const handleRedirect = link => {
     if (link) {
