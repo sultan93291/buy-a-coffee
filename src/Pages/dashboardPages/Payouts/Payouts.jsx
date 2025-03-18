@@ -62,8 +62,7 @@ function Payouts() {
           "please checkout the page and fill up all information"
         );
         if (response?.connected_account_url) {
-          const newTab = window.open("", "_blank"); 
-          newTab.location.href = response.connected_account_url;
+          window.location.href = response.connected_account_url;
         }
         fetchData();
       }
