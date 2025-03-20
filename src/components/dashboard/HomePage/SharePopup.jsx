@@ -16,26 +16,35 @@ function SharePopup({ isProfilePage }) {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   const location = useLocation();
   const fullLocation = `${window.location.origin}/dashboard/explore/creator/${loggedInUser.id}`;
-  // const [copySuccess, setCopySuccess] = useState('')
 
   const copyToClipboard = () => {
-    const urlToCopy = fullLocation; // Make sure this variable is defined
+    const urlToCopy = fullLocation; // Ensure this is defined
 
-    if (!navigator.clipboard) {
-      toast.error("Clipboard API not supported!");
-      console.error("Clipboard API not available.");
-      return;
-    }
-
-    navigator.clipboard
-      .writeText(urlToCopy)
-      .then(() => {
+    if (navigator.clipboard && window.isSecureContext) {
+      // Use modern Clipboard API (only on HTTPS)
+      navigator.clipboard
+        .writeText(urlToCopy)
+        .then(() => toast.success("Copied to clipboard!"))
+        .catch(err => {
+          toast.error("Failed to copy!");
+          console.error("Could not copy text: ", err);
+        });
+    } else {
+      // Fallback for HTTP (Using Selection API)
+      const input = document.createElement("input");
+      input.value = urlToCopy;
+      document.body.appendChild(input);
+      input.select();
+      input.setSelectionRange(0, input.value.length); // Select text
+      try {
+        document.execCommand("copy"); // This is still needed for some browsers
         toast.success("Copied to clipboard!");
-      })
-      .catch(err => {
+      } catch (err) {
         toast.error("Failed to copy!");
         console.error("Could not copy text: ", err);
-      });
+      }
+      document.body.removeChild(input);
+    }
   };
 
   const handleTwitterRedirect = () => {
