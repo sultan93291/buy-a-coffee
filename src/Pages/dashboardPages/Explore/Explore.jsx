@@ -42,10 +42,7 @@ function Explore() {
                 </div>
               ) : filteredSearchData.length > 0 ? (
                 filteredSearchData.map(creator => (
-                  <Link
-                    to={`/dashboard/explore/creator/${creator.id}`}
-                    key={creator.id}
-                  >
+                  <Link to={`/${creator.user_name}`} key={creator.id}>
                     <CreatorProfile creator={creator} />
                   </Link>
                 ))

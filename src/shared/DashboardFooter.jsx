@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function DashboardFooter() {
   const navigate = useNavigate();
   const handleRedirect = () => {
-    navigate("/login");
+    navigate("/createaccount");
   };
   return (
     <div className="  flex-col gap-4 flex items-center w-full  lg:justify-between justify-center ">

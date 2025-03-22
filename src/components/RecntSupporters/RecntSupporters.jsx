@@ -110,6 +110,9 @@ const RecntSupporters = ({ isMe }) => {
     }
   }, [CreatorsData]);
 
+  console.log(CreatorsData , 'others data');
+  
+
   return (
     <div
       className={`bg-white p-6 rounded-[12px]  flex flex-col gap-y-6 ${

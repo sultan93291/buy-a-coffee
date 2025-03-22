@@ -21,7 +21,7 @@ const PaymentSuccessPage = () => {
         <div
           onClick={() => {
             fetchData();
-            navigate("/dashboard/home");
+            navigate("/explore");
           }}
         >
           <ButtonPrimary text={"Back to Dashboard"} />

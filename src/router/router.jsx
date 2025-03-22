@@ -150,19 +150,19 @@ const router = createBrowserRouter([
         path: "/:creatorId",
         element: <CreatorProfilePage></CreatorProfilePage>,
       },
+      {
+        path: "/account-connect-successfull",
+        element: <SuccessPage />,
+      },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccessPage />,
+      },
+      {
+        path: "/payment-error",
+        element: <PaymentErrorPage />,
+      },
     ],
-  },
-  {
-    path: "/account-connect-successfull",
-    element: <SuccessPage />,
-  },
-  {
-    path: "/payment-success",
-    element: <PaymentSuccessPage />,
-  },
-  {
-    path: "/payment-error",
-    element: <PaymentErrorPage />,
   },
 ]);
 

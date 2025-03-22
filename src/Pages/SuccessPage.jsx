@@ -21,7 +21,7 @@ const SuccessPage = () => {
         <div
           onClick={() => {
             fetchData();
-            navigate("/dashboard/payouts");
+            navigate("/payouts");
           }}
         >
           <ButtonPrimary text={"Back to Dashboard"} />

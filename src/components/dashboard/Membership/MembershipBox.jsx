@@ -24,7 +24,7 @@ function MembershipBox() {
     error: membershipError,
     isLoading: ismembershipLoading,
     refetch,
-  } = useGetMemberShipListQuery(loggedInUserData?.id);
+  } = useGetMemberShipListQuery(loggedInUserData?.user_name);
   const {
     register,
     handleSubmit,
@@ -53,7 +53,7 @@ function MembershipBox() {
     }
   }, [data]);
 
-  console.log(membershipData?.data[0]?.price);
+  console.log(membershipData?.data[0]?.price, "membership price");
 
   return (
     <div className="shadow-[8px_8px_32px_0px_rgba(34,34,34,0.13)] rounded-[12px]">

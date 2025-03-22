@@ -26,6 +26,7 @@ import toast from "react-hot-toast";
 import { AuthContext } from "@/provider/AuthContextProvider";
 import { useSelector } from "react-redux";
 import { LuLogOut } from "react-icons/lu";
+import defaultAvatar from "../../assets/images/deafault-avatar.png";
 
 function Top({ title }) {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -36,12 +37,6 @@ function Top({ title }) {
   const navigate = useNavigate();
   const [logOut] = useLogOutProfileIntentMutation();
   const { isAuthenticated } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
-  }, [isAuthenticated]);
 
   const handleLogout = async () => {
     try {
@@ -94,7 +89,11 @@ function Top({ title }) {
         <div className="w-10 h-10 rounded-full overflow-hidden ">
           <img
             className="w-full h-full object-cover"
-            src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+            src={`${
+              loggedInUser.avatar
+                ? `${imgBaseUrl}/${loggedInUser.avatar}`
+                : defaultAvatar
+            }`}
             alt="not found"
           />
         </div>
@@ -147,12 +146,12 @@ function Top({ title }) {
             {/* home */}
             <div className="flex items-center flex-col gap-2 w-full ">
               <CommonLink
-                path={"/dashboard/home"}
+                path={"/home"}
                 navName={"Home"}
                 Icon={RiHome4Line}
               ></CommonLink>
               <CommonLink
-                path={"/dashboard/my-page"}
+                path={"/my-page"}
                 navName={"View my page"}
                 Icon={PiLayoutThin}
               ></CommonLink>
@@ -165,24 +164,24 @@ function Top({ title }) {
               <div className="space-y-3">
                 {role === "creator" && (
                   <CommonLink
-                    path={"/dashboard/donations"}
+                    path={"/donations"}
                     navName={"Donations"}
                     Icon={GoHeart}
                   ></CommonLink>
                 )}
                 <CommonLink
-                  path={"/dashboard/explore"}
+                  path={"/explore"}
                   navName={"Explore"}
                   Icon={IoSearchOutline}
                 ></CommonLink>
                 <CommonLink
-                  path={"/dashboard/following"}
+                  path={"/following"}
                   navName={"Following"}
                   Icon={IoNotificationsOutline}
                 ></CommonLink>
                 {role === "creator" && (
                   <CommonLink
-                    path={"/dashboard/followers"}
+                    path={"/followers"}
                     navName={"Followers"}
                     Icon={GoPeople}
                   ></CommonLink>
@@ -197,20 +196,20 @@ function Top({ title }) {
               <div className="space-y-3">
                 {role === "creator" && (
                   <CommonLink
-                    path={"/dashboard/membership"}
+                    path={"/membership"}
                     navName={"Membership"}
                     Icon={IoDiamondOutline}
                   ></CommonLink>
                 )}
                 {role === "creator" && (
                   <CommonLink
-                    path={"/dashboard/payouts"}
+                    path={"/payouts"}
                     navName={"Payouts"}
                     Icon={AiOutlineThunderbolt}
                   ></CommonLink>
                 )}
                 <CommonLink
-                  path={"/dashboard/my-account"}
+                  path={"/my-account"}
                   navName={"My Account"}
                   Icon={IoNotificationsOutline}
                 ></CommonLink>
@@ -239,7 +238,11 @@ function Top({ title }) {
             <div className="w-10 h-10 rounded-full overflow-hidden ">
               <img
                 className="w-full h-full object-cover"
-                src={`${imgBaseUrl}/${loggedInUser.avatar}`}
+                src={`${
+                  loggedInUser.avatar
+                    ? `${imgBaseUrl}/${loggedInUser.avatar}`
+                    : defaultAvatar
+                }`}
                 alt="not found"
               />
             </div>
@@ -274,7 +277,7 @@ function Top({ title }) {
         <DropdownMenuContent className="px-4 py-4 mr-6 lg:mr-10">
           <DropdownMenuItem
             onClick={() => {
-              navigate("/dashboard/my-page");
+              navigate("/my-page");
             }}
             className="px-4 py-2 font-medium text-textDark text-base"
           >
@@ -282,7 +285,7 @@ function Top({ title }) {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-              navigate("/dashboard/home");
+              navigate("/home");
             }}
             className="px-4 py-2 font-medium text-textDark text-base"
           >
@@ -290,7 +293,7 @@ function Top({ title }) {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-              navigate("/dashboard/following");
+              navigate("/following");
             }}
             className="px-4 py-2 font-medium text-textDark text-base"
           >
@@ -298,7 +301,7 @@ function Top({ title }) {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-              navigate("/dashboard/my-account");
+              navigate("/my-account");
             }}
             className="px-4 py-2 font-medium text-textDark text-base"
           >
