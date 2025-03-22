@@ -99,7 +99,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
+    path: "/",
     element: (
       <PrivateRouteProtector>
         <DashbaordLayout />
@@ -107,47 +107,47 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/dashboard/home",
+        path: "home",
         element: <HompePage></HompePage>,
       },
       {
-        path: "/dashboard/my-page",
+        path: "my-page",
         element: <MyPage></MyPage>,
       },
       {
-        path: "/dashboard/donations",
+        path: "/donations",
         element: <Dontaions></Dontaions>,
       },
       {
-        path: "/dashboard/explore",
+        path: "/explore",
         element: <Explore></Explore>,
       },
       {
-        path: "/dashboard/followers",
+        path: "/followers",
         element: <Followers></Followers>,
       },
       {
-        path: "/dashboard/following",
+        path: "/following",
         element: <Following></Following>,
       },
       {
-        path: "/dashboard/membership",
+        path: "/membership",
         element: <Membership></Membership>,
       },
       {
-        path: "/dashboard/my-account",
+        path: "/my-account",
         element: <MyAccount></MyAccount>,
       },
       {
-        path: "/dashboard/payouts",
+        path: "/payouts",
         element: <Payouts></Payouts>,
       },
       {
-        path: "/dashboard/support",
+        path: "/support",
         element: <Support></Support>,
       },
       {
-        path: "/dashboard/explore/creator/:creatorId",
+        path: "/:creatorId",
         element: <CreatorProfilePage></CreatorProfilePage>,
       },
     ],

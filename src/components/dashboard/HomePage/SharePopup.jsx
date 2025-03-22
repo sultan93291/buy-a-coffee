@@ -15,7 +15,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 function SharePopup({ isProfilePage }) {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   const location = useLocation();
-  const fullLocation = `${window.location.origin}/dashboard/explore/creator/${loggedInUser.id}`;
+  const fullLocation = `${window.location.origin}/${loggedInUser.user_name}`;
 
   const copyToClipboard = () => {
     const urlToCopy = fullLocation; // Ensure this is defined
@@ -35,9 +35,9 @@ function SharePopup({ isProfilePage }) {
       input.value = urlToCopy;
       document.body.appendChild(input);
       input.select();
-      input.setSelectionRange(0, input.value.length); // Select text
+      input.setSelectionRange(0, input.value.length); 
       try {
-        document.execCommand("copy"); // This is still needed for some browsers
+        document.execCommand("copy"); 
         toast.success("Copied to clipboard!");
       } catch (err) {
         toast.error("Failed to copy!");

@@ -11,16 +11,19 @@ const PublicRouteProtector = ({ children }) => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+
+  
 
   useEffect(() => {
     if (isAuthenticated) {
       if (isExploreCreator) {
-        navigate("/dashboard/explore");
+        navigate("/explore");
         setTimeout(() => {
           dispatch(setIsExploreCreators(false));
         }, 10000);
       } else {
-        navigate("/dashboard/my-page");
+        navigate("/my-page");
       }
     }
   }, [isAuthenticated, isExploreCreator, navigate, dispatch]);

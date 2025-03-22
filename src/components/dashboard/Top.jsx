@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Logo from "../../assets/images/logo.svg";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import CommonLink from "./CommonLink";
@@ -35,6 +35,13 @@ function Top({ title }) {
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const navigate = useNavigate();
   const [logOut] = useLogOutProfileIntentMutation();
+  const { isAuthenticated } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+  }, [isAuthenticated]);
 
   const handleLogout = async () => {
     try {

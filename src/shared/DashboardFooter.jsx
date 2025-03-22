@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 function DashboardFooter() {
   const navigate = useNavigate();
+  const handleRedirect = () => {
+    navigate("/login");
+  };
   return (
     <div className="  flex-col gap-4 flex items-center w-full  lg:justify-between justify-center ">
       <div className="max-w-[450px]">
         <button
-          onClick={e => {
-            e.preventDefault();
-            navigate(`/dashboard/payouts`);
+          onClick={() => {
+            handleRedirect();
           }}
           type="submit"
           className="text-center w-full mt-8"

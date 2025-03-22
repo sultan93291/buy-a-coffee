@@ -52,7 +52,7 @@ function Navbar() {
                 data-aos="fade-In"
                 data-aos-delay="100"
               >
-                <NavLink to={"/login"}>Explore Creators</NavLink>
+                <NavLink to={"/explore"}>Explore Creators</NavLink>
               </li>
               <li
                 className="lg:mr-10 mt-3 lg:mt-0 font-semibold duration-200 ease-in-out hover:text-primaryColor"
