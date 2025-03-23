@@ -110,8 +110,7 @@ const RecntSupporters = ({ isMe }) => {
     }
   }, [CreatorsData]);
 
-  console.log(CreatorsData , 'others data');
-  
+  console.log(combinedArr, "combined daa data");
 
   return (
     <div
@@ -144,7 +143,7 @@ const RecntSupporters = ({ isMe }) => {
                   return (
                     <div
                       onClick={() => {
-                        navigate(`/dashboard/explore/creator/${item?.userId}`);
+                        navigate(`/${item?.user_name}`);
                       }}
                       key={index}
                       className="flex cursor-pointer bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
@@ -159,7 +158,9 @@ const RecntSupporters = ({ isMe }) => {
                         }}
                       ></div>
                       <div className="flex flex-col gap-y-1">
-                        <span className="text-sm capitalize " >{item?.name}</span>
+                        <span className="text-sm capitalize ">
+                          {item?.name}
+                        </span>
                         <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
                           {item?.msg}
                         </h3>
@@ -179,9 +180,7 @@ const RecntSupporters = ({ isMe }) => {
                     <div
                       onClick={() => {
                         console.log(item);
-                        navigate(
-                          `/dashboard/explore/creator/${item?.user?.id}`
-                        );
+                        navigate(`/${item?.user_name}`);
                       }}
                       key={index}
                       className="flex cursor-pointer bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
@@ -196,7 +195,9 @@ const RecntSupporters = ({ isMe }) => {
                         }}
                       ></div>
                       <div className="flex flex-col gap-y-1">
-                        <span className="capitalize text-sm">{item.user.name}</span>
+                        <span className="capitalize text-sm">
+                          {item.user.name}
+                        </span>
                         <h3 className="text-[#222222CC] font-medium leading-[164%] opacity-80 text-[13px] ">
                           {item?.message}
                         </h3>
