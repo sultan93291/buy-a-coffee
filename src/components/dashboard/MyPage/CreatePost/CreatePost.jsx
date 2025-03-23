@@ -196,7 +196,7 @@ function CreatePost() {
           </Dialog>
         </div>
         <Dialog>
-          <DialogTrigger asChild className="w-full">
+        
             <div className="flex justify-around lg:justify-between">
               <div className="bg-[#E9E9E9] px-4 cursor-pointer items-center ap-4 flex py-2 rounded-full">
                 <svg
@@ -289,7 +289,7 @@ function CreatePost() {
                 <h4 className="lg:flex hidden">Audio</h4>
               </div>
             </div>
-          </DialogTrigger>
+      
           <DialogContent className="hidden">
             <DialogHeader>
               <DialogTitle className="p-0 border-b pb-4">

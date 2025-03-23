@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Title from "../Title";
 import { useSelector } from "react-redux";
 import { BuyaCofeeLogo } from "@/components/SvgContianer/SvgContainer";
@@ -16,6 +16,7 @@ import {
   DialogContent,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { AuthContext } from "@/provider/AuthContextProvider";
 
 function BuyCoffee({ isFullwidth, data }) {
   const [hovered, setHovered] = useState(false);
@@ -25,6 +26,8 @@ function BuyCoffee({ isFullwidth, data }) {
   const loggedInUserData = useSelector(
     state => state.userDocReducer.loggedInuser
   );
+  const { isAuthenticated } = useContext(AuthContext);
+
   const {
     data: followerData,
     isLoading: isfollowerDataLoading,
@@ -83,31 +86,39 @@ function BuyCoffee({ isFullwidth, data }) {
   }, [MemberShipData]);
 
   const handleaddPayment = async () => {
-    let payLoad = {};
+    if (buyType === "membership" && !isAuthenticated) {
+      return toast.error("To get membership you must have to logged in");
+    } else {
+      let payLoad = {};
 
-    const baseUrl = window.location.origin;
-    const creatorUrl = window.location.href;
+      const baseUrl = window.location.origin;
+      const creatorUrl = window.location.href;
 
-    if (buyType === "membership") {
-      payLoad.type = "monthly";
-      payLoad.message = message;
-      payLoad.success_url = `${baseUrl}/payment-success`;
-      payLoad.cancel_url = `${baseUrl}/payment-error`;
-      payLoad.subscription_success_url = creatorUrl;
-    } else if (buyType === "one-off") {
-      if (count <= 0) {
-        toast.error("Quantity must be greater than 0");
-        return;
+      if (buyType === "membership") {
+        payLoad.type = "monthly";
+        payLoad.message = message;
+        payLoad.success_url = `${baseUrl}/payment-success`;
+        payLoad.cancel_url = `${baseUrl}/payment-error`;
+        payLoad.subscription_success_url = creatorUrl;
+      } else if (buyType === "one-off") {
+        if (count <= 0) {
+          toast.error("Quantity must be greater than 0");
+          return;
+        }
+        payLoad.quantity = count;
+        payLoad.unit_price = 3;
+        payLoad.type = "buy_a_coffee";
+        payLoad.success_url = `${baseUrl}/payment-success`;
+        payLoad.cancel_url = `${baseUrl}/payment-error`;
+        payLoad.message = message;
       }
-      payLoad.quantity = count;
-      payLoad.unit_price = 3;
-      payLoad.type = "buy_a_coffee";
-      payLoad.success_url = `${baseUrl}/payment-success`;
-      payLoad.cancel_url = `${baseUrl}/payment-error`;
-      payLoad.message = message;
+      await completePayment({ userId: creatorId, Data: payLoad });
     }
-    await completePayment({ userId: creatorId, Data: payLoad });
   };
+
+  useEffect(() => {
+    setmessage("");
+  }, [buyType]);
 
   useEffect(() => {
     if (payMentData) {
@@ -116,7 +127,6 @@ function BuyCoffee({ isFullwidth, data }) {
       setmessage("");
       setCount(1);
       setOpen(true);
-      // window.open(payMentData?.data?.payment_link);
     }
   }, [payMentData]);
 

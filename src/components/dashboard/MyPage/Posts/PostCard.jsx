@@ -92,7 +92,6 @@ function PostCard({ data, isMe }) {
     <>
       <div
         onClick={() => {
-          
           if (isMe || isAuthorized) {
             setOpen(true);
             handleClick();
@@ -183,7 +182,7 @@ function PostCard({ data, isMe }) {
                 )}
               </div>
 
-              <div className="w-full  flex items-center xl:items-start ">
+              <div className="w-full py-2 xl:py-5 flex items-center xl:items-start ">
                 <p className="text-textColor xl:w-[250px] 2xl:max-w-[300px] px-8 text-center break-words truncate ">
                   {data?.description}
                 </p>
@@ -234,8 +233,8 @@ function PostCard({ data, isMe }) {
                   <p className="text-xl font-bold leading-[132%] tracking-[-0.2%] text-[#34312C]  ">
                     {selectedMedia?.title}
                   </p>
-                  <div className="max-h-[200px] overflow-y-scroll" >
-                    <span className="text-base leading-[164%] text-[#717171] font-normal ">
+                  <div className="max-h-[200px]  overflow-y-scroll">
+                    <span className="text-base   leading-[164%] text-[#717171] font-normal ">
                       {selectedMedia?.description}
                     </span>
                   </div>
