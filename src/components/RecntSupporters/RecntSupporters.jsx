@@ -46,6 +46,7 @@ const RecntSupporters = ({ isMe }) => {
         msg: item.message,
         name: loggedInUser.name,
         userId: item?.user?.id,
+        userName: loggedInUser.user_name,
         avatar: `${imgBaseUrl}/${loggedInUser?.avatar}`,
       }));
 
@@ -67,6 +68,7 @@ const RecntSupporters = ({ isMe }) => {
         msg: item.message,
         name: item.user.name,
         userId: item?.user?.id,
+        userName: item?.user?.user_name,
         avatar: `${imgBaseUrl}/${item?.user?.avatar}`,
       }));
 
@@ -143,7 +145,7 @@ const RecntSupporters = ({ isMe }) => {
                   return (
                     <div
                       onClick={() => {
-                        navigate(`/${item?.user_name}`);
+                        navigate(`/${item?.userName}`);
                       }}
                       key={index}
                       className="flex cursor-pointer bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
@@ -176,11 +178,13 @@ const RecntSupporters = ({ isMe }) => {
             ) : creatorsMsg.length > 0 ? (
               <div className="max-h-[250px] flex flex-col gap-y-3">
                 {creatorsMsg?.map((item, index) => {
+                  console.log(item, "this is the creator message");
+
                   return (
                     <div
                       onClick={() => {
                         console.log(item);
-                        navigate(`/${item?.user_name}`);
+                        navigate(`/${item?.user.user_name}`);
                       }}
                       key={index}
                       className="flex cursor-pointer bg-yellow_green items-center py-[14px] px-4 border-[1px] border-solid rounded-[8px] border-[#D0FF71CC]  flex-row gap-x-2"
