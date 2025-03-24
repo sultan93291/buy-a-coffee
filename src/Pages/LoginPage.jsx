@@ -136,12 +136,14 @@ function LoginPage() {
                   </p>
                 )}
               </div>
-
               <div>
                 <div className="mt-4 w-full flex items-end justify-end  ">
-                  <Link to={"/forgot-pass"} className="cursor-pointer underline ">
+                  <Link
+                    to={"/forgot-pass"}
+                    className="cursor-pointer underline "
+                  >
                     {" "}
-                    Forgot password{" "}
+                    Gift a coffee support team{" "}
                   </Link>
                 </div>
                 {/* submit btn  */}

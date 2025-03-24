@@ -178,7 +178,7 @@ function StepsSignupPage() {
                       required: "Bio is required.",
                       maxLength: {
                         value: 150,
-                        message: "* Bio must be less than 255 characters",
+                        message: "* Bio must be less than 150 characters",
                       },
                     })}
                   ></textarea>
