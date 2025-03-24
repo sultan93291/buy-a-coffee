@@ -198,7 +198,7 @@ function Intro({ isMe, IntroData }) {
                           setBio(e.target.value);
                         }}
                       ></textarea>
-                      {Bio?.length > 255 && (
+                      {Bio?.length > 150 && (
                         <p className=" text-red-400">
                           * Bio must be less than 255 characters
                         </p>

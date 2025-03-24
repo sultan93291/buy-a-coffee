@@ -177,7 +177,7 @@ function StepsSignupPage() {
                     {...register("bio", {
                       required: "Bio is required.",
                       maxLength: {
-                        value: 255,
+                        value: 150,
                         message: "* Bio must be less than 255 characters",
                       },
                     })}
