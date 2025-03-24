@@ -200,7 +200,7 @@ function Intro({ isMe, IntroData }) {
                       ></textarea>
                       {Bio?.length > 150 && (
                         <p className=" text-red-400">
-                          * Bio must be less than 255 characters
+                          * Bio must be less than 150 characters
                         </p>
                       )}
                     </div>
