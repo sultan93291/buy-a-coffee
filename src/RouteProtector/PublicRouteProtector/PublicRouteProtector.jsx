@@ -12,9 +12,6 @@ const PublicRouteProtector = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-
-  
-
   useEffect(() => {
     if (isAuthenticated) {
       if (isExploreCreator) {

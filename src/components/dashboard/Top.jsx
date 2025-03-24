@@ -77,7 +77,7 @@ function Top({ title }) {
       <h3 className="text-textColor font-semibold lg:flex hidden text-3xl">
         {title}
       </h3>
-      <Link to={"/dashboard/home"} className="lg:hidden flex">
+      <Link to={"/home"} className="lg:hidden flex">
         <img className="w-16 h-16" src={Logo} alt="" />
       </Link>
       <div

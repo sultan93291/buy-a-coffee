@@ -16,19 +16,33 @@ import { useEditFeatureImgAndBioMutation } from "@/redux/features/api/apiSlice";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { AuthContext } from "@/provider/AuthContextProvider";
+import { useForm } from "react-hook-form";
 
 function Intro({ isMe, IntroData }) {
   const Searcheduser = IntroData?.data;
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
   const imgBaseUrl = import.meta.env.VITE_SERVER_URL;
   const [Bio, setBio] = useState(loggedInUser?.bio);
+  const [errors, setErrors] = useState("");
   const [file, setfile] = useState();
   const [feateureImage, setfeateureImage] = useState(
     isMe
       ? `${imgBaseUrl}/${loggedInUser?.featurd_images?.image}`
       : `${imgBaseUrl}/${Searcheduser?.featurd_images?.image}`
   );
+  const { handleSubmit } = useForm();
 
+  const onSubmit = () => {
+    // Validation
+    if (Bio.length === 0) {
+      setErrors("Bio is required.");
+    } else if (Bio.length > 255) {
+      setErrors("Bio must not exceed 255 characters.");
+    } else {
+      setErrors(""); // Clear any previous errors
+      console.log("Form submitted with bio:", bio);
+    }
+  };
 
   const [useEditeFeatureAndBio, { data, isLoading, error }] =
     useEditFeatureImgAndBioMutation();
@@ -54,31 +68,30 @@ function Intro({ isMe, IntroData }) {
     );
   }, [Searcheduser]);
 
-const handleFileUpload = e => {
-  const selectedFile = e.target.files[0];
-   if (selectedFile.size > 2 * 1024 * 1024) {
-     toast.error("File must be less than 2MB.");
-     return; // Do not reset the existing preview
-   }
-
-  if (selectedFile) {
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/jpg",
-      "image/gif",
-      "image/svg+xml",
-    ];
-
-    if (!allowedTypes.includes(selectedFile.type)) {
-      toast.error("File format type  is not allowed")
-      return;
+  const handleFileUpload = e => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile.size > 2 * 1024 * 1024) {
+      toast.error("File must be less than 2MB.");
+      return; // Do not reset the existing preview
     }
 
-    setfile(selectedFile);
-  }
-};
+    if (selectedFile) {
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/gif",
+        "image/svg+xml",
+      ];
 
+      if (!allowedTypes.includes(selectedFile.type)) {
+        toast.error("File format type  is not allowed");
+        return;
+      }
+
+      setfile(selectedFile);
+    }
+  };
 
   const handleFeatureBioUpdate = async () => {
     try {
@@ -185,6 +198,11 @@ const handleFileUpload = e => {
                           setBio(e.target.value);
                         }}
                       ></textarea>
+                      {Bio?.length > 255 && (
+                        <p className=" text-red-400">
+                          * Bio must be less than 255 characters
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -226,13 +244,7 @@ const handleFileUpload = e => {
                         type="submit"
                         className="text-sm px-6 py-3 rounded-full font-semibold "
                       >
-                        {isLoading ? (
-                          <BeatLoader
-                           
-                          />
-                        ) : (
-                          "Save changes"
-                        )}
+                        {isLoading ? <BeatLoader /> : "Save changes"}
                       </button>
                     </DialogClose>
                   </div>

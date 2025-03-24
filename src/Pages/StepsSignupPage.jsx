@@ -66,7 +66,7 @@ function StepsSignupPage() {
   const onSubmit = async data => {
     const updatedData = {
       ...data,
-      profilePic: watch("profilePic"), // Ensure React Hook Form captures file
+      profilePic: watch("profilePic"),
     };
 
     const formData = new FormData();
@@ -80,11 +80,6 @@ function StepsSignupPage() {
     formData.append("avatar", avatar);
     formData.append("name", updatedData?.displayName);
     formData.append("bio", updatedData?.bio);
-
-    // Debugging: Check FormData
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
 
     const token = localStorage.getItem("Refreshtoken");
     localStorage.setItem("token", token);
@@ -179,10 +174,23 @@ function StepsSignupPage() {
                   <textarea
                     className="auth-input h-[188px] resize-none"
                     placeholder="Write here"
-                    {...register("bio")}
+                    {...register("bio", {
+                      required: "Bio is required.",
+                      maxLength: {
+                        value: 255,
+                        message: "* Bio must be less than 255 characters",
+                      },
+                    })}
                   ></textarea>
+
+                  {/* Displaying specific error messages */}
+
+                  {errors.bio && (
+                    <span className="text-red-500 text-sm">
+                      {errors.bio.message}
+                    </span>
+                  )}
                 </div>
-                {errors.displayName && <span>This field is required</span>}
               </div>
               <div className="flex flex-row gap-x-4 justify-between ">
                 <div

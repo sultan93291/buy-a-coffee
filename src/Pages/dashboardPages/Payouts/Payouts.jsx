@@ -116,13 +116,15 @@ function Payouts() {
         <div>
           {loggedInUser.onboard_complete === 0 ? (
             <CommonBoxhShape>
-              <p className="h-14 w-14 mx-auto mb-9 rounded-full flex items-center justify-center bg-[rgba(113,113,113,0.10)]">
-                <img src={thunderImg} alt="thunderImg" />
-              </p>
               <div className="text-center">
                 <p className="text-[20px] font-semibold text-headingColor mb-2">
                   Get Paid with Stripe
                 </p>
+                <p className="h-14 w-14 mx-auto mb-9 rounded-full flex items-center justify-center bg-[rgba(113,113,113,0.10)]">
+                  <img src={thunderImg} alt="thunderImg" />
+                </p>
+              </div>
+              <div className="w-full flex items-center justify-center ">
                 <p className="text-base text-paraDark">
                   Instant payout via stripe
                 </p>

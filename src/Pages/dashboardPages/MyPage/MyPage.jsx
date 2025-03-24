@@ -26,15 +26,13 @@ function MyPage() {
         <div className="">
           {/* column */}
           <Intro isMe={true}></Intro>
-          {/* column */}
-          {/* <BuyCoffee></BuyCoffee> */}
         </div>
         {/* column */}
         <div className="h-full relative flex flex-col gap-y-5 ">
           <div>
-            <CreatePost></CreatePost>
+            <RecntSupporters isMe={true} />
           </div>
-          <RecntSupporters isMe={true} />
+          <CreatePost></CreatePost>
         </div>
       </div>
 

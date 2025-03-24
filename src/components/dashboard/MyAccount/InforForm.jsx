@@ -97,7 +97,7 @@ function InforForm() {
         />
       </div>
       {/* input group  */}
-      <div className="mt-4">
+      <div className="mt-4 hidden">
         <label htmlFor="pagelink" className="input-label">
           My page link
         </label>
@@ -130,7 +130,7 @@ function InforForm() {
         />
       </div>
       {/* input group  */}
-      <div className="mt-4">
+      <div className="mt-4 hidden ">
         <label htmlFor="f-name" className="input-label">
           Country
         </label>

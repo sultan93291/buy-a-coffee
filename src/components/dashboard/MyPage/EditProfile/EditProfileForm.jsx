@@ -169,7 +169,7 @@ function EditProfileForm() {
 
     if (selectedFile.size > 2 * 1024 * 1024) {
       toast.error("File must be less than 2MB.");
-      return; 
+      return;
     }
 
     const allowedTypes = [
@@ -447,34 +447,16 @@ function EditProfileForm() {
                   <SelectTrigger className="w-full py-6 bg-gray-50 px-5">
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((item, index) => {
-                      return (
-                        <SelectItem key={index} value={item}>
-                          {item}
-                        </SelectItem>
-                      );
-                    })}
+                  <SelectContent >
+                    {categories.map((item, index) => (
+                      <SelectItem key={index} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-              {/* creating */}
-              {/* <div className=" hidden flex-col gap-2.5">
-                <label
-                  className="text-textColor font-semibold "
-                  htmlFor="creating"
-                >
-                  What you are creating?
-                </label>
-                <input
-                  className="px-5 py-3.5 w-full focus:outline-none rounded-lg text-textColor text-sm border bg-gray-50"
-                  type="text"
-                  name="creating"
-                  id="creating"
-                  {...register("creating", { required: true })}
-                />
-              </div> */}
-              {/* currency */}
+              
               <div className="flex flex-col gap-2.5">
                 <label
                   className="text-textColor font-semibold "
@@ -500,42 +482,6 @@ function EditProfileForm() {
                   </SelectContent>
                 </Select>
               </div>
-
-              {/* choose theme */}
-
-              {/* <div className="flex flex-col gap-2.5">
-                <label
-                  className="text-textColor font-semibold"
-                  htmlFor="themeColor"
-                >
-                  Choose a theme of your page
-                </label>
-                <div className="flex items-center gap-2">
-                  {Object.entries(themeColors).map(([key, color]) => (
-                    <input
-                      key={key}
-                      className="appearance-none size-8 cursor-pointer checked:after:content-['✓'] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:transform checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 text-white font-bold relative rounded-full"
-                      type="radio"
-                      name="themeColor"
-                      value={key}
-                      style={{ backgroundColor: color }}
-                      {...register("themeColor", { required: true })}
-                    />
-                  ))}
-                </div>
-
-                {/* Show selected theme color */}
-              {/* {selectedTheme && (
-                  <p className="mt-2 text-sm font-medium">
-                    Selected Theme:{" "}
-                    <span style={{ color: themeColors[selectedTheme] }}>
-                      {selectedTheme.toUpperCase()} (
-                      {themeColors[selectedTheme]})
-                    </span>
-                  </p>
-                )}
-              </div> */}
-
               {/* toggle */}
               <div className="flex flex-col items-start md:items-center md:flex-row  pt-2 gap-3">
                 <Switch
@@ -552,79 +498,7 @@ function EditProfileForm() {
                   </p>
                 </label>
               </div>
-              {/* social links */}
-              {/* <div className="pt-4 flex flex-col gap-4">
-                <div className="flex px-4 py-3 rounded-lg bg-gray-50 divide-x gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                  >
-                    <path
-                      d="M5.3665 1.66669H14.6248C17.5915 1.66669 18.3332 2.40835 18.3332 5.36669V10.6417C18.3332 13.6084 17.5915 14.3417 14.6332 14.3417H5.3665C2.40817 14.35 1.6665 13.6084 1.6665 10.65V5.36669C1.6665 2.40835 2.40817 1.66669 5.3665 1.66669Z"
-                      stroke="#292D32"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M10 14.35V18.3333"
-                      stroke="#292D32"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M1.6665 10.8333H18.3332"
-                      stroke="#292D32"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M6.25 18.3333H13.75"
-                      stroke="#292D32"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <input
-                    className=" px-4 w-full focus:outline-none bg-gray-50"
-                    placeholder="@link"
-                    type="text"
-                    name="link1"
-                    id="link1"
-                    {...register("link1", { required: true })}
-                  />
-                </div>
-                <div className="flex px-4 py-3 rounded-lg bg-gray-50 divide-x gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                  >
-                    <path
-                      d="M7.33602 17C5.37192 17 3.54103 16.4273 2 15.4391C3.30839 15.524 5.6174 15.3207 7.0536 13.9473C4.89308 13.8479 3.91873 12.1866 3.79164 11.4767C3.97521 11.5477 4.85072 11.6329 5.34496 11.4341C2.85965 10.8093 2.47838 8.62272 2.56311 7.95538C3.02911 8.28195 3.81988 8.39554 4.13055 8.36714C1.8147 6.70588 2.64784 4.2069 3.05735 3.66734C4.71929 5.97571 7.21002 7.27217 10.2914 7.34429C10.2333 7.08883 10.2026 6.82286 10.2026 6.5497C10.2026 4.58925 11.7831 3 13.7329 3C14.7515 3 15.6695 3.43385 16.3138 4.12781C16.9946 3.96789 18.019 3.59352 18.5199 3.26978C18.2674 4.1785 17.4815 4.93656 17.0061 5.21753C17.0022 5.20792 17.01 5.22708 17.0061 5.21753C17.4237 5.1542 18.5536 4.93648 19 4.63286C18.7793 5.14337 17.946 5.99218 17.2622 6.46739C17.3894 12.0927 13.0964 17 7.33602 17Z"
-                      fill="#47ACDF"
-                    />
-                  </svg>
-                  <input
-                    className=" px-4 w-full focus:outline-none bg-gray-50"
-                    placeholder="@link"
-                    type="text"
-                    name="link2"
-                    id="link2"
-                    {...register("link2", { required: true })}
-                  />
-                </div>
-              </div> */}
             </div>
-
             <div className="flex justify-end pt-4 px-8">
               <DialogClose>
                 <button

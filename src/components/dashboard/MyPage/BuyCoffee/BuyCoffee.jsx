@@ -149,7 +149,7 @@ function BuyCoffee({ isFullwidth, data }) {
           isFullwidth && "lg:w-[496px]"
         }  p-4 rounded-xl flex h-full flex-col justify-between bg-white border space-y-4`}
       >
-        <Title title={`Gift a Coffee for : ${data?.data?.name}`}></Title>
+        <Title title={`Gift a Coffee for: ${data?.data?.name}`}></Title>
 
         <div className="flex flex-col gap-y-4 ">
           <div className="flex gap-4 pt-0 items-center">
@@ -261,7 +261,7 @@ function BuyCoffee({ isFullwidth, data }) {
               onChange={e => {
                 setmessage(e.target.value);
               }}
-              className="text-textColor focus:outline-none bg-gray-50 px-4 py-3 h-[220px] resize-none border rounded-xl w-full placeholder:text-[#000] placeholder:font-bold "
+              className="text-textColor focus:outline-none bg-gray-50 px-4 py-3 h-[220px] resize-none border rounded-xl w-full #000]  "
               name=""
               disabled={
                 isAuthorized && buyType === "membership"

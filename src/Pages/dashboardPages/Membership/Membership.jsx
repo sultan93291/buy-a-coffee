@@ -4,10 +4,11 @@ import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import MembershipBox from "@/components/dashboard/Membership/MembershipBox";
 import BuyCoffee from "@/components/dashboard/MyPage/BuyCoffee/BuyCoffee";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Membership() {
   const loggedInUser = useSelector(state => state.userDocReducer.loggedInuser);
-
+  const navigate = useNavigate();
   return (
     <div>
       <div>
@@ -25,7 +26,12 @@ function Membership() {
                   Your memberships are currently unpublished. Connect your
                   payout method now.
                 </p>
-                <div className="mt-6 md:mt-0">
+                <div
+                  onClick={() => {
+                    navigate("/payouts");
+                  }}
+                  className="mt-6 md:mt-0"
+                >
                   <ButtonPrimary type="small" text="Set Up" />
                 </div>
               </div>
