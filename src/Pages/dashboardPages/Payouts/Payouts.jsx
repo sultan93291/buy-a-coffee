@@ -1,7 +1,7 @@
 import CommonBoxhShape from "@/components/dashboard/CommonComponents/CommonBoxhShape";
 import Top from "@/components/dashboard/Top";
-import thunderImg from "../../../assets/images/thunder.svg";
 import cardIcon from "../../../assets/images/card.svg";
+import stripe from "../../../assets/images/stripeLogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import {
   useConnectStripeAccountMutation,
@@ -120,8 +120,8 @@ function Payouts() {
                 <p className="text-[20px] font-semibold text-headingColor mb-2">
                   Get Paid with Stripe
                 </p>
-                <p className="h-14 w-14 mx-auto mb-9 rounded-full flex items-center justify-center bg-[rgba(113,113,113,0.10)]">
-                  <img src={thunderImg} alt="thunderImg" />
+                <p className="h-[80px] w-[100px] mx-auto mb-2 rounded-full flex items-center justify-center object-cover ">
+                  <img src={stripe} alt="thunderImg" />
                 </p>
               </div>
               <div className="w-full flex items-center justify-center ">
