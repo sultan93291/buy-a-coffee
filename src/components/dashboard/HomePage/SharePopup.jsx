@@ -49,7 +49,7 @@ function SharePopup({ isProfilePage }) {
 
   const handleTwitterRedirect = () => {
     const url = fullLocation; // Replace with your actual URL
-    const text = "Follow me on Gift a cofee!"; // Replace with your custom message
+    const text = "Follow me on Gift a coffee!"; // Replace with your custom message
     const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
       url
     )}&text=${encodeURIComponent(text)}`;
