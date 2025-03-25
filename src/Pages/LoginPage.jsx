@@ -143,7 +143,7 @@ function LoginPage() {
                     className="cursor-pointer underline "
                   >
                     {" "}
-                    Gift a coffee support team{" "}
+                    Reset Password{" "}
                   </Link>
                 </div>
                 {/* submit btn  */}
