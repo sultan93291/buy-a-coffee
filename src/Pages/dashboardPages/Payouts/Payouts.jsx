@@ -57,11 +57,6 @@ function Payouts() {
       }).unwrap();
 
       if (response?.status === "success") {
-        toast.success(
-          response?.message ||
-            "Stripe account connected successfully! Please check out the page and fill up all information."
-        );
-
         if (response?.connected_account_url) {
           setStripeurl(response.connected_account_url);
           setOpen(true);

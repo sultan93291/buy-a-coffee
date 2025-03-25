@@ -87,7 +87,9 @@ function BuyCoffee({ isFullwidth, data }) {
 
   const handleaddPayment = async () => {
     if (buyType === "membership" && !isAuthenticated) {
-      return toast.error("To get membership you must have to logged in");
+      return toast.error(
+        "To join membership you must create a Gift a coffee account and sign in"
+      );
     } else {
       let payLoad = {};
 
@@ -123,7 +125,6 @@ function BuyCoffee({ isFullwidth, data }) {
   useEffect(() => {
     if (payMentData) {
       console.log(payMentData);
-      toast.success(payMentData?.message);
       setmessage("");
       setCount(1);
       setOpen(true);
